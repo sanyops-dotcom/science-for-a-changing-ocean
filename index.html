@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science for a Changing Ocean</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background:#020b12;
+    color:white;
+}
+
+/* Navigation */
+
+header{
+    position:fixed;
+    width:100%;
+    top:0;
+    left:0;
+    padding:25px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+.logo{
+    font-size:20px;
+    letter-spacing:2px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:30px;
+}
+
+/* Sections */
+
+section{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 40px;
+    position:relative;
+}
+
+.overlay{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+}
+
+.content{
+    position:relative;
+    max-width:800px;
+    z-index:2;
+}
+
+h1{
+    font-size:60px;
+    margin-bottom:25px;
+    letter-spacing:3px;
+}
+
+h2{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:20px;
+    line-height:1.8;
+    margin-bottom:30px;
+}
+
+.button{
+    display:inline-block;
+    padding:15px 35px;
+    border:1px solid white;
+    color:white;
+    text-decoration:none;
+}
+
+.button:hover{
+    background:white;
+    color:black;
+}
+
+/* Backgrounds */
+
+/* HERO - Indian Ocean */
+
+.hero{
+    background:
+    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
+    radial-gradient(circle at top right,#0f4c5c,#031018 70%);
+}
+
+/* RESOURCES - Antarctic */
+
+.resources{
+    background:
+    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
+    radial-gradient(circle at bottom left,#123b52,#020a10 70%);
+}
+
+/* BLOG - Atlantic */
+
+.blog{
+    background:
+    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
+    radial-gradient(circle at center,#17384a,#02060a 70%);
+}
+
+/* Footer */
+
+footer{
+    background:#020b12;
+    text-align:center;
+    padding:80px 30px;
+}
+
+footer h3{
+    margin-bottom:20px;
+}
+
+footer p{
+    font-size:15px;
+    color:#b0c4d0;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">SCIENCE FOR A CHANGING OCEAN</div>
+
+    <nav>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h1>Understanding our ocean through science</h1>
+
+
+        <p>Open tools, research and knowledge
+           for exploring our ocean.
+        </p>
+
+        <a class="button" href="notes.html">EXPLORE NOW</a>
+    </div>
+
+</section>
+
+<!-- RESOURCES -->
+
+<section class="resources">
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h2>Resources</h2>
+
+        <p>
+            Stay ahead with resources,
+            data mapping, plotting tools
+            and scientific applications.
+        </p>
+
+        <a class="button" href="resources.html">EXPLORE NOW</a>
+    </div>
+
+</section>
+
+<!-- BLOG -->
+
+<section class="blog">
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h3>Blog</h3>
+        <br>   
+        <h2>Deep down 11 km.</h2>
+        <br>   
+        <p>Stories, discoveries and ocean science insights.</p>
+
+        <a class="button" href="https://deepdown11km.blogspot.com/" target="_blank" rel="noopener noreferrer">VISIT</a>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <h3>Science for a Changing Ocean</h3>
+
+    <p>Email: sanyops@gmail.com</p>
+
+    <br>
+
+    <p>
+        Note: Contents provided here include only basic information about Oceanography. I am not a professional tutor but hold a master's degree in Marine Chemistry. 
+        The contents displayed here are authentic but are from different sources.
+    </p>
+
+</footer>
+
+</body>
+</html>
