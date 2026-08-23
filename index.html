@@ -129,7 +129,73 @@ p{
     linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
     radial-gradient(circle at center,#17384a,#02060a 70%);
 }
+/* Suggestion Box */
 
+.suggestions{
+    min-height:auto;
+    background:#020b12;
+    padding:100px 30px 90px;
+}
+
+.suggestion-content{
+    width:100%;
+    max-width:800px;
+}
+
+.suggestion-content h2{
+    margin-bottom:15px;
+}
+
+.suggestion-intro{
+    font-size:18px;
+    color:#b0c4d0;
+    margin-bottom:30px;
+}
+
+.suggestion-form{
+    width:100%;
+}
+
+.suggestion-form textarea{
+    width:100%;
+    min-height:250px;
+    resize:vertical;
+    padding:20px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.25);
+    color:white;
+    font-family:Arial,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    outline:none;
+}
+
+.suggestion-form textarea:focus{
+    border-color:rgba(255,255,255,0.7);
+}
+
+.suggestion-form textarea::placeholder{
+    color:#8ea4b0;
+}
+
+.suggestion-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-top:15px;
+}
+
+.word-count{
+    color:#8ea4b0;
+    font-size:14px;
+}
+
+.suggestion-button{
+    background:transparent;
+    cursor:pointer;
+    font-size:15px;
+}
 /* Footer */
 
 footer{
@@ -217,7 +283,82 @@ footer p{
     </div>
 
 </section>
+    
+<!-- SUGGESTIONS -->
 
+<section class="suggestions">
+
+    <div class="suggestion-content">
+
+        <h2>Suggestions &amp; Feedback</h2>
+
+        <p class="suggestion-intro">
+            Have a suggestion, idea, correction, or anything you'd like to share?
+            Send it here.
+        </p>
+
+        <form
+            class="suggestion-form"
+            action="https://formsubmit.co/sanyops@gmail.com"
+            method="POST"
+        >
+
+            <input
+                type="hidden"
+                name="_subject"
+                value="New suggestion from Science for a Changing Ocean"
+            >
+
+            <input
+                type="hidden"
+                name="_captcha"
+                value="true"
+            >
+
+            <input
+                type="hidden"
+                name="_template"
+                value="table"
+            >
+
+            <input
+                type="hidden"
+                name="_next"
+                value="https://sanyops-dotcom.github.io/science-for-a-changing-ocean/"
+            >
+
+            <textarea
+                id="suggestion"
+                name="suggestion"
+                maxlength="1500"
+                required
+                placeholder="Write your suggestion here..."
+            ></textarea>
+
+            <div class="suggestion-footer">
+
+                <span
+                    class="word-count"
+                    id="wordCount"
+                >
+                    0 / 250 words
+                </span>
+
+                <button
+                    class="button suggestion-button"
+                    type="submit"
+                >
+                    SUBMIT SUGGESTION
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+    
 <!-- FOOTER -->
 
 <footer>
@@ -234,6 +375,26 @@ footer p{
     </p>
 
 </footer>
+<script>
 
+const suggestionBox =
+    document.getElementById('suggestion');
+
+const wordCount =
+    document.getElementById('wordCount');
+
+suggestionBox.addEventListener('input', function(){
+
+    const words =
+        this.value.trim()
+        ? this.value.trim().split(/\s+/).length
+        : 0;
+
+    wordCount.textContent =
+        words + ' / 250 words';
+
+});
+
+</script>
 </body>
 </html>
