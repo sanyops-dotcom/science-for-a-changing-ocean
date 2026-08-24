@@ -4,44 +4,510 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resources | Science for a Changing Ocean</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#020b12;color:white;min-height:100vh}
-.page{max-width:1000px;margin:auto;padding:120px 40px 80px}
-h1{font-size:48px;margin-bottom:20px;letter-spacing:2px}
-.intro{font-size:18px;line-height:1.8;color:#d4e2e9;margin-bottom:45px}
-.resource{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);padding:30px;margin-bottom:25px}
-h2{font-size:27px;margin-bottom:15px}
-.resource p{font-size:17px;line-height:1.8;color:#d4e2e9;margin-bottom:22px}
-.button{display:inline-block;padding:12px 28px;border:1px solid white;color:white;text-decoration:none}
-.button:hover{background:white;color:black}
-.back{margin-top:20px}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#020b12;
+    color:white;
+    min-height:100vh
+}
+
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:120px 40px 80px
+}
+
+h1{
+    font-size:48px;
+    margin-bottom:20px;
+    letter-spacing:2px
+}
+
+.intro{
+    font-size:18px;
+    line-height:1.8;
+    color:#d4e2e9;
+    margin-bottom:45px
+}
+
+.resource{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.18);
+    padding:30px;
+    margin-bottom:25px
+}
+
+h2{
+    font-size:27px;
+    margin-bottom:15px
+}
+
+h3{
+    font-size:21px;
+    margin-top:30px;
+    margin-bottom:12px
+}
+
+.resource p{
+    font-size:17px;
+    line-height:1.8;
+    color:#d4e2e9;
+    margin-bottom:22px
+}
+
+.button{
+    display:inline-block;
+    padding:12px 28px;
+    border:1px solid white;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+    background:transparent;
+    font-size:14px;
+}
+
+.button:hover{
+    background:white;
+    color:black
+}
+
+.back{
+    margin-top:20px
+}
+
+/* Instructions */
+
+.instructions{
+    display:none;
+    margin-top:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.15);
+    padding:30px;
+}
+
+.instructions.show{
+    display:block;
+}
+
+.instructions p{
+    font-size:16px;
+    line-height:1.8;
+    color:#d4e2e9;
+    margin-bottom:18px;
+}
+
+.instructions ul,
+.instructions ol{
+    margin:10px 0 20px 25px;
+    color:#d4e2e9;
+}
+
+.instructions li{
+    font-size:16px;
+    line-height:1.8;
+    margin-bottom:6px;
+}
+
+.instructions strong{
+    color:white;
+}
+
+.instructions code{
+    background:rgba(255,255,255,.1);
+    padding:3px 6px;
+    border-radius:3px;
+    color:white;
+}
+
+.instructions table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0 25px;
+}
+
+.instructions th,
+.instructions td{
+    border:1px solid rgba(255,255,255,.2);
+    padding:12px 15px;
+    text-align:left;
+}
+
+.instructions th{
+    background:rgba(255,255,255,.08);
+    color:white;
+}
+
+.instructions td{
+    color:#d4e2e9;
+}
+
+.important-note{
+    border-left:3px solid white;
+    padding:15px 20px;
+    margin:20px 0 25px;
+    background:rgba(255,255,255,.05);
+    color:#d4e2e9;
+    line-height:1.8;
+}
+
+.checklist{
+    list-style:none;
+    margin-left:0 !important;
+}
+
+.checklist li{
+    margin-bottom:8px;
+}
+
+.checklist li::before{
+    content:"✓";
+    margin-right:10px;
+    color:white;
+}
+
 </style>
 </head>
+
 <body>
+
 <main class="page">
+
 <h1>Resources</h1>
-<p class="intro">Open scientific tools, R code and applications for oceanographic analysis. Each resource can have its own description and download button.</p>
+
+<p class="intro">
+Open scientific tools, R code and applications for oceanographic analysis.
+Each resource can have its own description and download button.
+</p>
+
+
+<!-- R CODE 01 -->
 
 <section class="resource">
+
 <h2>R Code 01</h2>
-<p>Global min max analyser. used to find out min, max and std deviation from multiple excel.</p>
-<a class="button" href="code-01.R" download="code-01.R">DOWNLOAD R CODE</a>
+
+<p>
+Global min max analyser. Used to find out min, max and standard deviation
+from multiple Excel files.
+</p>
+
+<a class="button" href="code-01.R" download="code-01.R">
+DOWNLOAD R CODE
+</a>
+
 </section>
 
+
+<!-- R CODE 02 -->
+
 <section class="resource">
+
 <h2>R Code 02</h2>
-<p>Excel merge app. used to merge parameter from different excel file provided the name should be same.</p>
-<a class="button" href="code-02.R" download="code-02.R">DOWNLOAD R CODE</a>
+
+<p>
+Excel merge app. Used to merge parameters from different Excel files,
+provided the names are the same.
+</p>
+
+<a class="button" href="code-02.R" download="code-02.R">
+DOWNLOAD R CODE
+</a>
+
 </section>
+
+
+<!-- R CODE 03 -->
 
 <section class="resource">
+
 <h2>R Code 03</h2>
-<p>Suttu SOMS V2. used to plot the maps. min max find out automativcaly.</p>
-<a class="button" href="code-03.R" download="code-03.R">DOWNLOAD R CODE</a>
+
+<p>
+Suttu SOMS V2. Used to plot maps. Minimum and maximum values are
+determined automatically.
+</p>
+
+<a class="button" href="code-03.R" download="code-03.R">
+DOWNLOAD R CODE
+</a>
+
 </section>
 
-<a class="button back" href="index.html">BACK</a>
+
+<!-- READ INSTRUCTIONS BUTTON -->
+
+<button class="button" onclick="toggleInstructions()">
+READ INSTRUCTIONS
+</button>
+
+
+<!-- INSTRUCTIONS -->
+
+<section id="instructions" class="instructions">
+
+<h2>How to Use the R Code</h2>
+
+<p>
+These R codes are provided as open and freely usable resources for
+generating oceanographic analyses, maps and profiles. Please follow the
+instructions below before running the code.
+</p>
+
+
+<h3>1. Requirements</h3>
+
+<ul>
+<li>
+<strong>R</strong> and <strong>RStudio</strong> must be installed and
+working on your computer.
+</li>
+
+<li>
+No programming knowledge is required to run the code if the required
+files are prepared correctly.
+</li>
+</ul>
+
+
+<h3>2. Download and Run the R Code</h3>
+
+<ol>
+<li>
+Download the required <code>.R</code> file provided in the Resources section.
+</li>
+
+<li>
+Open the file. It should automatically open in <strong>RStudio</strong>.
+</li>
+
+<li>
+Run the code as instructed by RStudio.
+</li>
+</ol>
+
+
+<h3>3. Required Input Files</h3>
+
+<p>
+For codes that require external input files, you may need an
+<strong>Excel data file</strong> and a <strong>GEBCO bathymetry file</strong>.
+</p>
+
+<p>
+For the mapping code, the program will ask you to select the files in the
+following order:
+<strong>Excel file first → GEBCO file second.</strong>
+</p>
+
+<p>
+The required GEBCO file can be downloaded from the link provided on this
+website.
+</p>
+
+
+<h3>4. Excel File Format — Important</h3>
+
+<p>
+The Excel file must follow a specific column arrangement for the code to
+work correctly. Please ensure that the columns are arranged in the
+following order:
+</p>
+
+
+<table>
+
+<thead>
+<tr>
+<th>Column</th>
+<th>Required Information</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>1</td>
+<td>Station Name</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Latitude</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Longitude</td>
+</tr>
+
+<tr>
+<td>4 onwards</td>
+<td>Other required parameters</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<p>
+A sample Excel file is provided for download. Please use the provided
+file as a template and maintain the same column order and format.
+</p>
+
+
+<div class="important-note">
+
+<strong>Important:</strong>
+The current version of the mapping code depends on this fixed column
+arrangement. Changing the order of the first three columns, or
+substantially changing the format, may cause the code to produce errors
+or incorrect results. This is currently a limitation of the code.
+
+</div>
+
+
+<h3>5. Output</h3>
+
+<ul>
+
+<li>
+Once the code runs successfully, the generated
+<strong>maps and profiles</strong> are automatically saved as
+<code>.tif</code> files.
+</li>
+
+<li>
+The output files are saved according to the output location specified
+by the code.
+</li>
+
+<li>
+TIFF files can be opened using standard image viewers or scientific
+software that supports the format.
+</li>
+
+</ul>
+
+
+<h3>6. Modifying and Reusing the Code</h3>
+
+<p>
+The codes are open for everyone to download, modify and reuse.
+</p>
+
+<p>You are welcome to:</p>
+
+<ul>
+
+<li>Modify the code for different datasets.</li>
+
+<li>
+Adapt it to generate other types of oceanographic plots.
+</li>
+
+<li>
+Improve or extend its functionality.
+</li>
+
+<li>
+Use it as a starting point for your own analysis and visualization
+workflows.
+</li>
+
+</ul>
+
+<p>
+If you make useful improvements, sharing them with the wider scientific
+community is encouraged.
+</p>
+
+
+<h3>7. Questions, Suggestions and Collaboration</h3>
+
+<p>
+If you encounter any problems, have suggestions, or need clarification
+regarding the code, please leave a note through the
+<strong>feedback box</strong> provided on this website.
+</p>
+
+<p>
+I am also interested in <strong>collaborations and knowledge sharing</strong>.
+Researchers, students, programmers and others who are willing to share
+their knowledge, skills and effort for the benefit of the wider
+scientific community are warmly welcomed.
+</p>
+
+
+<h3>8. Open Oceanographic Resources</h3>
+
+<p>
+This website will also provide suitable datasets, supporting information
+and other resources free of charge, wherever possible, to support
+oceanographic research, education and scientific exploration.
+</p>
+
+<p>
+The aim is to encourage <strong>open science, knowledge sharing and
+collaborative research</strong>, particularly in the field of oceanography.
+</p>
+
+
+<h3>Before You Start</h3>
+
+<ul class="checklist">
+
+<li>R is installed and working.</li>
+
+<li>RStudio is installed and working.</li>
+
+<li>The required <code>.R</code> code has been downloaded.</li>
+
+<li>The Excel file follows the required format.</li>
+
+<li>Station Name is in Column 1.</li>
+
+<li>Latitude is in Column 2.</li>
+
+<li>Longitude is in Column 3.</li>
+
+<li>The required GEBCO file is available.</li>
+
+<li>
+Files are selected in the correct order:
+<strong>Excel → GEBCO</strong>.
+</li>
+
+</ul>
+
+</section>
+
+
+<!-- BACK BUTTON -->
+
+<a class="button back" href="index.html">
+BACK
+</a>
+
+
 </main>
+
+
+<script>
+
+function toggleInstructions(){
+
+    const instructions = document.getElementById("instructions");
+
+    instructions.classList.toggle("show");
+
+}
+
+</script>
+
 </body>
 </html>
