@@ -14,7 +14,7 @@
 }
 
 body{
-    font-family: Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#020b12;
     color:white;
 }
@@ -48,16 +48,17 @@ nav a{
     margin-left:30px;
 }
 
-/* Sections */
+/* Main Sections */
 
 section{
-    min-height:100vh;
+    min-height:65vh;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:100px 40px;
+    padding:80px 40px;
     position:relative;
+    background:#020b12;
 }
 
 .overlay{
@@ -71,14 +72,15 @@ section{
 
 .content{
     position:relative;
-    max-width:800px;
+    max-width:850px;
     z-index:2;
 }
 
 h1{
-    font-size:60px;
+    font-size:56px;
+    line-height:1.15;
     margin-bottom:25px;
-    letter-spacing:3px;
+    letter-spacing:2px;
 }
 
 h2{
@@ -86,9 +88,13 @@ h2{
     margin-bottom:20px;
 }
 
+h3{
+    font-size:28px;
+}
+
 p{
     font-size:20px;
-    line-height:1.8;
+    line-height:1.7;
     margin-bottom:30px;
 }
 
@@ -98,6 +104,7 @@ p{
     border:1px solid white;
     color:white;
     text-decoration:none;
+    background:transparent;
 }
 
 .button:hover{
@@ -105,37 +112,63 @@ p{
     color:black;
 }
 
-/* Backgrounds */
+/* Backgrounds
+   All major homepage sections use the same base colour.
+   Subtle radial lighting keeps the sections visually interesting
+   without giving each section a different overall colour.
+*/
 
-/* HERO - Indian Ocean */
+/* HERO */
 
 .hero{
     background:
-    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
-    radial-gradient(circle at top right,#0f4c5c,#031018 70%);
+    radial-gradient(
+        circle at top right,
+        rgba(15,76,92,0.45),
+        #020b12 70%
+    );
 }
 
-/* RESOURCES - Antarctic */
+/* RESOURCES */
 
 .resources{
     background:
-    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
-    radial-gradient(circle at bottom left,#123b52,#020a10 70%);
+    radial-gradient(
+        circle at bottom left,
+        rgba(18,59,82,0.40),
+        #020b12 70%
+    );
 }
 
-/* BLOG - Atlantic */
+/* BLOG */
 
 .blog{
     background:
-    linear-gradient(rgba(0,20,35,0.5),rgba(0,0,0,0.8)),
-    radial-gradient(circle at center,#17384a,#02060a 70%);
+    radial-gradient(
+        circle at center,
+        rgba(23,56,74,0.40),
+        #020b12 70%
+    );
 }
+
+/* ABOUT */
+
+.about{
+    background:#020b12;
+}
+
+/* CONTACT */
+
+.contact{
+    background:#020b12;
+}
+
 /* Suggestion Box */
 
 .suggestions{
     min-height:auto;
     background:#020b12;
-    padding:100px 30px 90px;
+    padding:80px 30px 70px;
 }
 
 .suggestion-content{
@@ -203,7 +236,7 @@ p{
 footer{
     background:#020b12;
     text-align:center;
-    padding:80px 30px;
+    padding:60px 30px;
 }
 
 footer h3{
@@ -213,6 +246,75 @@ footer h3{
 footer p{
     font-size:15px;
     color:#b0c4d0;
+    max-width:900px;
+    margin:0 auto;
+}
+
+/* Mobile */
+
+@media (max-width:700px){
+
+    header{
+        padding:20px 25px;
+    }
+
+    .logo{
+        font-size:16px;
+        letter-spacing:1px;
+    }
+
+    nav a{
+        margin-left:14px;
+        font-size:14px;
+    }
+
+    section{
+        min-height:60vh;
+        padding:80px 25px;
+    }
+
+    h1{
+        font-size:36px;
+        line-height:1.2;
+        letter-spacing:1px;
+        margin-bottom:20px;
+    }
+
+    h2{
+        font-size:32px;
+    }
+
+    h3{
+        font-size:25px;
+    }
+
+    p{
+        font-size:17px;
+        line-height:1.7;
+    }
+
+    .content{
+        max-width:100%;
+    }
+
+    .suggestions{
+        min-height:auto;
+        padding:70px 25px 60px;
+    }
+
+    .suggestion-footer{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .suggestion-button{
+        width:100%;
+    }
+
+    footer{
+        padding:50px 25px;
+    }
+
 }
 
 </style>
@@ -221,13 +323,18 @@ footer p{
 <body>
 
 <header>
-    <div class="logo">Science for a Changing Ocean</div>
+
+    <div class="logo">
+        Science for a Changing Ocean
+    </div>
 
     <nav>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        </nav>
+    </nav>
+
 </header>
+
 
 <!-- HERO -->
 
@@ -236,17 +343,24 @@ footer p{
     <div class="overlay"></div>
 
     <div class="content">
-        <h1>Understanding our ocean through science</h1>
 
+        <h1>
+            How Much Do We Really Know About the Ocean?
+        </h1>
 
-        <p>Open tools, research and knowledge
-           for exploring our ocean.
+        <p>
+            Open tools, research and knowledge
+            for exploring our ocean.
         </p>
 
-        <a class="button" href="notes.html">Discover</a>
+        <a class="button" href="notes.html">
+            DISCOVER
+        </a>
+
     </div>
 
 </section>
+
 
 <!-- RESOURCES -->
 
@@ -255,18 +369,24 @@ footer p{
     <div class="overlay"></div>
 
     <div class="content">
-        <h2>Resources</h2>
+
+        <h2>
+            Resources
+        </h2>
 
         <p>
-            Stay ahead with resources,
-            data mapping, plotting tools
-            and scientific applications.
+            R codes, data, maps and tools
+            for exploring ocean science.
         </p>
 
-        <a class="button" href="resources.html">Discover</a>
+        <a class="button" href="resources.html">
+            ACCESS TOOLS
+        </a>
+
     </div>
 
 </section>
+
 
 <!-- BLOG -->
 
@@ -275,28 +395,49 @@ footer p{
     <div class="overlay"></div>
 
     <div class="content">
-        <h3>Blog</h3>
-        <br>   
-        <h2>Deep down 11 km.</h2>
-        <br>   
-        <p>Stories, discoveries and ocean science insights.</p>
 
-        <a class="button" href="https://deepdown11km.blogspot.com/" target="_blank" rel="noopener noreferrer">VISIT</a>
+        <h3>
+            Blog
+        </h3>
+
+        <br>
+
+        <h2>
+            Deep Down 11 km.
+        </h2>
+
+        <p>
+            Stories, observations and ideas
+            from the world beneath the surface.
+        </p>
+
+        <a
+            class="button"
+            href="https://deepdown11km.blogspot.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            VISIT
+        </a>
+
     </div>
 
 </section>
-    
+
+
 <!-- SUGGESTIONS -->
 
 <section class="suggestions">
 
     <div class="suggestion-content">
 
-        <h2>Suggestions &amp; Feedback</h2>
+        <h2>
+            Suggestions &amp; Feedback
+        </h2>
 
         <p class="suggestion-intro">
-            Have a suggestion, idea, correction, or anything you'd like to share?
-            Send it here.
+            Have a suggestion, idea, correction, or anything
+            you'd like to share? Send it here.
         </p>
 
         <form
@@ -361,13 +502,19 @@ footer p{
 
 </section>
 
+
 <!-- ABOUT -->
 
-<section class="about" id="about">
+<section
+    class="about"
+    id="about"
+>
 
     <div class="content">
 
-        <h2>About</h2>
+        <h2>
+            About
+        </h2>
 
         <p>
             Science for a Changing Ocean is an open platform
@@ -394,11 +541,16 @@ footer p{
 
 <!-- CONTACT -->
 
-<section class="contact" id="contact">
+<section
+    class="contact"
+    id="contact"
+>
 
     <div class="content">
 
-        <h2>Contact</h2>
+        <h2>
+            Contact
+        </h2>
 
         <p>
             For questions, suggestions, collaborations or
@@ -406,27 +558,37 @@ footer p{
         </p>
 
         <p>
+
             <a
                 class="button"
                 href="mailto:sanyops@gmail.com"
             >
                 sanyops@gmail.com
             </a>
+
         </p>
 
     </div>
 
 </section>
-    
+
+
 <!-- FOOTER -->
 
 <footer>
+
     <p>
-        Note: Contents provided here include only basic information about Oceanography. I am not a professional tutor but hold a master's degree in Marine Chemistry. 
-        The contents displayed here are authentic but are from different sources.
+        Note: Contents provided here include only basic information
+        about Oceanography. I am not a professional tutor but hold
+        a master's degree in Marine Chemistry. The contents displayed
+        here are authentic but are from different sources.
     </p>
 
 </footer>
+
+
+<!-- WORD COUNTER -->
+
 <script>
 
 const suggestionBox =
@@ -448,5 +610,6 @@ suggestionBox.addEventListener('input', function(){
 });
 
 </script>
+
 </body>
 </html>
