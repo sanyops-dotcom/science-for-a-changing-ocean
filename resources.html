@@ -6,7 +6,11 @@
 <title>Resources | Science for a Changing Ocean</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
 
 body{
     font-family:Arial,sans-serif;
@@ -59,17 +63,34 @@ h3{
     margin-bottom:22px
 }
 
-.resource-preview{
+/* R CODE 03 TWO-COLUMN LAYOUT */
+
+.code03-content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.code03-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.code03-image{
     width:100%;
-    max-height:300px;
+    max-height:360px;
     object-fit:contain;
     display:block;
-    margin:20px auto 25px;
     border:1px solid rgba(255,255,255,.15);
 }
 
+/* Buttons */
+
 .button{
     display:inline-block;
+    width:max-content;
     padding:12px 28px;
     border:1px solid white;
     color:white;
@@ -178,6 +199,34 @@ h3{
     color:white;
 }
 
+
+/* MOBILE */
+
+@media (max-width:700px){
+
+    .page{
+        padding:80px 20px 60px
+    }
+
+    h1{
+        font-size:38px
+    }
+
+    .code03-content{
+        grid-template-columns:1fr;
+    }
+
+    .code03-image{
+        max-height:300px;
+        order:2;
+    }
+
+    .code03-text{
+        order:1;
+    }
+
+}
+
 </style>
 </head>
 
@@ -233,22 +282,35 @@ DOWNLOAD R CODE
 
 <section class="resource">
 
-    <h2>R Code 03</h2>
+<h2>R Code 03</h2>
 
-    <img src="code-03-preview.png"
-         alt="Example oceanographic map generated using Suttu SOMS V2"
-         class="resource-preview">
+<div class="code03-content">
 
-    <p>
+    <div class="code03-text">
+
+        <p>
         Suttu SOMS V2. Used to plot oceanographic maps.
         Minimum and maximum values are determined automatically.
-    </p>
+        </p>
 
-    <a class="button" href="code-03.R" download="code-03.R">
+        <a class="button"
+           href="code-03.R"
+           download="code-03.R">
         DOWNLOAD R CODE
-    </a>
+        </a>
+
+    </div>
+
+    <div>
+        <img src="code-03-preview.png"
+             alt="Example oceanographic map generated using Suttu SOMS V2"
+             class="code03-image">
+    </div>
+
+</div>
 
 </section>
+
 
 <!-- REQUIRED FILES -->
 
@@ -291,7 +353,8 @@ DOWNLOAD GEBCO FILE
 </a>
 
 </section>
-    
+
+
 <!-- READ INSTRUCTIONS BUTTON -->
 
 <button class="button" onclick="toggleInstructions()">
@@ -315,6 +378,7 @@ instructions below before running the code.
 <h3>1. Requirements</h3>
 
 <ul>
+
 <li>
 <strong>R</strong> and <strong>RStudio</strong> must be installed and
 working on your computer.
@@ -324,24 +388,47 @@ working on your computer.
 No programming knowledge is required to run the code if the required
 files are prepared correctly.
 </li>
+
 </ul>
 
 
 <h3>2. Download and Run the R Code</h3>
 
-<ol>
+<p>
+Three R codes are currently provided in the Resources section above.
+Choose and download the R code required for your analysis.
+</p>
+
+<ul>
+
 <li>
-Download the required <code>.R</code> file provided in the Resources section.
+<strong>R Code 01</strong> – Global min-max analyser for obtaining
+minimum, maximum and standard deviation values from multiple Excel files.
 </li>
 
 <li>
-Open the file. It should automatically open in <strong>RStudio</strong>.
+<strong>R Code 02</strong> – Excel merge tool for combining parameters
+from different Excel files, provided the relevant names are the same.
 </li>
 
 <li>
-Run the code as instructed by RStudio.
+<strong>R Code 03</strong> – Suttu SOMS V2 for generating oceanographic
+maps, with minimum and maximum values determined automatically.
 </li>
-</ol>
+
+</ul>
+
+<p>
+Download the required <code>.R</code> file by clicking the corresponding
+<strong>DOWNLOAD R CODE</strong> button above. Open the downloaded file
+and it should automatically open in <strong>RStudio</strong>.
+</p>
+
+<p>
+Before running the code, make sure that <strong>R</strong> and
+<strong>RStudio</strong> are installed and working correctly on your
+computer.
+</p>
 
 
 <h3>3. Required Input Files</h3>
@@ -458,7 +545,9 @@ The codes are open for everyone to download, modify and reuse.
 
 <ul>
 
-<li>Modify the code for different datasets.</li>
+<li>
+Modify the code for different datasets.
+</li>
 
 <li>
 Adapt it to generate other types of oceanographic plots.
