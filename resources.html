@@ -442,9 +442,89 @@ DOWNLOAD R CODE
 
     <div class="code03-text">
 
-        <p>
-        Bathymetry model for station locations.
-        </p>
+      <p>
+Sampling Location &amp; Bathymetry Map. Used to create a clear map of
+oceanographic sampling locations together with the bathymetry of the
+selected study region.
+</p>
+
+<p>
+When working with oceanographic or marine datasets, sampling stations are
+often distributed across different transects and geographic locations.
+Viewing these stations together with the underlying seafloor depth can
+provide important spatial context for understanding the sampling area.
+</p>
+
+<p>
+The <strong>Sampling Location &amp; Bathymetry Map</strong> combines sampling
+coordinates from an Excel file with bathymetric data from a
+<strong>GEBCO NetCDF (.nc)</strong> file. It plots the transect and station
+locations, such as <strong>T4 S2</strong>, over a bathymetry map where water
+depth is represented using a light-blue to dark-blue colour scale. Increasing
+depth is shown by progressively darker shades, with depths of
+<strong>2000 m and above</strong> represented by the darkest colour.
+</p>
+
+<p>
+The map also includes <strong>bathymetric contour lines</strong> with selected
+depth markings, allowing the underwater topography of the study region to be
+interpreted easily. Transect and station labels are kept separate from the
+sampling points, so their positions can be adjusted independently to avoid
+overlapping points or other map features.
+</p>
+
+<p>
+<strong>How to Use:</strong>
+</p>
+
+<ol>
+<li>Make sure <strong>R and RStudio</strong> are installed on your computer.</li>
+
+<li>
+Prepare an <strong>Excel file</strong> containing the transect/station name,
+latitude, and longitude. Station names should be written in a format such as
+<strong>T4 S2</strong>.
+</li>
+
+<li>
+Prepare a suitable <strong>GEBCO NetCDF (.nc)</strong> bathymetry file covering
+the study region.
+</li>
+
+<li>
+Open the <strong>Sampling Location &amp; Bathymetry Map R code</strong> in
+RStudio and run the code.
+</li>
+
+<li>
+When prompted, select the <strong>Excel file</strong> followed by the
+<strong>GEBCO NetCDF file</strong>.
+</li>
+
+<li>
+Set the required <strong>latitude and longitude limits</strong> in the code
+to define the area to be mapped.
+</li>
+
+<li>
+Run the complete code. The sampling locations, bathymetry, contours, depth
+markings, north arrow, and scale bar will be generated automatically.
+</li>
+</ol>
+
+<p>
+The position of individual transect and station labels can be adjusted
+without changing the actual sampling coordinates. This allows the map to be
+kept clear and readable even when several sampling locations are close
+together.
+</p>
+
+<p>
+The final map is saved as both a <strong>PNG</strong> and a
+<strong>high-resolution TIFF</strong> file in the same folder as the Excel
+file. These outputs can be used for research papers, cruise reports, theses,
+presentations, and other scientific documentation.
+</p>
 
         <a class="button"
            href="Sampling_Location_map.R"
@@ -471,7 +551,6 @@ DOWNLOAD R CODE
 
 </section>
 
-<!-- R CODE 08 -->
 
 <!-- R CODE 08 -->
 
@@ -482,6 +561,52 @@ DOWNLOAD R CODE
 <p>
 Station Name Sorter. Used to arrange disordered station names into the
 required station sequence automatically.
+</p>
+
+<p>
+When working with field or oceanographic datasets, station names are often
+entered in different orders during data collection or processing. This can
+make the dataset difficult to read, analyse, or use for plotting and further
+calculations.
+</p>
+
+<p>
+The <strong>Excel Station Name Arranger</strong> automatically organizes station
+names written in the format <strong>Tx Sy</strong> (for example, T1 S1, T1 S2,
+T2 S1) into the correct numerical order. It first arranges the
+<strong>Transect (T)</strong> number and then arranges the
+<strong>Station (S)</strong> number within each transect. If duplicate station
+names are present, all corresponding rows are retained and kept together.
+</p>
+
+<p>
+Most importantly, the <strong>entire row is moved together</strong>, so the
+measurements and other information belonging to each station remain correctly
+associated with that station.
+</p>
+
+<p>
+<strong>How to Use:</strong>
+</p>
+
+<ol>
+<li>Make sure <strong>R and RStudio</strong> are installed on your computer.</li>
+
+<li>Open the <strong>station_name_sorter.R</strong> file in RStudio.</li>
+
+<li>Run the code.</li>
+
+<li>Select the Excel file containing your station data when prompted.</li>
+
+<li>The code will automatically arrange the stations.</li>
+
+<li>A new file named <strong>arranged_station_data.xlsx</strong> will be created
+in the same folder as the original Excel file.</li>
+</ol>
+
+<p>
+The original Excel file is not modified, allowing you to safely check the
+arranged dataset before using it for further analysis.
 </p>
 
 <a class="button"
@@ -506,7 +631,6 @@ DOWNLOAD ORDERED EXCEL
 
 </section>
 
-    
 <!-- REQUIRED FILES -->
 
 <section class="resource">
