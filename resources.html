@@ -288,10 +288,29 @@ DOWNLOAD R CODE
 
     <div class="code03-text">
 
-        <p>
-        Suttu SOMS V2. Used to plot oceanographic maps.
-        Minimum and maximum values are determined automatically.
-        </p>
+       <section class="resource">
+
+<h2>SUTTU SOMS</h2>
+
+<p>
+<strong>SUTTU SOMS (Sanyo’s Ocean Monitoring Suite)</strong> is an oceanographic data analysis and mapping tool designed to convert station-based environmental observations into scientifically useful spatial maps and validation outputs.
+</p>
+
+<p>
+The system supports data processing, spatial interpolation using <strong>IDW</strong>, publication-quality map generation, and <strong>LOOCV (Leave-One-Out Cross-Validation)</strong> for evaluating interpolation performance. It is designed to help researchers visualize the spatial distribution of oceanographic and environmental parameters while clearly distinguishing measured observations from model-based estimates.
+</p>
+
+<p>
+SUTTU SOMS can be useful for researchers working with marine chemistry, oceanography, environmental monitoring, field observations, and station-based datasets. The workflow includes automated processing, batch map generation, quality-control statistics, validation plots, and final reporting.
+</p>
+
+<p>
+<strong>Input:</strong> Station-based Excel data with geographic coordinates and measured parameters.<br>
+<strong>Output:</strong> High-resolution TIFF maps, LOOCV validation results, residual plots, and summary reports.
+</p>
+
+</section>
+
 
         <a class="button"
            href="code-03.R"
@@ -321,11 +340,61 @@ DOWNLOAD R CODE
 
     <div class="code03-text">
 
-        <p>
-        Vertical Profile Model. Used to generate oceanographic vertical
-        profiles from station-based data. Go through the excel model given below.
-        The output generated is shown here.
-        </p>
+<section class="resource">
+
+  <h2>Transect-wise Vertical Section Profiler</h2>
+
+  <p>
+    This R code creates a vertical section profile of oceanographic
+    parameters along a single transect. It displays multiple stations
+    along the transect on the X-axis and depth on the Y-axis, producing
+    an ODV-style view of the vertical distribution of a selected
+    parameter.
+  </p>
+
+  <p>
+    The profile can be used to visualize parameters such as dissolved
+    oxygen, temperature, TPAE, TPAH, nutrients, or other measured
+    oceanographic variables. IDW (Inverse Distance Weighting) is used
+    to interpolate between observed data points, while the deeper
+    region below the available observations is masked to represent
+    the ocean bathymetry rather than extrapolated.
+  </p>
+
+  <h3>How to use</h3>
+
+  <ol>
+    <li>
+      Prepare an Excel file containing the station name, depth, and
+      parameter columns.
+    </li>
+    <li>
+      Open the R code in RStudio and run it.
+    </li>
+    <li>
+      Select your Excel file when prompted.
+    </li>
+    <li>
+      Enter the transect name, such as <strong>T1</strong>, in the
+      <code>selected_transect</code> field.
+    </li>
+    <li>
+      Enter the exact Excel column name of the parameter you want to
+      plot in <code>parameter_column</code>.
+    </li>
+    <li>
+      The code automatically identifies the stations and available
+      depths, performs IDW interpolation, applies the bathymetry mask,
+      and generates the vertical section.
+    </li>
+  </ol>
+
+  <p>
+    The resulting profile can be saved as a high-resolution TIFF image
+    for further analysis, reports, presentations, or publication.
+  </p>
+
+</section>
 
         <a class="button"
            href="code-04.R"
@@ -362,10 +431,160 @@ DOWNLOAD R CODE
 
     <div class="code03-text">
 
-        <p>
-        Transect Profile Model. Used to generate oceanographic profiles
-        across different stations along a transect.
-        </p>
+<section class="instructions">
+
+<h2>Vertical Profile Model</h2>
+
+<p>
+The <strong>Vertical Profile Model</strong> is an R-based tool designed to
+generate oceanographic vertical profiles from station-based observational
+data. It converts depth-wise measurements into clear graphical profiles,
+making it easier to visualize how oceanographic and biogeochemical
+parameters change with depth at individual sampling stations.
+</p>
+
+<p>
+Vertical profiles are widely used in oceanographic studies to examine the
+vertical distribution of parameters such as temperature, salinity,
+dissolved oxygen, nutrients, pH, chlorophyll, carbon parameters and other
+measured variables. The resulting plots can help identify changes with
+depth, subsurface features, gradients and distinct water-column patterns.
+</p>
+
+<h3>What is this tool used for?</h3>
+
+<p>
+This tool is particularly useful when measurements have been collected at
+multiple depths from different stations. Instead of manually preparing
+individual graphs for every station and parameter, the R code automates the
+plotting process and produces standardized vertical profile figures.
+</p>
+
+<p>
+It can be used for:
+</p>
+
+<ul>
+    <li>Visualizing the vertical distribution of oceanographic parameters.</li>
+    <li>Comparing water-column characteristics between sampling stations.</li>
+    <li>Identifying vertical gradients and changes with depth.</li>
+    <li>Examining the distribution of multiple parameters within the water column.</li>
+    <li>Preparing consistent profile figures for research reports, presentations
+        and scientific publications.</li>
+</ul>
+
+<h3>How to use the R code</h3>
+
+<ol>
+    <li>
+        <strong>Install R and RStudio.</strong>
+        R is required to run the analysis, while RStudio provides a convenient
+        environment for running the R script.
+    </li>
+
+    <li>
+        <strong>Download the R code and Excel template.</strong>
+        Use the download buttons provided in the resource section. The Excel
+        template should be used as the basis for preparing your own dataset.
+    </li>
+
+    <li>
+        <strong>Prepare your Excel data.</strong>
+        Enter the station information, sampling depths and corresponding
+        parameter measurements in the required columns. Keep the column
+        structure consistent with the provided Excel template.
+    </li>
+
+    <li>
+        <strong>Enter your observations.</strong>
+        Each depth observation should correspond to the appropriate station
+        and parameter value. If measurements are available at several depths,
+        enter each depth as a separate observation.
+    </li>
+
+    <li>
+        <strong>Open the R script in RStudio.</strong>
+        Open the downloaded R code and run the script. When prompted, select
+        the prepared Excel file.
+    </li>
+
+    <li>
+        <strong>Allow the script to process the data.</strong>
+        The script reads the station-based observations and organizes the
+        measurements according to station, depth and parameter before
+        generating the vertical profiles.
+    </li>
+
+    <li>
+        <strong>Check the generated profiles.</strong>
+        The resulting figures can be inspected to understand how the selected
+        parameters vary through the water column.
+    </li>
+</ol>
+
+<h3>Input data</h3>
+
+<p>
+The Excel file should contain station-based observations together with the
+corresponding sampling depths and measured parameters. The exact structure
+of the input file should follow the downloadable Excel template supplied
+with this R code.
+</p>
+
+<p>
+Before running the script, make sure that station names, depth values and
+parameter measurements are entered correctly and that the required columns
+have not been renamed or removed.
+</p>
+
+<h3>Understanding the output</h3>
+
+<p>
+The output consists of vertical profile plots in which <strong>depth</strong>
+is represented along the vertical axis and the selected oceanographic
+parameter is represented along the horizontal axis. Each profile represents
+the measured variation of a parameter through the water column at the
+corresponding sampling station.
+</p>
+
+<p>
+These profiles provide a simple visual way to compare stations and identify
+important vertical features in the observed oceanographic data.
+</p>
+
+<h3>Important notes</h3>
+
+<ul>
+    <li>
+        Use the supplied Excel template to maintain the required data
+        structure.
+    </li>
+    <li>
+        Check that depth values and parameter measurements use consistent
+        units throughout the dataset.
+    </li>
+    <li>
+        Do not change the required column names unless the R code has also
+        been modified accordingly.
+    </li>
+    <li>
+        Missing observations should be handled carefully because they may
+        affect the appearance of individual profiles.
+    </li>
+    <li>
+        Always check the generated plots against the original observations
+        before using them for scientific interpretation or publication.
+    </li>
+</ul>
+
+<p>
+<strong>In short:</strong> this R code provides a simple and reproducible way
+to transform station-based depth observations into publication-ready
+oceanographic vertical profiles.
+</p>
+
+</section>
+
 
         <a class="button"
            href="code-05.R"
@@ -402,10 +621,118 @@ DOWNLOAD R CODE
 
     <div class="code03-text">
 
-        <p>
-        Multi-Parameter Profile Model. Used to generate vertical profiles
-        of multiple oceanographic parameters for comparison and analysis.
-        </p>
+<section class="resource-description">
+
+<h3>Multi-Parameter / Multi-Transect Water Column Profile</h3>
+
+<p>
+This R code is designed to create <strong>water-column depth profiles</strong>
+from oceanographic data stored in an Excel file. Multiple parameters or
+multiple transects can be represented in a single profile figure, allowing
+changes in measured values with increasing water depth to be compared easily.
+</p>
+
+<p>
+The code uses a <strong>multi-panel layout</strong>, with the individual
+parameter or transect axes arranged above the main depth-profile panel.
+Each profile is assigned a different colour, and its corresponding axis,
+parameter/transect name, and profile line use the same colour for easy
+identification.
+</p>
+
+<h4>What can be plotted?</h4>
+
+<p>
+The code supports two types of profile representation:
+</p>
+
+<ul>
+    <li>
+        <strong>Multiple Parameters at One Station:</strong>
+        Select a station such as <strong>T1 S1</strong> and plot several
+        parameters such as DO, pH, Temperature, Salinity, or other parameters
+        available in the Excel file.
+    </li>
+
+<li>
+    <strong>One Parameter Across Multiple Transects:</strong>
+    Select a station number such as <strong>S1</strong> and a parameter
+    such as DO, then compare the profiles from different transects such as
+    T1, T2, T3, T4, and so on.
+</li>
+
+</ul>
+
+<h4>How to use the code</h4>
+
+<ol>
+    <li>
+        Install <strong>R</strong> and <strong>RStudio</strong> on your
+        computer.
+    </li>
+
+<li>
+    Prepare an Excel file containing at least two columns:
+    <strong>Station</strong> and <strong>Depth</strong>. The remaining
+    numeric columns are treated as oceanographic parameters.
+</li>
+
+<li>
+    Station names should follow the format used in the dataset, for
+    example <strong>T1 S1</strong>, <strong>T1 S2</strong>,
+    <strong>T2 S1</strong>, etc.
+</li>
+
+<li>
+    Open the R code in RStudio and run it. When prompted, select the
+    required Excel file.
+</li>
+
+<li>
+    Choose the required operating mode and modify the station, parameter,
+    or transect selections in the designated section of the code.
+</li>
+
+<li>
+    Run the complete script. The code automatically determines the
+    minimum and maximum values of each selected parameter or transect from
+    the Excel data and creates the corresponding X-axis.
+</li>
+
+</ol>
+
+<h4>Colour coding</h4>
+
+<p>
+The first selected profile is displayed in <strong>red</strong>, followed by
+<strong>green</strong>, <strong>blue</strong>, <strong>orange</strong>,
+<strong>pink</strong>, <strong>brown</strong>, <strong>violet</strong>,
+<strong>sky blue</strong>, <strong>yellow</strong>, and
+<strong>grey</strong>. The same colour is used for the corresponding axis,
+label, and profile line.
+</p>
+
+<p>
+A maximum of <strong>10 profiles</strong> is recommended to keep the figure
+clear and readable.
+</p>
+
+<h4>Output</h4>
+
+<p>
+The water-column profile is generated as a high-resolution
+<strong>TIFF image</strong>. The output file is automatically saved in the
+<strong>same folder as the selected Excel file</strong>.
+</p>
+
+<p>
+The depth axis starts at <strong>0 m at the top</strong> and increases
+downward according to the depths available in the dataset. Each profile
+shows how the selected parameter changes through the water column.
+</p>
+
+</section>
+
 
         <a class="button"
            href="line-plot.R"
