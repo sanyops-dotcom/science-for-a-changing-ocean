@@ -248,10 +248,39 @@ Each resource can have its own description and download button.
 
 <h2>R Code 01</h2>
 
+<section class="resource">
+
+<h2>SOMS Global Statistics Analyzer</h2>
+
 <p>
-Global min max analyser. Used to find out min, max and standard deviation
-from multiple Excel files.
+The <strong>SOMS Global Statistics Analyzer</strong> is an R-based tool for
+calculating overall statistical values from multiple Excel data files. It
+automatically reads all Excel files in a selected folder, combines the
+values of the chosen parameter columns, and calculates the
+<strong>minimum, maximum, mean, standard deviation, mean &minus; SD, and
+mean + SD</strong>.
 </p>
+
+<p>
+The tool is useful for quickly obtaining consistent global statistics from
+large collections of oceanographic datasets without manually combining
+individual Excel files. Missing values are identified and excluded from the
+statistical calculations. The final results are automatically exported as a
+new Excel report in the selected working folder.
+</p>
+
+<p>
+<strong>Input:</strong> Multiple Excel files containing the required
+parameter columns.
+</p>
+
+<p>
+<strong>Output:</strong> A consolidated Excel report containing the global
+statistics for each selected parameter.
+</p>
+
+</section>
+
 
 <a class="button" href="code-01.R" download="code-01.R">
 DOWNLOAD R CODE
@@ -266,17 +295,89 @@ DOWNLOAD R CODE
 
 <h2>R Code 02</h2>
 
+<section class="resource">
+
+<h2>Excel Lookup &amp; Merge Tool</h2>
+
 <p>
-Excel merge app. Used to merge parameters from different Excel files,
-provided the names are the same.
+This tool solves a common spreadsheet problem: you have two Excel files that
+share a common column &mdash; such as names, IDs, or sample codes &mdash; and
+you need to pull a value from one file into the other, with the values lined
+up correctly row by row. Doing this manually with <strong>VLOOKUP</strong> or
+copy-paste can be slow and error-prone, especially when the two files are not
+in the same order or when one file contains entries that are missing from the
+other.
 </p>
+
+<p>
+The <strong>Excel Lookup &amp; Merge Tool</strong> reads both files and
+matches their rows using whichever column you select as the shared
+identifier. It then transfers the selected value from the source file to the
+target file automatically. When no matching identifier is found, the
+corresponding cell is left blank rather than being filled with an incorrect
+value.
+</p>
+
+<h3>How it works</h3>
+
+<ol>
+
+<li>
+Upload your <strong>source file</strong> &mdash; the Excel file containing
+the data you want to copy.
+</li>
+
+<li>
+Upload your <strong>target file</strong> &mdash; the Excel file where you want
+the data to be added.
+</li>
+
+<li>
+Select the required <strong>sheet</strong> in each file if the workbooks
+contain more than one sheet.
+</li>
+
+<li>
+Choose the <strong>shared identifier column</strong> in each file. This may
+be a name, ID, sample code, station name, or any other common identifier.
+</li>
+
+<li>
+Choose the <strong>source column</strong> containing the value you want to
+copy and the <strong>target column</strong> where that value should be placed.
+</li>
+
+<li>
+Run the merge. The tool automatically matches the identifiers and transfers
+the corresponding values.
+</li>
+
+<li>
+Review the summary showing the number of <strong>matched rows</strong> and
+the number of rows for which no matching entry was found.
+</li>
+
+<li>
+Download the completed Excel file.
+</li>
+
+</ol>
+
+<p>
+<strong>Important:</strong> Nothing is uploaded to an external server. The
+tool runs locally on your own machine, and your Excel files remain on your
+computer throughout the process. Each merge operation creates a new output
+file, so your original spreadsheets are never overwritten.
+</p>
+
+</section>
+
 
 <a class="button" href="code-02.R" download="code-02.R">
 DOWNLOAD R CODE
 </a>
 
 </section>
-
 
 <!-- R CODE 03 -->
 
