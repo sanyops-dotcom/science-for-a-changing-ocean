@@ -145,19 +145,42 @@ contour_interval <- 200
 
 contour_label_interval <- 400
 
-contour_line_size <- 0.50
+contour_line_size <- 0.30
 
 contour_label_size <- 3.0
 
+contour_label_skip <- 4
 
-# ---- Extra fine contours for the shallow shelf ----
+
+# ---- Selected highlighted contours (own colour each) ----
 #
-# These are added ON TOP of the regular 200 m interval
-# contours above, and are also labelled (same as 200, 400,
-# 600 m etc). Duplicates (e.g. 200 already existing in both
-# sets) are removed automatically.
+# These are drawn as a SEPARATE, additional layer on top of
+# the regular grey contour lines above (which are left
+# unchanged). Each one gets its own colour, and its own entry
+# in the legend on the right, replacing the bathymetry
+# colour-bar legend.
 
-shelf_contour_levels <- c(0,10, 20, 30, 50, 100, 200)
+selected_contour_levels <- c(10, 20, 30, 50, 100, 200, 500)
+
+selected_contour_colours <- c(
+  
+  "10"  = "red",
+  
+  "20"  = "green",
+  
+  "30"  = "orange",
+  
+  "50"  = "pink",
+  
+  "100" = "brown",
+  
+  "200" = "grey40",
+  
+  "500" = "black"
+  
+)
+
+selected_contour_line_size <- 0.45
 
 
 # ============================================================
@@ -852,27 +875,6 @@ label_levels <- seq(
 )
 
 
-# ---- Merge in the fine shelf contours (10/20/50/100/200 m) ----
-#
-# Added to BOTH the line breaks and the label breaks, so the
-# shelf contours are drawn and labelled the same way as the
-# existing 200/400/... contours. Duplicates removed, sorted
-# ascending.
-
-contour_levels <- sort(
-  unique(
-    c(contour_levels, shelf_contour_levels)
-  )
-)
-
-
-label_levels <- sort(
-  unique(
-    c(label_levels, shelf_contour_levels)
-  )
-)
-
-
 # ============================================================
 # 30. LOAD LAND
 # ============================================================
@@ -1255,7 +1257,9 @@ map_plot <- map_plot +
     
     oob = scales::squish,
     
-    na.value = "transparent"
+    na.value = "transparent",
+    
+    guide = "none"
     
   )
 
@@ -1323,7 +1327,7 @@ map_plot <- map_plot +
     
     check_overlap = TRUE,
     
-    skip = 5,
+    skip = contour_label_skip,
     
     na.rm = TRUE
     
@@ -1345,6 +1349,69 @@ map_plot <- map_plot +
     colour = "grey20",
     
     linewidth = 0.35
+    
+  )
+
+
+# ============================================================
+# 40b. SELECTED HIGHLIGHTED CONTOURS (10/20/30/50/100/200/500 m)
+# ============================================================
+#
+# Drawn AFTER the land layer (unlike the regular grey contours
+# in Section 38), so these specific depths stay fully visible
+# even where GEBCO's raster coastline and the land polygon's
+# vector coastline don't line up exactly near shore.
+#
+# Trade-off: in areas of coastline mismatch, a sliver of these
+# lines may appear to run slightly onto land. If that looks
+# wrong for your region, move this block to sit right after
+# Section 38 instead (before Section 40) so land covers it
+# again, like the other contours.
+#
+# This layer also supplies the "Depth (m)" legend on the right,
+# replacing the bathymetry colour-bar legend (suppressed in
+# Section 37 above).
+#
+# ============================================================
+
+map_plot <- map_plot +
+  
+  geom_contour(
+    
+    data = bathymetry_df,
+    
+    aes(
+      
+      x = x,
+      
+      y = y,
+      
+      z = PlotDepth,
+      
+      colour = factor(after_stat(level))
+      
+    ),
+    
+    breaks = selected_contour_levels,
+    
+    linewidth = selected_contour_line_size,
+    
+    na.rm = TRUE
+    
+  ) +
+  
+  scale_colour_manual(
+    
+    name = "Depth (m)",
+    
+    values = selected_contour_colours,
+    
+    breaks = as.character(selected_contour_levels),
+    
+    labels = paste0(
+      selected_contour_levels,
+      " m"
+    )
     
   )
 
