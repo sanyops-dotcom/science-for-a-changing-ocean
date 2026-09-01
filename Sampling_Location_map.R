@@ -30,7 +30,8 @@ required_packages <- c(
   "rnaturalearth",
   "rnaturalearthdata",
   "ggspatial",
-  "metR"
+  "metR",
+  "ggrepel"
 )
 
 installed <- rownames(installed.packages())
@@ -58,6 +59,46 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(ggspatial)
 library(metR)
+library(ggrepel)
+
+
+# ============================================================
+# 1b. DMM (DEGREES + DECIMAL MINUTES) TO DECIMAL DEGREES
+# ============================================================
+#
+# Converts coordinates like "8\u00b03.342N" or "77\u00b030.175E" into
+# plain decimal degrees (e.g. 8.0557).
+#
+# Handles a leading degree symbol, decimal minutes, and a
+# trailing compass direction (N/S/E/W), with optional stray
+# whitespace around the value.
+#
+# ============================================================
+
+dmm_to_decimal <- function(x) {
+  
+  m <- regmatches(
+    x,
+    regexec("([0-9]+)[\u00b0\u00b0]([0-9.]+)([NSEWnsew])", x)
+  )
+  
+  sapply(m, function(part) {
+    
+    if (length(part) != 4) return(NA_real_)
+    
+    deg <- as.numeric(part[2])
+    min <- as.numeric(part[3])
+    dir <- toupper(part[4])
+    
+    dec <- deg + min / 60
+    
+    if (dir %in% c("S", "W")) dec <- -dec
+    
+    dec
+    
+  })
+  
+}
 
 
 # ============================================================
@@ -104,9 +145,19 @@ contour_interval <- 200
 
 contour_label_interval <- 400
 
-contour_line_size <- 0.30
+contour_line_size <- 0.50
 
 contour_label_size <- 3.0
+
+
+# ---- Extra fine contours for the shallow shelf ----
+#
+# These are added ON TOP of the regular 200 m interval
+# contours above, and are also labelled (same as 200, 400,
+# 600 m etc). Duplicates (e.g. 200 already existing in both
+# sets) are removed automatically.
+
+shelf_contour_levels <- c(0,10, 20, 30, 50, 100, 200)
 
 
 # ============================================================
@@ -160,14 +211,85 @@ manual_label_positions <- list(
 
 
 # ============================================================
+# 8b. MANUAL Tx (TRANSECT-LEVEL) LABEL POSITIONS
+# ============================================================
+#
+# One "Tx" label is drawn per transect (e.g. "T4", "T5", ...),
+# placed on the land side of that transect, instead of
+# repeating the transect name at every station.
+#
+# By default, the Tx label is placed near the coast-side
+# station of the transect (the station with the HIGHEST
+# longitude, i.e. closest to shore) and then nudged further
+# east (onto land) by 'transect_label_land_offset'.
+#
+# If a Tx label lands in the water instead of on land for a
+# particular transect, override it manually here using ONLY
+# the transect number, e.g.:
+#
+# "T4"  = c(77.55, 8.40),
+# "T13" = c(75.10, 11.10)
+#
+# ============================================================
+
+manual_transect_label_positions <- list(
+  
+  # Example:
+  #
+  # "T4"  = c(77.55, 8.40),
+  # "T13" = c(75.10, 11.10)
+  
+)
+
+
+# Default extra push (in decimal degrees) applied eastward
+# (onto land) from the coast-side station of each transect.
+
+transect_label_land_offset <- 0.12
+
+
+# ============================================================
 # 9. LABEL APPEARANCE
 # ============================================================
 
-transect_label_size <- 3.8
+# ---- Station (Sx) labels, placed at each point ----
+
+station_label_size <- 3.0
+
+station_label_fontface <- "plain"
+
+station_label_colour <- "black"
+
+
+# ---- Transect (Tx) labels, one per transect, on land ----
+
+transect_label_size <- 4.2
 
 transect_label_fontface <- "bold"
 
 transect_label_colour <- "black"
+
+
+# ---- Auto-repel settings (prevents labels overlapping) ----
+#
+# box.padding      : empty space kept around each label
+# point.padding    : empty space kept around each anchor point
+# min.segment.length : draw a leader line if the label moves
+#                       further than this from its point
+#                       (0 = always draw a line if it moved)
+# max.overlaps     : allow unlimited attempts to resolve overlaps
+# seed             : fixes the layout so it looks the same every
+#                     time you re-run the script
+
+label_box_padding <- 0.3
+
+label_point_padding <- 0.25
+
+label_min_segment_length <- 0
+
+label_max_overlaps <- Inf
+
+label_repel_seed <- 42
 
 
 # ============================================================
@@ -373,11 +495,11 @@ sampling_data <- excel_data %>%
       )
     ),
     
-    Latitude = as.numeric(
+    Latitude = dmm_to_decimal(
       .data[[latitude_column]]
     ),
     
-    Longitude = as.numeric(
+    Longitude = dmm_to_decimal(
       .data[[longitude_column]]
     )
     
@@ -730,6 +852,27 @@ label_levels <- seq(
 )
 
 
+# ---- Merge in the fine shelf contours (10/20/50/100/200 m) ----
+#
+# Added to BOTH the line breaks and the label breaks, so the
+# shelf contours are drawn and labelled the same way as the
+# existing 200/400/... contours. Duplicates removed, sorted
+# ascending.
+
+contour_levels <- sort(
+  unique(
+    c(contour_levels, shelf_contour_levels)
+  )
+)
+
+
+label_levels <- sort(
+  unique(
+    c(label_levels, shelf_contour_levels)
+  )
+)
+
+
 # ============================================================
 # 30. LOAD LAND
 # ============================================================
@@ -797,10 +940,29 @@ land <- suppressWarnings(
 # ============================================================
 # 32. PREPARE LABEL DATA
 # ============================================================
+#
+# Split "Tx Sx" (e.g. "T4 S2") into:
+#
+#   TransectNumber -> "T4"
+#   StationNumber  -> "S2"   (this is what gets drawn at the point)
+#
+# ============================================================
 
 label_data <- sampling_data %>%
   
   mutate(
+    
+    TransectNumber = sub(
+      "^\\s*(T[0-9]+).*$",
+      "\\1",
+      Transect
+    ),
+    
+    StationLabel = sub(
+      "^.*\\b(S[0-9]+)\\s*$",
+      "\\1",
+      Transect
+    ),
     
     LabelLongitude =
       Longitude +
@@ -811,6 +973,25 @@ label_data <- sampling_data %>%
       default_label_y_offset
     
   )
+
+
+if (any(label_data$TransectNumber == label_data$Transect)) {
+  
+  warning(
+    
+    "\nSome Transect values do not match the expected 'Tx Sx' ",
+    "format (e.g. 'T4 S2'). Check these rows:\n\n",
+    
+    paste(
+      label_data$Transect[
+        label_data$TransectNumber == label_data$Transect
+      ],
+      collapse = ", "
+    )
+    
+  )
+  
+}
 
 
 # ============================================================
@@ -876,6 +1057,85 @@ print(
     )
   
 )
+
+
+# ============================================================
+# 34b. BUILD ONE Tx LABEL PER TRANSECT (ON LAND)
+# ============================================================
+#
+# For each transect, pick the coast-side station (the one with
+# the HIGHEST longitude -> closest to shore), then push the
+# label further east by 'transect_label_land_offset' so it
+# sits on land rather than on top of a sampling point.
+#
+# Any transect listed in 'manual_transect_label_positions' uses
+# that position instead.
+#
+# ============================================================
+
+transect_label_data <- label_data %>%
+  
+  group_by(TransectNumber) %>%
+  
+  slice_max(
+    Longitude,
+    n = 1,
+    with_ties = FALSE
+  ) %>%
+  
+  ungroup() %>%
+  
+  transmute(
+    
+    TransectNumber,
+    
+    AnchorLongitude = Longitude,
+    
+    AnchorLatitude = Latitude,
+    
+    LabelLongitude =
+      Longitude +
+      transect_label_land_offset,
+    
+    LabelLatitude =
+      Latitude
+    
+  )
+
+
+if (length(manual_transect_label_positions) > 0) {
+  
+  for (label_name in names(manual_transect_label_positions)) {
+    
+    position <- manual_transect_label_positions[[label_name]]
+    
+    matching_rows <- which(
+      transect_label_data$TransectNumber == label_name
+    )
+    
+    if (length(matching_rows) > 0) {
+      
+      transect_label_data$LabelLongitude[
+        matching_rows
+      ] <- position[1]
+      
+      transect_label_data$LabelLatitude[
+        matching_rows
+      ] <- position[2]
+      
+    }
+    
+  }
+  
+}
+
+
+cat("\n")
+cat("====================================================\n")
+cat("TRANSECT (Tx) LABEL POSITIONS\n")
+cat("====================================================\n\n")
+
+print(transect_label_data)
 
 
 # ============================================================
@@ -1063,7 +1323,7 @@ map_plot <- map_plot +
     
     check_overlap = TRUE,
     
-    skip = 1,
+    skip = 5,
     
     na.rm = TRUE
     
@@ -1121,33 +1381,93 @@ map_plot <- map_plot +
 
 
 # ============================================================
-# 42. TRANSECT / STATION LABELS
+# 42. STATION LABELS (Sx ONLY, AT EACH POINT)
 # ============================================================
 #
-# Example labels:
+# Example labels drawn at each point:
 #
-# T1 S1
-# T1 S2
-# T2 S1
-# T4 S2
+# S1
+# S2
+# S3
 #
 # ============================================================
 
 map_plot <- map_plot +
   
-  geom_text(
+  geom_text_repel(
     
     data = label_data,
     
     aes(
       
-      x = LabelLongitude,
+      x = Longitude,
       
-      y = LabelLatitude,
+      y = Latitude,
       
-      label = Transect
+      label = StationLabel
       
     ),
+    
+    nudge_x = label_data$LabelLongitude - label_data$Longitude,
+    
+    nudge_y = label_data$LabelLatitude - label_data$Latitude,
+    
+    size = station_label_size,
+    
+    fontface = station_label_fontface,
+    
+    colour = station_label_colour,
+    
+    box.padding = label_box_padding,
+    
+    point.padding = label_point_padding,
+    
+    min.segment.length = label_min_segment_length,
+    
+    segment.colour = "grey40",
+    
+    segment.size = 0.25,
+    
+    max.overlaps = label_max_overlaps,
+    
+    seed = label_repel_seed
+    
+  )
+
+
+# ============================================================
+# 42b. TRANSECT LABELS (Tx, ONE PER TRANSECT, ON LAND)
+# ============================================================
+#
+# Example labels, one each, drawn on the land side:
+#
+# T4
+# T5
+# T6
+#
+# ============================================================
+
+map_plot <- map_plot +
+  
+  geom_text_repel(
+    
+    data = transect_label_data,
+    
+    aes(
+      
+      x = AnchorLongitude,
+      
+      y = AnchorLatitude,
+      
+      label = TransectNumber
+      
+    ),
+    
+    nudge_x = transect_label_data$LabelLongitude -
+      transect_label_data$AnchorLongitude,
+    
+    nudge_y = transect_label_data$LabelLatitude -
+      transect_label_data$AnchorLatitude,
     
     size = transect_label_size,
     
@@ -1155,9 +1475,19 @@ map_plot <- map_plot +
     
     colour = transect_label_colour,
     
-    hjust = 0,
+    box.padding = label_box_padding,
     
-    vjust = 0.5
+    point.padding = label_point_padding,
+    
+    min.segment.length = label_min_segment_length,
+    
+    segment.colour = "grey20",
+    
+    segment.size = 0.3,
+    
+    max.overlaps = label_max_overlaps,
+    
+    seed = label_repel_seed
     
   )
 
