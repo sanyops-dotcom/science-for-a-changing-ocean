@@ -1,42 +1,27 @@
 # ================================================================
-# WATER COLUMN MULTI-PARAMETER / MULTI-TRANSECT PROFILE PLOTTER
+# MULTI-PARAMETER / MULTI-TRANSECT WATER COLUMN PROFILE
 # ================================================================
+
+# Excel structure:
 #
-# EXCEL STRUCTURE:
+# Station | Depth | Parameter 1 | Parameter 2 | Parameter 3 | ...
 #
-# Station | Depth | DO | pH | Temperature | Salinity | ...
+# Example station names:
+# T1 S1
+# T1 S2
+# T2 S1
+# T2 S2
 #
-# Example:
-#
-# T1 S1 | 0  | ...
-# T1 S1 | 5  | ...
-# T1 S1 | 10 | ...
-# T1 S2 | 0  | ...
-# T2 S1 | 0  | ...
-#
-# ================================================================
-#
-# MODE 1
-# -------
+# MODE 1:
 # One station + multiple parameters
 #
-# Example:
-# T1 S1 + DO + pH + Temperature + Salinity
-#
-#
-# MODE 2
-# -------
+# MODE 2:
 # One station number + one parameter + multiple transects
 #
-# Example:
-# S1 + DO + T1 + T2 + T3 + T4
+# Maximum number of profiles/parameters = 10
 #
-# ================================================================
-#
-# OUTPUT:
-#
-# A TIFF file is automatically saved in the SAME FOLDER
-# where the selected Excel file is located.
+# Output:
+# TIFF file saved in the same folder as the selected Excel file.
 #
 # ================================================================
 
@@ -70,13 +55,14 @@ data <- read_excel(excel_file)
 # ================================================================
 
 excel_folder <- dirname(
+  
   normalizePath(
     excel_file,
     winslash = "/",
     mustWork = TRUE
   )
+  
 )
-
 
 cat(
   "\nExcel folder:\n",
@@ -89,7 +75,7 @@ cat(
 # 4. SHOW EXCEL COLUMNS
 # ================================================================
 
-cat("\nColumns detected:\n\n")
+cat("\nColumns detected in Excel:\n\n")
 
 print(names(data))
 
@@ -97,7 +83,7 @@ cat("\n")
 
 
 # ================================================================
-# 5. FIND STATION COLUMN
+# 5. FUNCTION TO FIND A COLUMN
 # ================================================================
 
 find_column <- function(data, possible_names) {
@@ -126,6 +112,10 @@ find_column <- function(data, possible_names) {
 }
 
 
+# ================================================================
+# 6. FIND STATION COLUMN
+# ================================================================
+
 station_col <- find_column(
   
   data,
@@ -142,7 +132,7 @@ station_col <- find_column(
 
 
 # ================================================================
-# 6. FIND DEPTH COLUMN
+# 7. FIND DEPTH COLUMN
 # ================================================================
 
 depth_col <- find_column(
@@ -161,7 +151,7 @@ depth_col <- find_column(
 
 
 # ================================================================
-# 7. CHECK REQUIRED COLUMNS
+# 8. CHECK REQUIRED COLUMNS
 # ================================================================
 
 if (is.na(station_col)) {
@@ -197,43 +187,43 @@ cat(
 
 
 # ================================================================
-# 8. CLEAN STATION / DEPTH
+# 9. CLEAN STATION AND DEPTH
 # ================================================================
 
 data[[station_col]] <- trimws(
+  
   as.character(
     data[[station_col]]
   )
+  
 )
 
 
 data[[depth_col]] <- suppressWarnings(
+  
   as.numeric(
     data[[depth_col]]
   )
+  
 )
 
 
 # ================================================================
-# 9. FIND PARAMETER COLUMNS
-# ================================================================
-#
-# ONLY Station and Depth are excluded.
-#
-# Every other column is considered a possible parameter.
-#
-# Parameter names are copied directly from Excel.
-#
+# 10. IDENTIFY PARAMETER COLUMNS
 # ================================================================
 
 excluded_columns <- c(
+  
   station_col,
   depth_col
+  
 )
 
 
 possible_parameters <- names(data)[
+  
   !(names(data) %in% excluded_columns)
+  
 ]
 
 
@@ -283,7 +273,7 @@ for (i in seq_along(parameter_columns)) {
 
 
 # ================================================================
-# 10. COLOUR ORDER
+# 11. COLOUR ORDER
 # ================================================================
 
 profile_colours <- c(
@@ -303,26 +293,25 @@ profile_colours <- c(
 
 
 # ================================================================
-# 11. SELECT OPERATING MODE
+# 12. SELECT PLOTTING MODE
 # ================================================================
 #
-# "parameters"
-#     One station + multiple parameters
+# "parameters" = one station + multiple parameters
 #
-# "transects"
-#     One station number + one parameter + multiple transects
+# "transects" = one station number + one parameter
+#               + multiple transects
 #
 # ================================================================
 
 plot_type <- "parameters"
 
 
-# ================================================================
-# ================================================================
+# ################################################################
+# ################################################################
 # MODE 1
 # ONE STATION + MULTIPLE PARAMETERS
-# ================================================================
-# ================================================================
+# ################################################################
+# ################################################################
 
 if (plot_type == "parameters") {
   
@@ -338,16 +327,19 @@ if (plot_type == "parameters") {
   # SELECT PARAMETERS
   # ==============================================================
   #
-  # DEFAULT:
-  # ALL available parameters
+  # CURRENT SETTING:
+  # All available numeric parameters are selected.
   #
-  # OR manually select:
+  # To manually select parameters, replace the next line with:
   #
   # selected_parameters <- c(
   #   "DO",
   #   "Temperature",
-  #   "Salinity"
+  #   "Salinity",
+  #   "pH"
   # )
+  #
+  # The names must exactly match the Excel column names.
   #
   # ==============================================================
   
@@ -362,7 +354,7 @@ if (plot_type == "parameters") {
     
     stop(
       paste(
-        "More than 10 parameters selected.",
+        "More than 10 parameters were selected.",
         "\nPlease select a maximum of 10 parameters."
       )
     )
@@ -371,11 +363,13 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # CHECK PARAMETERS
+  # CHECK PARAMETER NAMES
   # ==============================================================
   
   missing_parameters <- selected_parameters[
+    
     !(selected_parameters %in% parameter_columns)
+    
   ]
   
   
@@ -383,7 +377,8 @@ if (plot_type == "parameters") {
     
     stop(
       paste(
-        "The following selected parameters were not found:",
+        "The following selected parameters were not found",
+        "as Excel column names:",
         paste(
           missing_parameters,
           collapse = ", "
@@ -395,7 +390,7 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # EXTRACT STATION
+  # EXTRACT SELECTED STATION
   # ==============================================================
   
   station_data <- data[
@@ -431,17 +426,22 @@ if (plot_type == "parameters") {
   
   for (parameter_name in selected_parameters) {
     
+    
     values <- suppressWarnings(
+      
       as.numeric(
         station_data[[parameter_name]]
       )
+      
     )
     
     
     depths <- suppressWarnings(
+      
       as.numeric(
         station_data[[depth_col]]
       )
+      
     )
     
     
@@ -508,7 +508,7 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # DEPTH RANGE
+  # MAXIMUM DEPTH
   # ==============================================================
   
   max_depth <- max(
@@ -516,8 +516,13 @@ if (plot_type == "parameters") {
     unlist(
       
       lapply(
+        
         parameter_data,
-        function(x) x$depth
+        
+        function(x) {
+          x$depth
+        }
+        
       )
       
     ),
@@ -541,7 +546,7 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # TIFF DEVICE
+  # OPEN TIFF
   # ==============================================================
   
   tiff(
@@ -560,14 +565,14 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # TRUE MULTI-PANEL LAYOUT
+  # TWO-PANEL LAYOUT
   # ==============================================================
   #
-  # PANEL 1 = AXES
+  # TOP:
+  # Stacked X-axes
   #
-  # PANEL 2 = PROFILE
-  #
-  # They have completely separate plotting regions.
+  # BOTTOM:
+  # Actual coloured profile
   #
   # ==============================================================
   
@@ -587,25 +592,53 @@ if (plot_type == "parameters") {
     ),
     
     heights = c(
-      0.32,
-      0.68
+      
+      0.34,
+      0.66
+      
     )
     
   )
   
   
   # ==============================================================
-  # PANEL 1
-  # TOP STACKED AXES
+  # COMMON HORIZONTAL COORDINATES
+  # ==============================================================
+  #
+  # THESE ARE USED IN BOTH PANELS.
+  #
+  # Therefore:
+  #
+  # X-axis minimum = profile minimum
+  #
+  # X-axis maximum = profile maximum
+  #
+  # ==============================================================
+  
+  profile_left <- 0.08
+  
+  profile_right <- 0.92
+  
+  profile_width <-
+    
+    profile_right -
+    profile_left
+  
+  
+  # ==============================================================
+  # TOP PANEL
+  # STACKED PARAMETER AXES
   # ==============================================================
   
   par(
     
     mar = c(
+      
       1,
-      8,
+      16,
       2,
-      8
+      3
+      
     )
     
   )
@@ -633,14 +666,18 @@ if (plot_type == "parameters") {
     
     xlab = "",
     
-    ylab = ""
+    ylab = "",
+    
+    xaxs = "i",
+    
+    yaxs = "i"
     
   )
   
   
-  # ------------------------------------------------
-  # DRAW EACH AXIS
-  # ------------------------------------------------
+  # ==============================================================
+  # DRAW STACKED AXES
+  # ==============================================================
   
   for (i in seq_along(selected_parameters)) {
     
@@ -658,20 +695,26 @@ if (plot_type == "parameters") {
     
     
     current_min <- min(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
     current_max <- max(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
-    # ------------------------------------------------
-    # HANDLE CONSTANT DATA
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # HANDLE CONSTANT VALUES
+    # ------------------------------------------------------------
     
     if (current_min == current_max) {
       
@@ -694,26 +737,27 @@ if (plot_type == "parameters") {
     }
     
     
-    # ------------------------------------------------
-    # AXIS POSITION
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # AXIS VERTICAL POSITION
+    # ------------------------------------------------------------
     
     y_position <-
+      
       length(selected_parameters) -
       i + 1
     
     
-    # ------------------------------------------------
-    # AXIS LINE
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # MAIN COLOURED AXIS
+    # ------------------------------------------------------------
     
     segments(
       
-      x0 = 0.08,
+      x0 = profile_left,
       
       y0 = y_position,
       
-      x1 = 0.92,
+      x1 = profile_right,
       
       y1 = y_position,
       
@@ -724,9 +768,9 @@ if (plot_type == "parameters") {
     )
     
     
-    # ------------------------------------------------
-    # TICKS
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # CREATE TICKS
+    # ------------------------------------------------------------
     
     ticks <- pretty(
       
@@ -761,7 +805,13 @@ if (plot_type == "parameters") {
     }
     
     
-    tick_x <- 0.08 +
+    # ------------------------------------------------------------
+    # CONVERT VALUES TO COMMON AXIS SPACE
+    # ------------------------------------------------------------
+    
+    tick_x <-
+      
+      profile_left +
       
       (
         
@@ -777,12 +827,12 @@ if (plot_type == "parameters") {
         
       ) *
       
-      0.84
+      profile_width
     
     
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     # TICK MARKS
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     
     segments(
       
@@ -801,15 +851,15 @@ if (plot_type == "parameters") {
     )
     
     
-    # ------------------------------------------------
-    # TICK VALUES
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # TICK LABELS
+    # ------------------------------------------------------------
     
     text(
       
       x = tick_x,
       
-      y = y_position - 0.28,
+      y = y_position - 0.27,
       
       labels = format(
         
@@ -828,15 +878,21 @@ if (plot_type == "parameters") {
     )
     
     
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     # PARAMETER NAME
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    #
+    # The name is placed to the LEFT of the axis.
+    #
+    # It does NOT reduce the axis width.
+    #
+    # ------------------------------------------------------------
     
     text(
       
-      x = 0.075,
+      x = profile_left - 0.035,
       
-      y = y_position + 0.18,
+      y = y_position,
       
       labels = parameter_name,
       
@@ -846,7 +902,9 @@ if (plot_type == "parameters") {
       
       pos = 2,
       
-      cex = 0.9
+      cex = 0.88,
+      
+      xpd = NA
       
     )
     
@@ -854,17 +912,19 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # PANEL 2
-  # ACTUAL DEPTH PROFILE
+  # BOTTOM PANEL
+  # ACTUAL PROFILE
   # ==============================================================
   
   par(
     
     mar = c(
+      
       5,
-      8,
-      1,
-      8
+      9,
+      2,
+      9
+      
     )
     
   )
@@ -892,7 +952,11 @@ if (plot_type == "parameters") {
     
     xlab = "",
     
-    ylab = ""
+    ylab = "",
+    
+    xaxs = "i",
+    
+    yaxs = "i"
     
   )
   
@@ -919,6 +983,10 @@ if (plot_type == "parameters") {
   ]
   
   
+  # ==============================================================
+  # DEPTH AXIS
+  # ==============================================================
+  
   axis(
     
     side = 2,
@@ -926,8 +994,11 @@ if (plot_type == "parameters") {
     at = depth_ticks,
     
     labels = paste0(
+      
       depth_ticks,
+      
       " m"
+      
     ),
     
     las = 1,
@@ -966,7 +1037,7 @@ if (plot_type == "parameters") {
     
     side = 2,
     
-    line = 4.5,
+    line = 5,
     
     font = 2
     
@@ -974,41 +1045,18 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # PROFILE BORDER
+  # DRAW COLOURED PROFILES
   # ==============================================================
-  
-  segments(
-    
-    x0 = 0.08,
-    
-    y0 = 0,
-    
-    x1 = 0.08,
-    
-    y1 = max_depth,
-    
-    lwd = 1.5
-    
-  )
-  
-  
-  segments(
-    
-    x0 = 0.92,
-    
-    y0 = 0,
-    
-    x1 = 0.92,
-    
-    y1 = max_depth,
-    
-    lwd = 1.5
-    
-  )
-  
-  
-  # ==============================================================
-  # DRAW PROFILES
+  #
+  # IMPORTANT:
+  #
+  # The normalized profile uses exactly the same:
+  #
+  # profile_left
+  # profile_right
+  #
+  # as the stacked X-axes.
+  #
   # ==============================================================
   
   for (i in seq_along(selected_parameters)) {
@@ -1027,16 +1075,26 @@ if (plot_type == "parameters") {
     
     
     current_min <- min(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
     current_max <- max(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
+    
+    # ------------------------------------------------------------
+    # HANDLE CONSTANT VALUES
+    # ------------------------------------------------------------
     
     if (current_min == current_max) {
       
@@ -1059,9 +1117,9 @@ if (plot_type == "parameters") {
     }
     
     
-    # ------------------------------------------------
-    # NORMALIZE PARAMETER TO PROFILE WIDTH
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # NORMALIZE PARAMETER VALUES
+    # ------------------------------------------------------------
     
     normalized_x <- (
       
@@ -1076,16 +1134,22 @@ if (plot_type == "parameters") {
       )
     
     
-    profile_x <- 0.08 +
+    # ------------------------------------------------------------
+    # CONVERT TO PROFILE SPACE
+    # ------------------------------------------------------------
+    
+    profile_x <-
+      
+      profile_left +
       
       normalized_x *
       
-      0.84
+      profile_width
     
     
-    # ------------------------------------------------
-    # DRAW LINE
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # DRAW PROFILE
+    # ------------------------------------------------------------
     
     lines(
       
@@ -1103,7 +1167,36 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # RIGHT SIDE LEGEND
+  # BOTTOM HORIZONTAL LINE
+  # ==============================================================
+  #
+  # Starts exactly at the depth-axis position.
+  #
+  # Ends exactly at the X-axis maximum.
+  #
+  # NO VERTICAL SIDE LINES ARE DRAWN.
+  #
+  # ==============================================================
+  
+  segments(
+    
+    x0 = profile_left,
+    
+    y0 = max_depth,
+    
+    x1 = profile_right,
+    
+    y1 = max_depth,
+    
+    col = "black",
+    
+    lwd = 1.5
+    
+  )
+  
+  
+  # ==============================================================
+  # LEGEND
   # ==============================================================
   
   legend(
@@ -1111,7 +1204,7 @@ if (plot_type == "parameters") {
     "right",
     
     inset = c(
-      -0.20,
+      -0.22,
       0
     ),
     
@@ -1119,16 +1212,18 @@ if (plot_type == "parameters") {
     
     col =
       profile_colours[
+        
         seq_along(
           selected_parameters
         )
+        
       ],
     
     lwd = 3,
     
     bty = "n",
     
-    title = "Profiles",
+    title = "Parameter",
     
     xpd = TRUE,
     
@@ -1144,13 +1239,16 @@ if (plot_type == "parameters") {
   mtext(
     
     paste(
+      
       "Water Column Profile —",
+      
       selected_station
+      
     ),
     
     side = 3,
     
-    line = -0.5,
+    line = 0.2,
     
     font = 2,
     
@@ -1167,7 +1265,7 @@ if (plot_type == "parameters") {
   
   
   # ==============================================================
-  # DISPLAY INFORMATION
+  # OUTPUT MESSAGE
   # ==============================================================
   
   cat(
@@ -1198,7 +1296,7 @@ if (plot_type == "parameters") {
   )
   
   cat(
-    "\nTIFF saved in:\n"
+    "\nTIFF saved at:\n"
   )
   
   cat(
@@ -1209,12 +1307,12 @@ if (plot_type == "parameters") {
 }
 
 
-# ================================================================
-# ================================================================
+# ################################################################
+# ################################################################
 # MODE 2
 # ONE STATION NUMBER + ONE PARAMETER + MULTIPLE TRANSECTS
-# ================================================================
-# ================================================================
+# ################################################################
+# ################################################################
 
 if (plot_type == "transects") {
   
@@ -1243,7 +1341,7 @@ if (plot_type == "transects") {
       paste(
         "Parameter",
         selected_parameter,
-        "was not found."
+        "was not found as an Excel column."
       )
     )
     
@@ -1251,7 +1349,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # FIND STATIONS MATCHING S1
+  # FIND MATCHING STATIONS
   # ==============================================================
   
   station_values <- unique(
@@ -1260,7 +1358,9 @@ if (plot_type == "transects") {
   
   
   station_values <- station_values[
+    
     !is.na(station_values)
+    
   ]
   
   
@@ -1321,9 +1421,13 @@ if (plot_type == "transects") {
     as.numeric(
       
       sub(
+        
         "^T",
+        
         "",
+        
         transect_names
+        
       )
       
     )
@@ -1345,12 +1449,14 @@ if (plot_type == "transects") {
   
   
   matching_stations <-
+    
     matching_stations[
       transect_order
     ]
   
   
   transect_names <-
+    
     transect_names[
       transect_order
     ]
@@ -1461,8 +1567,11 @@ if (plot_type == "transects") {
   transect_data <- transect_data[
     
     sapply(
+      
       transect_data,
+      
       nrow
+      
     ) > 0
     
   ]
@@ -1483,7 +1592,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # DEPTH RANGE
+  # MAXIMUM DEPTH
   # ==============================================================
   
   max_depth <- max(
@@ -1491,8 +1600,13 @@ if (plot_type == "transects") {
     unlist(
       
       lapply(
+        
         transect_data,
-        function(x) x$depth
+        
+        function(x) {
+          x$depth
+        }
+        
       )
       
     ),
@@ -1516,7 +1630,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # TIFF DEVICE
+  # OPEN TIFF
   # ==============================================================
   
   tiff(
@@ -1535,7 +1649,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # TRUE MULTI-PANEL LAYOUT
+  # TWO-PANEL LAYOUT
   # ==============================================================
   
   layout(
@@ -1554,25 +1668,43 @@ if (plot_type == "transects") {
     ),
     
     heights = c(
-      0.32,
-      0.68
+      
+      0.34,
+      0.66
+      
     )
     
   )
   
   
   # ==============================================================
-  # PANEL 1
-  # TOP TRANSECT AXES
+  # COMMON HORIZONTAL COORDINATES
+  # ==============================================================
+  
+  profile_left <- 0.08
+  
+  profile_right <- 0.92
+  
+  profile_width <-
+    
+    profile_right -
+    profile_left
+  
+  
+  # ==============================================================
+  # TOP PANEL
+  # STACKED TRANSECT AXES
   # ==============================================================
   
   par(
     
     mar = c(
+      
       1,
-      8,
+      16,
       2,
-      8
+      3
+      
     )
     
   )
@@ -1600,7 +1732,11 @@ if (plot_type == "transects") {
     
     xlab = "",
     
-    ylab = ""
+    ylab = "",
+    
+    xaxs = "i",
+    
+    yaxs = "i"
     
   )
   
@@ -1625,20 +1761,22 @@ if (plot_type == "transects") {
     
     
     current_min <- min(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
     current_max <- max(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
-    
-    # ------------------------------------------------
-    # CONSTANT DATA
-    # ------------------------------------------------
     
     if (current_min == current_max) {
       
@@ -1661,26 +1799,23 @@ if (plot_type == "transects") {
     }
     
     
-    # ------------------------------------------------
-    # AXIS POSITION
-    # ------------------------------------------------
-    
     y_position <-
+      
       length(transect_names) -
       i + 1
     
     
-    # ------------------------------------------------
-    # AXIS
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # COLOURED AXIS
+    # ------------------------------------------------------------
     
     segments(
       
-      x0 = 0.08,
+      x0 = profile_left,
       
       y0 = y_position,
       
-      x1 = 0.92,
+      x1 = profile_right,
       
       y1 = y_position,
       
@@ -1691,9 +1826,9 @@ if (plot_type == "transects") {
     )
     
     
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     # TICKS
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     
     ticks <- pretty(
       
@@ -1728,7 +1863,9 @@ if (plot_type == "transects") {
     }
     
     
-    tick_x <- 0.08 +
+    tick_x <-
+      
+      profile_left +
       
       (
         
@@ -1744,12 +1881,12 @@ if (plot_type == "transects") {
         
       ) *
       
-      0.84
+      profile_width
     
     
-    # ------------------------------------------------
-    # TICKS
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # TICK MARKS
+    # ------------------------------------------------------------
     
     segments(
       
@@ -1768,15 +1905,15 @@ if (plot_type == "transects") {
     )
     
     
-    # ------------------------------------------------
-    # TICK VALUES
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # TICK LABELS
+    # ------------------------------------------------------------
     
     text(
       
       x = tick_x,
       
-      y = y_position - 0.28,
+      y = y_position - 0.27,
       
       labels = format(
         
@@ -1795,15 +1932,15 @@ if (plot_type == "transects") {
     )
     
     
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     # TRANSECT NAME
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     
     text(
       
-      x = 0.075,
+      x = profile_left - 0.035,
       
-      y = y_position + 0.18,
+      y = y_position,
       
       labels = transect_name,
       
@@ -1813,7 +1950,9 @@ if (plot_type == "transects") {
       
       pos = 2,
       
-      cex = 0.9
+      cex = 0.88,
+      
+      xpd = NA
       
     )
     
@@ -1821,17 +1960,19 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # PANEL 2
-  # DEPTH PROFILE
+  # BOTTOM PANEL
+  # PROFILE
   # ==============================================================
   
   par(
     
     mar = c(
+      
       5,
-      8,
-      1,
-      8
+      9,
+      2,
+      9
+      
     )
     
   )
@@ -1859,13 +2000,17 @@ if (plot_type == "transects") {
     
     xlab = "",
     
-    ylab = ""
+    ylab = "",
+    
+    xaxs = "i",
+    
+    yaxs = "i"
     
   )
   
   
   # ==============================================================
-  # DEPTH AXIS
+  # DEPTH TICKS
   # ==============================================================
   
   depth_ticks <- pretty(
@@ -1886,6 +2031,10 @@ if (plot_type == "transects") {
   ]
   
   
+  # ==============================================================
+  # DEPTH AXIS
+  # ==============================================================
+  
   axis(
     
     side = 2,
@@ -1893,8 +2042,11 @@ if (plot_type == "transects") {
     at = depth_ticks,
     
     labels = paste0(
+      
       depth_ticks,
+      
       " m"
+      
     ),
     
     las = 1,
@@ -1933,7 +2085,7 @@ if (plot_type == "transects") {
     
     side = 2,
     
-    line = 4.5,
+    line = 5,
     
     font = 2
     
@@ -1941,41 +2093,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # PROFILE BORDER
-  # ==============================================================
-  
-  segments(
-    
-    x0 = 0.08,
-    
-    y0 = 0,
-    
-    x1 = 0.08,
-    
-    y1 = max_depth,
-    
-    lwd = 1.5
-    
-  )
-  
-  
-  segments(
-    
-    x0 = 0.92,
-    
-    y0 = 0,
-    
-    x1 = 0.92,
-    
-    y1 = max_depth,
-    
-    lwd = 1.5
-    
-  )
-  
-  
-  # ==============================================================
-  # DRAW TRANSECT PROFILES
+  # DRAW COLOURED TRANSECT PROFILES
   # ==============================================================
   
   for (i in seq_along(transect_names)) {
@@ -1994,14 +2112,20 @@ if (plot_type == "transects") {
     
     
     current_min <- min(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
     current_max <- max(
+      
       current_data$value,
+      
       na.rm = TRUE
+      
     )
     
     
@@ -2026,9 +2150,9 @@ if (plot_type == "transects") {
     }
     
     
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     # NORMALIZE
-    # ------------------------------------------------
+    # ------------------------------------------------------------
     
     normalized_x <- (
       
@@ -2043,20 +2167,22 @@ if (plot_type == "transects") {
       )
     
     
-    # ------------------------------------------------
-    # PROFILE X POSITION
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # SAME HORIZONTAL SPACE AS X-AXES
+    # ------------------------------------------------------------
     
-    profile_x <- 0.08 +
+    profile_x <-
+      
+      profile_left +
       
       normalized_x *
       
-      0.84
+      profile_width
     
     
-    # ------------------------------------------------
-    # DRAW PROFILE
-    # ------------------------------------------------
+    # ------------------------------------------------------------
+    # PROFILE LINE
+    # ------------------------------------------------------------
     
     lines(
       
@@ -2074,7 +2200,36 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # RIGHT SIDE LEGEND
+  # BOTTOM HORIZONTAL LINE
+  # ==============================================================
+  #
+  # EXACTLY FROM:
+  #
+  # LEFT  = depth-axis/profile minimum
+  #
+  # RIGHT = X-axis maximum
+  #
+  # ==============================================================
+  
+  segments(
+    
+    x0 = profile_left,
+    
+    y0 = max_depth,
+    
+    x1 = profile_right,
+    
+    y1 = max_depth,
+    
+    col = "black",
+    
+    lwd = 1.5
+    
+  )
+  
+  
+  # ==============================================================
+  # LEGEND
   # ==============================================================
   
   legend(
@@ -2082,7 +2237,7 @@ if (plot_type == "transects") {
     "right",
     
     inset = c(
-      -0.20,
+      -0.22,
       0
     ),
     
@@ -2090,16 +2245,18 @@ if (plot_type == "transects") {
     
     col =
       profile_colours[
+        
         seq_along(
           transect_names
         )
+        
       ],
     
     lwd = 3,
     
     bty = "n",
     
-    title = selected_parameter,
+    title = "Parameter",
     
     xpd = TRUE,
     
@@ -2128,7 +2285,7 @@ if (plot_type == "transects") {
     
     side = 3,
     
-    line = -0.5,
+    line = 0.2,
     
     font = 2,
     
@@ -2145,7 +2302,7 @@ if (plot_type == "transects") {
   
   
   # ==============================================================
-  # MESSAGE
+  # OUTPUT MESSAGE
   # ==============================================================
   
   cat(
@@ -2182,7 +2339,7 @@ if (plot_type == "transects") {
   )
   
   cat(
-    "\nTIFF saved in:\n"
+    "\nTIFF saved at:\n"
   )
   
   cat(
@@ -2194,5 +2351,5 @@ if (plot_type == "transects") {
 
 
 # ================================================================
-# END OF CODE
+# END OF SCRIPT
 # ================================================================
