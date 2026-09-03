@@ -121,7 +121,7 @@ gebco_file <- file.choose()
 # 3. MANUAL MAP EXTENT
 # ============================================================
 
-map_lon_min <- 75
+map_lon_min <- 74.5
 map_lon_max <- 79
 
 map_lat_min <- 7
@@ -141,11 +141,11 @@ max_depth <- 2000
 # 5. CONTOUR SETTINGS
 # ============================================================
 
-contour_interval <- 200
+contour_label_interval<- 250
 
-contour_label_interval <- 400
+contour_interval<- 500
 
-contour_line_size <- 0.30
+contour_line_size <- 0.50
 
 contour_label_size <- 3.0
 
@@ -164,19 +164,19 @@ selected_contour_levels <- c(10, 20, 30, 50, 100, 200, 500)
 
 selected_contour_colours <- c(
   
-  "10"  = "red",
+  "10"  = "#C83E4D",
   
-  "20"  = "green",
+  "20"  = "#3A8F6B",
   
-  "30"  = "orange",
+  "30"  = "#D98C2B",
   
-  "50"  = "pink",
+  "50"  = "#D95F8D",
   
-  "100" = "brown",
+  "100" = "#8B654A",
   
-  "200" = "grey40",
+  "200" = "#765A8A",
   
-  "500" = "black"
+  "500" = "#3F3F46"
   
 )
 
@@ -187,7 +187,7 @@ selected_contour_line_size <- 0.45
 # 6. SAMPLING POINT SETTINGS
 # ============================================================
 
-sampling_point_size <- 3.5
+sampling_point_size <- 2.0
 
 sampling_point_stroke <- 0.8
 
@@ -1205,15 +1205,15 @@ map_plot <- map_plot +
         
         0,
         
-        250,
-        
         500,
         
         1000,
         
         1500,
         
-        2000
+        2000,
+        
+        2500
         
       )
       
