@@ -124,7 +124,7 @@ gebco_file <- file.choose()
 map_lon_min <- 74.5
 map_lon_max <- 79
 
-map_lat_min <- 7
+map_lat_min <- 6.8
 map_lat_max <- 12
 
 
@@ -134,22 +134,22 @@ map_lat_max <- 12
 
 min_depth <- 0
 
-max_depth <- 2000
+max_depth <- 2500
 
 
 # ============================================================
 # 5. CONTOUR SETTINGS
 # ============================================================
 
-contour_label_interval<- 250
+#contour_label_interval<- 250
 
-contour_interval<- 500
+#contour_interval<- 500
 
 contour_line_size <- 0.50
 
-contour_label_size <- 3.0
+#contour_label_size <- 3.0
 
-contour_label_skip <- 4
+#contour_label_skip <- 4
 
 
 # ---- Selected highlighted contours (own colour each) ----
@@ -174,20 +174,20 @@ selected_contour_colours <- c(
   
   "100" = "#8B654A",
   
-  "200" = "#765A8A",
+  "200" = "#B57AC3",
   
   "500" = "#3F3F46"
   
 )
 
-selected_contour_line_size <- 0.45
+selected_contour_line_size <- 0.50
 
 
 # ============================================================
 # 6. SAMPLING POINT SETTINGS
 # ============================================================
 
-sampling_point_size <- 2.0
+sampling_point_size <- 1.5
 
 sampling_point_stroke <- 0.8
 
@@ -342,11 +342,11 @@ scale_bar_width_hint <- 0.25
 # 12. OUTPUT SETTINGS
 # ============================================================
 
-output_width <- 10
+output_width <- 8
 
-output_height <- 8
+output_height <- 9
 
-output_dpi <- 600
+output_dpi <- 1200
 
 
 # ============================================================
@@ -852,29 +852,16 @@ cat(
 # ============================================================
 # 29. CONTOUR LEVELS
 # ============================================================
-
-contour_levels <- seq(
-  
-  contour_interval,
-  
-  max_depth,
-  
-  by = contour_interval
-  
-)
-
-
-label_levels <- seq(
-  
-  contour_label_interval,
-  
-  max_depth,
-  
-  by = contour_label_interval
-  
-)
-
-
+#contour_levels <- seq(
+  #contour_interval,
+  #max_depth,
+ # by = contour_interval
+#)
+#label_levels <- seq(
+  #contour_label_interval,
+  #max_depth,
+  #by = contour_label_interval
+#)
 # ============================================================
 # 30. LOAD LAND
 # ============================================================
@@ -995,10 +982,6 @@ if (any(label_data$TransectNumber == label_data$Transect)) {
   
 }
 
-
-# ============================================================
-# 33. APPLY MANUAL LABEL POSITIONS
-# ============================================================
 
 # ============================================================
 # 33. APPLY MANUAL LABEL POSITIONS
@@ -1237,7 +1220,9 @@ map_plot <- map_plot +
       
       1500,
       
-      2000
+      2000,
+      
+      2500
       
     ),
     
@@ -1251,7 +1236,9 @@ map_plot <- map_plot +
       
       "1500",
       
-      "2000+"
+      "2000",
+      
+      "2500+"
       
     ),
     
@@ -1268,70 +1255,70 @@ map_plot <- map_plot +
 # 38. CONTOUR LINES
 # ============================================================
 
-map_plot <- map_plot +
+#map_plot <- map_plot +
   
-  geom_contour(
+  #geom_contour(
     
-    data = bathymetry_df,
+    #data = bathymetry_df,
     
-    aes(
+    #aes(
       
-      x = x,
+     # x = x,
       
-      y = y,
+     # y = y,
       
-      z = PlotDepth
+    #  z = PlotDepth
       
-    ),
+   # ),
     
-    breaks = contour_levels,
+   # breaks = contour_levels,
     
-    colour = "grey30",
+    #colour = "grey30",
     
-    linewidth = contour_line_size,
+   # linewidth = contour_line_size,
     
-    alpha = 0.75,
+   # alpha = 0.75,
     
-    na.rm = TRUE
+   # na.rm = TRUE
     
-  )
+  #)
 
 
 # ============================================================
 # 39. CONTOUR LABELS
 # ============================================================
 
-map_plot <- map_plot +
+#map_plot <- map_plot +
   
-  metR::geom_text_contour(
+  #metR::geom_text_contour(
     
-    data = bathymetry_df,
+    #data = bathymetry_df,
     
-    aes(
+    #aes(
       
-      x = x,
+     # x = x,
       
-      y = y,
+      #y = y,
       
-      z = PlotDepth
+     # z = PlotDepth
       
-    ),
+   # ),
     
-    breaks = label_levels,
+   # breaks = label_levels,
     
-    colour = "grey20",
+   # colour = "grey20",
     
-    size = contour_label_size,
+   # size = contour_label_size,
     
-    stroke = 0.15,
+   # stroke = 0.15,
     
-    check_overlap = TRUE,
+    #check_overlap = TRUE,
     
-    skip = contour_label_skip,
+    #skip = contour_label_skip,
     
-    na.rm = TRUE
+    #na.rm = TRUE
     
-  )
+  #)
 
 
 # ============================================================
@@ -1440,9 +1427,9 @@ map_plot <- map_plot +
     
     stroke = sampling_point_stroke,
     
-    fill = "white",
+    fill = "red",
     
-    colour = "black"
+    colour = "white"
     
   )
 
@@ -2009,3 +1996,4 @@ cat("\n\n")
 
 
 cat("====================================================\n")
+
