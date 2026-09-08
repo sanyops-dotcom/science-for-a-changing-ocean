@@ -237,8 +237,8 @@ h3{
 <h1>Resources</h1>
 
 <p class="intro">
-Open scientific tools, R code and applications for oceanographic analysis.
-Each resource can have its own description and download button.
+Explore open R tools, models, sample datasets, and practical resources designed to support 
+oceanographic data analysis, visualization, and research.
 </p>
 
 
@@ -253,7 +253,7 @@ Each resource can have its own description and download button.
 <h2>SOMS Global Statistics Analyzer</h2>
 
 <p>
-The <strong>SOMS Global Statistics Analyzer</strong> is an R-based tool for
+The <strong>Global Statistics Analyzer</strong> is an R-based tool for
 calculating overall statistical values from multiple Excel data files. It
 automatically reads all Excel files in a selected folder, combines the
 values of the chosen parameter columns, and calculates the
@@ -402,20 +402,14 @@ DOWNLOAD R CODE
 <h2>SUTTU SOMS</h2>
 
 <p>
-<strong>SUTTU SOMS (Sanyo’s Ocean Monitoring Suite)</strong> is an oceanographic data analysis and mapping tool designed to convert station-based environmental observations into scientifically useful spatial maps and validation outputs.
+<strong>SUTTU SOMS</strong> is an oceanographic data analysis and mapping tool designed to convert 
+station-based environmental observations into scientifically useful spatial maps and validation outputs.
 </p>
 
 <p>
-The system supports data processing, spatial interpolation using <strong>IDW</strong>, publication-quality map generation, and <strong>LOOCV (Leave-One-Out Cross-Validation)</strong> for evaluating interpolation performance. It is designed to help researchers visualize the spatial distribution of oceanographic and environmental parameters while clearly distinguishing measured observations from model-based estimates.
-</p>
-
-<p>
-SUTTU SOMS can be useful for researchers working with marine chemistry, oceanography, environmental monitoring, field observations, and station-based datasets. The workflow includes automated processing, batch map generation, quality-control statistics, validation plots, and final reporting.
-</p>
-
-<p>
-<strong>Input:</strong> Station-based Excel data with geographic coordinates and measured parameters.<br>
-<strong>Output:</strong> High-resolution TIFF maps, LOOCV validation results, residual plots, and summary reports.
+The system supports data processing, spatial interpolation using <strong>IDW</strong>, and publication-quality map generation 
+for evaluating interpolation performance. It is designed to help researchers visualize the spatial distribution of 
+oceanographic and environmental parameters while clearly distinguishing measured observations from model-based estimates.
 </p>
 
 </section>
@@ -471,29 +465,29 @@ SUTTU SOMS can be useful for researchers working with marine chemistry, oceanogr
   <h3>How to use</h3>
 
   <ol>
-    <li>
+    <p>
       Prepare an Excel file containing the transect name, depth, and
       parameter columns.
-    </li>
-    <li>
+    </p>
+    <p>
       Open the R code in RStudio and run it.
-    </li>
-    <li>
+    </p>
+    <p>
       Select your Excel file when prompted.
-    </li>
-    <li>
+    </p>
+    <p>
       Enter the station name, such as <strong>S1</strong>, in the
       <code>selected_transect</code> field.
-    </li>
-    <li>
+    </p>
+    <p>
       Enter the exact Excel column name of the parameter you want to
       plot in <code>parameter_column</code>.
-    </li>
-    <li>
+    </p>
+    <p>
       The code automatically identifies the stations and available
       depths, performs IDW interpolation, applies the bathymetry mask,
       and generates the vertical section.
-    </li>
+    </p>
   </ol>
 
   <p>
@@ -560,72 +554,45 @@ is displayed using a colour scale, making it easier to identify spatial and
 vertical patterns within the water column.
 </p>
 
-<p>
-<strong>IDW (Inverse Distance Weighting)</strong> interpolation is used to
-estimate parameter values between the observed data points. The
-interpolation is restricted by the available observations, and a
-<strong>bathymetry mask</strong> is applied so that values are not displayed
-below the deepest observed depth at each station. This helps produce a
-realistic representation of the sampled water column without unnecessary
-extrapolation below the observed ocean bottom.
-</p>
-
-<p>
-The code can be used for parameters such as dissolved oxygen, temperature,
-nutrients, TPAE, TPAH, or other numerical oceanographic measurements
-available in the Excel dataset. Missing parameter observations are not
-treated as zero; instead, they are retained and represented using a
-<strong>circle with a small cross</strong>, clearly distinguishing missing
-observations from measured values.
-</p>
-
 <h3>How to use</h3>
 
 <ol>
 
-<li>
+<p>
 Prepare an Excel file containing the <strong>Station Name</strong>,
 <strong>depth (m)</strong>, and the parameter columns to be plotted.
-</li>
+</p>
 
-<li>
+<p>
 Make sure the station names follow the required format, such as
 <strong>T1 S1, T1 S2, T1 S3</strong>, etc.
-</li>
+</p>
 
-<li>
+<p>
 Open the R code in <strong>RStudio</strong> and run the script.
-</li>
+</p>
 
-<li>
+<p>
 Select your Excel file when prompted.
-</li>
+</p>
 
-<li>
+<p>
 Set the required transect in
 <code>selected_transect</code>, for example <code>"T1"</code>.
-</li>
+</p>
 
-<li>
+<p>
 Enter the exact Excel column name of the parameter you want to plot in
 <code>parameter_column</code>, for example
 <code>"DO(mg/L)"</code> or <code>"Tem(°C)"</code>.
-</li>
-
-<li>
-Run the complete script. The stations are automatically arranged,
-the IDW interpolation is performed, and the bathymetry mask is applied.
-</li>
-
-</ol>
+</p>
 
 <p>
-The resulting vertical section provides a convenient way to examine
-horizontal changes between stations together with vertical changes through
-the water column. The generated figure can be used for oceanographic data
-analysis, research reports, presentations, cruise reports, theses, and
-scientific publications.
+Run the complete script. The stations are automatically arranged,
+the IDW interpolation is performed, and the bathymetry mask is applied.
 </p>
+
+</ol>
 
 <p>
 <strong>Input:</strong> Station-based Excel data containing station names,
@@ -823,10 +790,13 @@ shows how the selected parameter changes through the water column.
 
     <div class="code03-text">
 
-      <p>
-Sampling Location &amp; Bathymetry Map. Used to create a clear map of
-oceanographic sampling locations together with the bathymetry of the
-selected study region.
+<p>
+<strong>Sampling Location &amp; Bathymetry Map</strong> 
+</p>
+
+<p>        
+It is used to create a clear map of oceanographic sampling locations 
+together with the bathymetry of the selected study region.
 </p>
 
 <p>
