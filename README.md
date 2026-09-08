@@ -1,1 +1,0 @@
-Science for a Changing Ocean is a personal ocean-science website created to share scientific notes, oceanographic knowledge, research resources, data analysis tools, and R codes. The website is developed as an evolving collection of ocean science information, notes, and applications. New content, resources, and tools will be added progressively as the project develops.
