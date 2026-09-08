@@ -451,20 +451,18 @@ SUTTU SOMS can be useful for researchers working with marine chemistry, oceanogr
 
 <section class="resource">
 
-  <h2>Transect-wise Vertical Section Profiler</h2>
+  <h2>Station-wise Vertical Section Profiler</h2>
 
   <p>
     This R code creates a vertical section profile of oceanographic
-    parameters along a single transect. It displays multiple stations
-    along the transect on the X-axis and depth on the Y-axis, producing
+    parameters along a single station. It displays multiple transect
+    along the station on the X-axis and depth on the Y-axis, producing
     an ODV-style view of the vertical distribution of a selected
     parameter.
   </p>
 
   <p>
-    The profile can be used to visualize parameters such as dissolved
-    oxygen, temperature, TPAE, TPAH, nutrients, or other measured
-    oceanographic variables. IDW (Inverse Distance Weighting) is used
+    IDW (Inverse Distance Weighting) is used
     to interpolate between observed data points, while the deeper
     region below the available observations is masked to represent
     the ocean bathymetry rather than extrapolated.
@@ -474,7 +472,7 @@ SUTTU SOMS can be useful for researchers working with marine chemistry, oceanogr
 
   <ol>
     <li>
-      Prepare an Excel file containing the station name, depth, and
+      Prepare an Excel file containing the transect name, depth, and
       parameter columns.
     </li>
     <li>
@@ -484,7 +482,7 @@ SUTTU SOMS can be useful for researchers working with marine chemistry, oceanogr
       Select your Excel file when prompted.
     </li>
     <li>
-      Enter the transect name, such as <strong>T1</strong>, in the
+      Enter the station name, such as <strong>S1</strong>, in the
       <code>selected_transect</code> field.
     </li>
     <li>
