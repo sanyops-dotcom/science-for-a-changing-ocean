@@ -6,117 +6,238 @@
 <title>Resources | Science for a Changing Ocean</title>
 
 <style>
+:root{
+    --bg-top:#061a24;
+    --bg-bottom:#0b2b3a;
+    --card-bg:rgba(255,255,255,.05);
+    --card-border:rgba(255,255,255,.14);
+    --accent:#5ec9c3;
+    --accent-soft:rgba(94,201,195,.15);
+    --text-main:#eaf3f6;
+    --text-body:#c6d8de;
+    --radius:14px;
+}
+
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box
+    box-sizing:border-box;
 }
 
 body{
-    font-family:Arial,sans-serif;
-    background:#020b12;
-    color:white;
-    min-height:100vh
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg-top) 0%,var(--bg-bottom) 100%) fixed;
+    color:var(--text-main);
+    min-height:100vh;
+    line-height:1.6;
 }
 
 .page{
-    max-width:1000px;
+    max-width:1100px;
     margin:auto;
-    padding:120px 40px 80px
+    padding:110px 40px 90px;
 }
 
+/* Header */
+
 h1{
-    font-size:48px;
-    margin-bottom:20px;
-    letter-spacing:2px
+    font-size:46px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:16px;
+    text-align:center;
+}
+
+.title-underline{
+    width:70px;
+    height:3px;
+    background:var(--accent);
+    margin:0 auto 34px;
+    border-radius:2px;
 }
 
 .intro{
-    font-size:18px;
-    line-height:1.8;
-    color:#d4e2e9;
-    margin-bottom:45px
+    font-size:17px;
+    line-height:1.85;
+    color:var(--text-body);
+    margin-bottom:60px;
+    text-align:center;
+    max-width:720px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
+/* Resource cards */
+
 .resource{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.18);
-    padding:30px;
-    margin-bottom:25px
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--radius);
+    padding:36px 40px;
+    margin-bottom:32px;
+    backdrop-filter:blur(6px);
+    transition:border-color .2s ease;
+}
+
+.resource:hover{
+    border-color:rgba(94,201,195,.4);
+}
+
+.eyebrow{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:16px;
+    font-weight:600;
 }
 
 h2{
-    font-size:27px;
-    margin-bottom:15px
+    font-size:25px;
+    font-weight:700;
+    margin-bottom:16px;
+    color:var(--text-main);
 }
 
 h3{
-    font-size:21px;
-    margin-top:30px;
-    margin-bottom:12px
+    font-size:18px;
+    font-weight:700;
+    margin-top:26px;
+    margin-bottom:10px;
+    color:var(--accent);
+}
+
+h4{
+    font-size:16px;
+    font-weight:700;
+    margin-top:20px;
+    margin-bottom:8px;
+    color:var(--text-main);
 }
 
 .resource p{
-    font-size:17px;
-    line-height:1.8;
-    color:#d4e2e9;
-    margin-bottom:22px
+    font-size:16px;
+    line-height:1.85;
+    color:var(--text-body);
+    margin-bottom:18px;
 }
 
-/* R CODE 03 TWO-COLUMN LAYOUT */
+.resource ul,
+.resource ol{
+    margin:0 0 18px 22px;
+    color:var(--text-body);
+}
 
-.code03-content{
+.resource li{
+    font-size:16px;
+    line-height:1.85;
+    margin-bottom:8px;
+}
+
+.resource code{
+    background:rgba(255,255,255,.1);
+    padding:2px 6px;
+    border-radius:4px;
+    color:var(--accent);
+    font-size:14px;
+}
+
+/* Layout: content grid used for every resource with an image */
+
+.content-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
+    grid-template-columns:1.1fr 1fr;
+    gap:36px;
     align-items:center;
 }
 
-.code03-text{
+.content-text{
     display:flex;
     flex-direction:column;
     justify-content:center;
+    min-width:0;
 }
 
-.code03-image{
+.content-image-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.content-image{
     width:100%;
-    max-height:360px;
+    max-height:340px;
     object-fit:contain;
     display:block;
-    border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;
+    border:1px solid var(--card-border);
+    background:rgba(0,0,0,.15);
+}
+
+.image-caption{
+    font-size:13px;
+    color:var(--text-body);
+    text-align:center;
+    opacity:.75;
 }
 
 /* Buttons */
 
+.button-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
+}
+
 .button{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     width:max-content;
-    padding:12px 28px;
-    border:1px solid white;
-    color:white;
+    padding:11px 24px;
+    border:1px solid var(--accent);
+    border-radius:6px;
+    color:var(--accent);
     text-decoration:none;
     cursor:pointer;
     background:transparent;
-    font-size:14px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+    transition:all .2s ease;
 }
 
 .button:hover{
-    background:white;
-    color:black
+    background:var(--accent);
+    color:#04141a;
 }
 
 .back{
-    margin-top:20px
+    margin-top:30px;
+    border-color:rgba(255,255,255,.5);
+    color:var(--text-main);
+}
+
+.back:hover{
+    background:var(--text-main);
+    color:#04141a;
 }
 
 /* Instructions */
 
 .instructions{
     display:none;
-    margin-top:20px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.15);
-    padding:30px;
+    margin-top:26px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--radius);
+    padding:40px;
 }
 
 .instructions.show{
@@ -125,32 +246,32 @@ h3{
 
 .instructions p{
     font-size:16px;
-    line-height:1.8;
-    color:#d4e2e9;
+    line-height:1.85;
+    color:var(--text-body);
     margin-bottom:18px;
 }
 
 .instructions ul,
 .instructions ol{
     margin:10px 0 20px 25px;
-    color:#d4e2e9;
+    color:var(--text-body);
 }
 
 .instructions li{
     font-size:16px;
-    line-height:1.8;
+    line-height:1.85;
     margin-bottom:6px;
 }
 
 .instructions strong{
-    color:white;
+    color:var(--text-main);
 }
 
 .instructions code{
     background:rgba(255,255,255,.1);
     padding:3px 6px;
-    border-radius:3px;
-    color:white;
+    border-radius:4px;
+    color:var(--accent);
 }
 
 .instructions table{
@@ -161,27 +282,28 @@ h3{
 
 .instructions th,
 .instructions td{
-    border:1px solid rgba(255,255,255,.2);
+    border:1px solid var(--card-border);
     padding:12px 15px;
     text-align:left;
 }
 
 .instructions th{
     background:rgba(255,255,255,.08);
-    color:white;
+    color:var(--text-main);
 }
 
 .instructions td{
-    color:#d4e2e9;
+    color:var(--text-body);
 }
 
 .important-note{
-    border-left:3px solid white;
+    border-left:3px solid var(--accent);
     padding:15px 20px;
     margin:20px 0 25px;
-    background:rgba(255,255,255,.05);
-    color:#d4e2e9;
-    line-height:1.8;
+    background:rgba(94,201,195,.08);
+    color:var(--text-body);
+    line-height:1.85;
+    border-radius:0 8px 8px 0;
 }
 
 .checklist{
@@ -196,35 +318,65 @@ h3{
 .checklist li::before{
     content:"✓";
     margin-right:10px;
-    color:white;
+    color:var(--accent);
+    font-weight:700;
 }
 
+.instructions-toggle-wrap{
+    text-align:center;
+    margin-top:10px;
+}
 
 /* MOBILE */
 
-@media (max-width:700px){
+@media (max-width:760px){
 
     .page{
-        padding:80px 20px 60px
+        padding:80px 20px 60px;
     }
 
     h1{
-        font-size:38px
+        font-size:32px;
     }
 
-    .code03-content{
+    .intro{
+        font-size:16px;
+        margin-bottom:40px;
+    }
+
+    .resource{
+        padding:26px 22px;
+        margin-bottom:22px;
+    }
+
+    h2{
+        font-size:21px;
+    }
+
+    .content-grid{
         grid-template-columns:1fr;
+        gap:22px;
     }
 
-    .code03-image{
-        max-height:300px;
+    .content-image-wrap{
         order:2;
     }
 
-    .code03-text{
+    .content-text{
         order:1;
     }
 
+    .content-image{
+        max-height:260px;
+    }
+
+    .button{
+        width:100%;
+    }
+
+    .instructions{
+        padding:26px 22px;
+    }
 }
 
 </style>
@@ -235,9 +387,10 @@ h3{
 <main class="page">
 
 <h1>Resources</h1>
+<div class="title-underline"></div>
 
 <p class="intro">
-Explore open R tools, models, sample datasets, and practical resources designed to support 
+Explore open R tools, models, sample datasets, and practical resources designed to support
 oceanographic data analysis, visualization, and research.
 </p>
 
@@ -246,10 +399,7 @@ oceanographic data analysis, visualization, and research.
 
 <section class="resource">
 
-<h2>R Code 01</h2>
-
-<section class="resource">
-
+<span class="eyebrow">R Code 01</span>
 <h2>SOMS Global Statistics Analyzer</h2>
 
 <p>
@@ -279,20 +429,10 @@ parameter columns.
 statistics for each selected parameter.
 </p>
 
-</section>
-
-<a class="button"
-   href="R-code-01/code-01.R"
-   download="code-01.R">
-DOWNLOAD R CODE
-</a>
-
-<a class="button"
-   href="R-code-01/Model_excel.xlsx"
-   download="Model_excel.xlsx"
-   style="margin-top:12px;">
-DOWNLOAD EXCEL MODEL
-</a>
+<div class="button-row">
+<a class="button" href="R-code-01/code-01.R" download="code-01.R">Download R Code</a>
+<a class="button" href="R-code-01/Model_excel.xlsx" download="Model_excel.xlsx">Download Excel Model</a>
+</div>
 
 </section>
 
@@ -301,10 +441,7 @@ DOWNLOAD EXCEL MODEL
 
 <section class="resource">
 
-<h2>R Code 02</h2>
-
-<section class="resource">
-
+<span class="eyebrow">R Code 02</span>
 <h2>Excel Lookup &amp; Merge Tool</h2>
 
 <p>
@@ -371,19 +508,16 @@ Download the completed Excel file.
 
 </ol>
 
-<p>
+<div class="important-note">
 <strong>Important:</strong> Nothing is uploaded to an external server. The
 tool runs locally on your own machine, and your Excel files remain on your
 computer throughout the process. Each merge operation creates a new output
 file, so your original spreadsheets are never overwritten.
-</p>
+</div>
 
-</section>
-
-
-<a class="button" href="R-code-02/code-02.R" download="code-02.R">
-DOWNLOAD R CODE
-</a>
+<div class="button-row">
+<a class="button" href="R-code-02/code-02.R" download="code-02.R">Download R Code</a>
+</div>
 
 </section>
 
@@ -391,42 +525,35 @@ DOWNLOAD R CODE
 
 <section class="resource">
 
-<h2>R Code 03</h2>
+<span class="eyebrow">R Code 03</span>
 
-<div class="code03-content">
+<div class="content-grid">
 
-    <div class="code03-text">
+    <div class="content-text">
 
-       <section class="resource">
+    <h2>SUTTU SOMS</h2>
 
-<h2>SUTTU SOMS</h2>
+    <p>
+    <strong>SUTTU SOMS</strong> is an oceanographic data analysis and mapping tool designed to convert
+    station-based environmental observations into scientifically useful spatial maps and validation outputs.
+    </p>
 
-<p>
-<strong>SUTTU SOMS</strong> is an oceanographic data analysis and mapping tool designed to convert 
-station-based environmental observations into scientifically useful spatial maps and validation outputs.
-</p>
+    <p>
+    The system supports data processing, spatial interpolation using <strong>IDW</strong>, and publication-quality map generation
+    for evaluating interpolation performance. It is designed to help researchers visualize the spatial distribution of
+    oceanographic and environmental parameters while clearly distinguishing measured observations from model-based estimates.
+    </p>
 
-<p>
-The system supports data processing, spatial interpolation using <strong>IDW</strong>, and publication-quality map generation 
-for evaluating interpolation performance. It is designed to help researchers visualize the spatial distribution of 
-oceanographic and environmental parameters while clearly distinguishing measured observations from model-based estimates.
-</p>
-
-</section>
-
-
-        <a class="button"
-           href="R-code-03/code-03.R"
-           download="code-03.R">
-        DOWNLOAD R CODE
-        </a>
+    <div class="button-row">
+    <a class="button" href="R-code-03/code-03.R" download="code-03.R">Download R Code</a>
+    </div>
 
     </div>
 
-    <div>
+    <div class="content-image-wrap">
         <img src="R-code-03/code-03-preview.png"
              alt="Example oceanographic map generated using Suttu SOMS V2"
-             class="code03-image">
+             class="content-image">
     </div>
 
 </div>
@@ -437,85 +564,56 @@ oceanographic and environmental parameters while clearly distinguishing measured
 
 <section class="resource">
 
-<h2>R Code 04</h2>
+<span class="eyebrow">R Code 04</span>
 
-<div class="code03-content">
+<div class="content-grid">
 
-    <div class="code03-text">
+    <div class="content-text">
 
-<section class="resource">
+    <h2>Station-wise Vertical Section Profiler</h2>
 
-  <h2>Station-wise Vertical Section Profiler</h2>
-
-  <p>
+    <p>
     This R code creates a vertical section profile of oceanographic
     parameters along a single station. It displays multiple transect
     along the station on the X-axis and depth on the Y-axis, producing
     an ODV-style view of the vertical distribution of a selected
     parameter.
-  </p>
+    </p>
 
-  <p>
+    <p>
     IDW (Inverse Distance Weighting) is used
     to interpolate between observed data points, while the deeper
     region below the available observations is masked to represent
     the ocean bathymetry rather than extrapolated.
-  </p>
+    </p>
 
-  <h3>How to use</h3>
+    <h3>How to use</h3>
 
-  <ol>
-    <p>
-      Prepare an Excel file containing the transect name, depth, and
-      parameter columns.
-    </p>
-    <p>
-      Open the R code in RStudio and run it.
-    </p>
-    <p>
-      Select your Excel file when prompted.
-    </p>
-    <p>
-      Enter the station name, such as <strong>S1</strong>, in the
-      <code>selected_transect</code> field.
-    </p>
-    <p>
-      Enter the exact Excel column name of the parameter you want to
-      plot in <code>parameter_column</code>.
-    </p>
-    <p>
-      The code automatically identifies the stations and available
-      depths, performs IDW interpolation, applies the bathymetry mask,
-      and generates the vertical section.
-    </p>
-  </ol>
+    <ol>
+    <li>Prepare an Excel file containing the transect name, depth, and parameter columns.</li>
+    <li>Open the R code in RStudio and run it.</li>
+    <li>Select your Excel file when prompted.</li>
+    <li>Enter the station name, such as <strong>S1</strong>, in the <code>selected_transect</code> field.</li>
+    <li>Enter the exact Excel column name of the parameter you want to plot in <code>parameter_column</code>.</li>
+    <li>The code automatically identifies the stations and available depths, performs IDW interpolation, applies the bathymetry mask, and generates the vertical section.</li>
+    </ol>
 
-  <p>
+    <p>
     The resulting profile can be saved as a high-resolution TIFF image
     for further analysis, reports, presentations, or publication.
-  </p>
+    </p>
 
-</section>
-
-        <a class="button"
-           href="R-code-04/code-04.R"
-           download="code-04.R">
-        DOWNLOAD R CODE
-        </a>
-
-        <a class="button"
-           href="R-code-04/Model_excel_vertical%20profiler.xlsx"
-           download="Model_excel_vertical profiler.xlsx"
-           style="margin-top:12px;">
-        DOWNLOAD EXCEL TEMPLATE
-        </a>
+    <div class="button-row">
+    <a class="button" href="R-code-04/code-04.R" download="code-04.R">Download R Code</a>
+    <a class="button" href="R-code-04/Model_excel_vertical%20profiler.xlsx" download="Model_excel_vertical profiler.xlsx">Download Excel Template</a>
+    </div>
 
     </div>
 
-    <div>
+    <div class="content-image-wrap">
         <img src="R-code-04/vertical%20profile%20model.png"
              alt="Example vertical oceanographic profile generated using R Code 04"
-             class="code03-image">
+             class="content-image">
     </div>
 
 </div>
@@ -526,106 +624,66 @@ oceanographic and environmental parameters while clearly distinguishing measured
 
 <section class="resource">
 
-<h2>R Code 05</h2>
+<span class="eyebrow">R Code 05</span>
 
-<div class="code03-content">
+<div class="content-grid">
 
-    <div class="code03-text">
+    <div class="content-text">
 
-<section class="resource-description">
+    <h2>Transect-wise Vertical Section Profiler</h2>
 
-<h2>Transect-wise Vertical Section Profiler</h2>
+    <p>
+    The <strong>Transect-wise Vertical Section Profiler</strong> is an R-based
+    tool designed to generate vertical section profiles of oceanographic
+    parameters along a selected transect. It converts station-based
+    observations into a clear <strong>ODV-style vertical section</strong>,
+    allowing the variation of a selected parameter across stations and depth
+    to be visualized in a single figure.
+    </p>
 
-<p>
-The <strong>Transect-wise Vertical Section Profiler</strong> is an R-based
-tool designed to generate vertical section profiles of oceanographic
-parameters along a selected transect. It converts station-based
-observations into a clear <strong>ODV-style vertical section</strong>,
-allowing the variation of a selected parameter across stations and depth
-to be visualized in a single figure.
-</p>
+    <p>
+    The tool is particularly useful for oceanographic datasets where multiple
+    stations are sampled along a transect at different depths. The stations are
+    automatically arranged in numerical order along the X-axis, while
+    <strong>depth</strong> is represented on the Y-axis. The measured parameter
+    is displayed using a colour scale, making it easier to identify spatial and
+    vertical patterns within the water column.
+    </p>
 
-<p>
-The tool is particularly useful for oceanographic datasets where multiple
-stations are sampled along a transect at different depths. The stations are
-automatically arranged in numerical order along the X-axis, while
-<strong>depth</strong> is represented on the Y-axis. The measured parameter
-is displayed using a colour scale, making it easier to identify spatial and
-vertical patterns within the water column.
-</p>
+    <h3>How to use</h3>
 
-<h3>How to use</h3>
+    <ol>
+    <li>Prepare an Excel file containing the <strong>Station Name</strong>, <strong>depth (m)</strong>, and the parameter columns to be plotted.</li>
+    <li>Make sure the station names follow the required format, such as <strong>T1 S1, T1 S2, T1 S3</strong>, etc.</li>
+    <li>Open the R code in <strong>RStudio</strong> and run the script.</li>
+    <li>Select your Excel file when prompted.</li>
+    <li>Set the required transect in <code>selected_transect</code>, for example <code>"T1"</code>.</li>
+    <li>Enter the exact Excel column name of the parameter you want to plot in <code>parameter_column</code>, for example <code>"DO(mg/L)"</code> or <code>"Tem(°C)"</code>.</li>
+    <li>Run the complete script. The stations are automatically arranged, the IDW interpolation is performed, and the bathymetry mask is applied.</li>
+    </ol>
 
-<ol>
+    <p>
+    <strong>Input:</strong> Station-based Excel data containing station names,
+    depths, and measured oceanographic parameters.
+    </p>
 
-<p>
-Prepare an Excel file containing the <strong>Station Name</strong>,
-<strong>depth (m)</strong>, and the parameter columns to be plotted.
-</p>
+    <p>
+    <strong>Output:</strong> An ODV-style transect vertical section showing
+    observations, IDW-interpolated parameter distribution, and the
+    bathymetry-limited water column.
+    </p>
 
-<p>
-Make sure the station names follow the required format, such as
-<strong>T1 S1, T1 S2, T1 S3</strong>, etc.
-</p>
-
-<p>
-Open the R code in <strong>RStudio</strong> and run the script.
-</p>
-
-<p>
-Select your Excel file when prompted.
-</p>
-
-<p>
-Set the required transect in
-<code>selected_transect</code>, for example <code>"T1"</code>.
-</p>
-
-<p>
-Enter the exact Excel column name of the parameter you want to plot in
-<code>parameter_column</code>, for example
-<code>"DO(mg/L)"</code> or <code>"Tem(°C)"</code>.
-</p>
-
-<p>
-Run the complete script. The stations are automatically arranged,
-the IDW interpolation is performed, and the bathymetry mask is applied.
-</p>
-
-</ol>
-
-<p>
-<strong>Input:</strong> Station-based Excel data containing station names,
-depths, and measured oceanographic parameters.
-</p>
-
-<p>
-<strong>Output:</strong> An ODV-style transect vertical section showing
-observations, IDW-interpolated parameter distribution, and the
-bathymetry-limited water column.
-</p>
-
-</section>
-
-        <a class="button"
-           href="R-code-05/code-05.R"
-           download="code-05.R">
-        DOWNLOAD R CODE
-        </a>
-
-        <a class="button"
-           href="R-code-05/Transect-profile-model.xlsx"
-           download="Transect-profile-model.xlsx"
-           style="margin-top:12px;">
-        DOWNLOAD EXCEL TEMPLATE
-        </a>
+    <div class="button-row">
+    <a class="button" href="R-code-05/code-05.R" download="code-05.R">Download R Code</a>
+    <a class="button" href="R-code-05/Transect-profile-model.xlsx" download="Transect-profile-model.xlsx">Download Excel Template</a>
+    </div>
 
     </div>
 
-    <div>
+    <div class="content-image-wrap">
         <img src="R-code-05/transect-profile-model.png"
              alt="Example transect profile generated using R Code 05"
-             class="code03-image">
+             class="content-image">
     </div>
 
 </div>
@@ -636,266 +694,173 @@ bathymetry-limited water column.
 
 <section class="resource">
 
-<h2>R Code 06</h2>
+<span class="eyebrow">R Code 06</span>
 
-<div class="code03-content">
+<div class="content-grid">
 
-    <div class="code03-text">
+    <div class="content-text">
 
-<section class="resource-description">
+    <h2>Multi-Parameter / Multi-Transect Water Column Profile</h2>
 
-<h3>Multi-Parameter / Multi-Transect Water Column Profile</h3>
-
-<p>
-This R code is designed to create <strong>water-column depth profiles</strong>
-from oceanographic data stored in an Excel file. Multiple parameters or
-multiple transects can be represented in a single profile figure, allowing
-changes in measured values with increasing water depth to be compared easily.
-</p>
-
-<p>
-The code uses a <strong>multi-panel layout</strong>, with the individual
-parameter or transect axes arranged above the main depth-profile panel.
-Each profile is assigned a different colour, and its corresponding axis,
-parameter/transect name, and profile line use the same colour for easy
-identification.
-</p>
-
-<h4>What can be plotted?</h4>
-
-<p>
-The code supports two types of profile representation:
-</p>
-
-<ul>
     <p>
-        <strong>Multiple Parameters at One Station:</strong>
-        Select a station such as <strong>T1 S1</strong> and plot several
-        parameters such as DO, pH, Temperature, Salinity, or other parameters
-        available in the Excel file.
+    This R code is designed to create <strong>water-column depth profiles</strong>
+    from oceanographic data stored in an Excel file. Multiple parameters or
+    multiple transects can be represented in a single profile figure, allowing
+    changes in measured values with increasing water depth to be compared easily.
     </p>
 
-<p>
-    <strong>One Parameter Across Multiple Transects:</strong>
-    Select a station number such as <strong>S1</strong> and a parameter
-    such as DO, then compare the profiles from different transects such as
-    T1, T2, T3, T4, and so on.
-</p>
+    <p>
+    The code uses a <strong>multi-panel layout</strong>, with the individual
+    parameter or transect axes arranged above the main depth-profile panel.
+    Each profile is assigned a different colour, and its corresponding axis,
+    parameter/transect name, and profile line use the same colour for easy
+    identification.
+    </p>
 
-</ul>
+    <h4>What can be plotted?</h4>
 
-<h4>How to use the code</h4>
+    <ul>
+    <li><strong>Multiple Parameters at One Station:</strong> Select a station such as <strong>T1 S1</strong> and plot several parameters such as DO, pH, Temperature, Salinity, or other parameters available in the Excel file.</li>
+    <li><strong>One Parameter Across Multiple Transects:</strong> Select a station number such as <strong>S1</strong> and a parameter such as DO, then compare the profiles from different transects such as T1, T2, T3, T4, and so on.</li>
+    </ul>
 
-<ol>
-    <li>
-        Install <strong>R</strong> and <strong>RStudio</strong> on your
-        computer.
-    </li>
+    <h4>How to use the code</h4>
 
-<li>
-    Prepare an Excel file containing at least two columns:
-    <strong>Station</strong> and <strong>Depth</strong>. The remaining
-    numeric columns are treated as oceanographic parameters.
-</li>
+    <ol>
+    <li>Install <strong>R</strong> and <strong>RStudio</strong> on your computer.</li>
+    <li>Prepare an Excel file containing at least two columns: <strong>Station</strong> and <strong>Depth</strong>. The remaining numeric columns are treated as oceanographic parameters.</li>
+    <li>Station names should follow the format used in the dataset, for example <strong>T1 S1</strong>, <strong>T1 S2</strong>, <strong>T2 S1</strong>, etc.</li>
+    <li>Open the R code in RStudio and run it. When prompted, select the required Excel file.</li>
+    <li>Choose the required operating mode and modify the station, parameter, or transect selections in the designated section of the code.</li>
+    <li>Run the complete script. The code automatically determines the minimum and maximum values of each selected parameter or transect from the Excel data and creates the corresponding X-axis.</li>
+    </ol>
 
-<li>
-    Station names should follow the format used in the dataset, for
-    example <strong>T1 S1</strong>, <strong>T1 S2</strong>,
-    <strong>T2 S1</strong>, etc.
-</li>
+    <h4>Colour coding</h4>
 
-<li>
-    Open the R code in RStudio and run it. When prompted, select the
-    required Excel file.
-</li>
+    <p>
+    The first selected profile is displayed in <strong>red</strong>, followed by
+    <strong>green</strong>, <strong>blue</strong>, <strong>orange</strong>,
+    <strong>pink</strong>, <strong>brown</strong>, <strong>violet</strong>,
+    <strong>sky blue</strong>, <strong>yellow</strong>, and
+    <strong>grey</strong>. The same colour is used for the corresponding axis,
+    label, and profile line.
+    </p>
 
-<li>
-    Choose the required operating mode and modify the station, parameter,
-    or transect selections in the designated section of the code.
-</li>
+    <p>
+    A maximum of <strong>10 profiles</strong> is recommended to keep the figure
+    clear and readable.
+    </p>
 
-<li>
-    Run the complete script. The code automatically determines the
-    minimum and maximum values of each selected parameter or transect from
-    the Excel data and creates the corresponding X-axis.
-</li>
+    <h4>Output</h4>
 
-</ol>
+    <p>
+    The water-column profile is generated as a high-resolution
+    <strong>TIFF image</strong>. The output file is automatically saved in the
+    <strong>same folder as the selected Excel file</strong>.
+    </p>
 
-<h4>Colour coding</h4>
+    <p>
+    The depth axis starts at <strong>0 m at the top</strong> and increases
+    downward according to the depths available in the dataset. Each profile
+    shows how the selected parameter changes through the water column.
+    </p>
 
-<p>
-The first selected profile is displayed in <strong>red</strong>, followed by
-<strong>green</strong>, <strong>blue</strong>, <strong>orange</strong>,
-<strong>pink</strong>, <strong>brown</strong>, <strong>violet</strong>,
-<strong>sky blue</strong>, <strong>yellow</strong>, and
-<strong>grey</strong>. The same colour is used for the corresponding axis,
-label, and profile line.
-</p>
-
-<p>
-A maximum of <strong>10 profiles</strong> is recommended to keep the figure
-clear and readable.
-</p>
-
-<h4>Output</h4>
-
-<p>
-The water-column profile is generated as a high-resolution
-<strong>TIFF image</strong>. The output file is automatically saved in the
-<strong>same folder as the selected Excel file</strong>.
-</p>
-
-<p>
-The depth axis starts at <strong>0 m at the top</strong> and increases
-downward according to the depths available in the dataset. Each profile
-shows how the selected parameter changes through the water column.
-</p>
-
-</section>
-
-
-        <a class="button"
-           href="R-code-06/line-plot.R"
-           download="line-plot.R">
-        DOWNLOAD R CODE
-        </a>
-
-        <a class="button"
-           href="R-code-06/line%20profile.xlsx"
-           download="line profile.xlsx"
-           style="margin-top:12px;">
-        DOWNLOAD EXCEL TEMPLATE
-        </a>
+    <div class="button-row">
+    <a class="button" href="R-code-06/line-plot.R" download="line-plot.R">Download R Code</a>
+    <a class="button" href="R-code-06/line%20profile.xlsx" download="line profile.xlsx">Download Excel Template</a>
+    </div>
 
     </div>
 
-    <div>
+    <div class="content-image-wrap">
         <img src="R-code-06/Multi_Parameter_Profile.png"
              alt="Example multi-parameter oceanographic profile generated using R Code 06"
-             class="code03-image">
+             class="content-image">
     </div>
 
 </div>
 
 </section>
-    
+
 <!-- R CODE 07 -->
 
 <section class="resource">
 
-<h2>R Code 07</h2>
+<span class="eyebrow">R Code 07</span>
 
-<div class="code03-content">
+<div class="content-grid">
 
-    <div class="code03-text">
+    <div class="content-text">
 
-<p>
-<strong>Sampling Location &amp; Bathymetry Map</strong> 
-</p>
+    <h2>Sampling Location &amp; Bathymetry Map</h2>
 
-<p>        
-It is used to create a clear map of oceanographic sampling locations 
-together with the bathymetry of the selected study region.
-</p>
+    <p>
+    It is used to create a clear map of oceanographic sampling locations
+    together with the bathymetry of the selected study region.
+    </p>
 
-<p>
-When working with oceanographic or marine datasets, sampling stations are
-often distributed across different transects and geographic locations.
-Viewing these stations together with the underlying seafloor depth can
-provide important spatial context for understanding the sampling area.
-</p>
+    <p>
+    When working with oceanographic or marine datasets, sampling stations are
+    often distributed across different transects and geographic locations.
+    Viewing these stations together with the underlying seafloor depth can
+    provide important spatial context for understanding the sampling area.
+    </p>
 
-<p>
-The <strong>Sampling Location &amp; Bathymetry Map</strong> combines sampling
-coordinates from an Excel file with bathymetric data from a
-<strong>GEBCO NetCDF (.nc)</strong> file. It plots the transect and station
-locations, such as <strong>T4 S2</strong>, over a bathymetry map where water
-depth is represented using a light-blue to dark-blue colour scale. Increasing
-depth is shown by progressively darker shades, with depths of
-<strong>2000 m and above</strong> represented by the darkest colour.
-</p>
+    <p>
+    The <strong>Sampling Location &amp; Bathymetry Map</strong> combines sampling
+    coordinates from an Excel file with bathymetric data from a
+    <strong>GEBCO NetCDF (.nc)</strong> file. It plots the transect and station
+    locations, such as <strong>T4 S2</strong>, over a bathymetry map where water
+    depth is represented using a light-blue to dark-blue colour scale. Increasing
+    depth is shown by progressively darker shades, with depths of
+    <strong>2000 m and above</strong> represented by the darkest colour.
+    </p>
 
-<p>
-The map also includes <strong>bathymetric contour lines</strong> with selected
-depth markings, allowing the underwater topography of the study region to be
-interpreted easily. Transect and station labels are kept separate from the
-sampling points, so their positions can be adjusted independently to avoid
-overlapping points or other map features.
-</p>
+    <p>
+    The map also includes <strong>bathymetric contour lines</strong> with selected
+    depth markings, allowing the underwater topography of the study region to be
+    interpreted easily. Transect and station labels are kept separate from the
+    sampling points, so their positions can be adjusted independently to avoid
+    overlapping points or other map features.
+    </p>
 
-<p>
-<strong>How to Use:</strong>
-</p>
+    <h3>How to use</h3>
 
-<ol>
-<li>Make sure <strong>R and RStudio</strong> are installed on your computer.</li>
+    <ol>
+    <li>Make sure <strong>R and RStudio</strong> are installed on your computer.</li>
+    <li>Prepare an <strong>Excel file</strong> containing the transect/station name, latitude, and longitude. Station names should be written in a format such as <strong>T4 S2</strong>.</li>
+    <li>Prepare a suitable <strong>GEBCO NetCDF (.nc)</strong> bathymetry file covering the study region.</li>
+    <li>Open the <strong>Sampling Location &amp; Bathymetry Map R code</strong> in RStudio and run the code.</li>
+    <li>When prompted, select the <strong>Excel file</strong> followed by the <strong>GEBCO NetCDF file</strong>.</li>
+    <li>Set the required <strong>latitude and longitude limits</strong> in the code to define the area to be mapped.</li>
+    <li>Run the complete code. The sampling locations, bathymetry, contours, depth markings, north arrow, and scale bar will be generated automatically.</li>
+    </ol>
 
-<li>
-Prepare an <strong>Excel file</strong> containing the transect/station name,
-latitude, and longitude. Station names should be written in a format such as
-<strong>T4 S2</strong>.
-</li>
+    <p>
+    The position of individual transect and station labels can be adjusted
+    without changing the actual sampling coordinates. This allows the map to be
+    kept clear and readable even when several sampling locations are close
+    together.
+    </p>
 
-<li>
-Prepare a suitable <strong>GEBCO NetCDF (.nc)</strong> bathymetry file covering
-the study region.
-</li>
+    <p>
+    The final map is saved as both a <strong>PNG</strong> and a
+    <strong>high-resolution TIFF</strong> file in the same folder as the Excel
+    file. These outputs can be used for research papers, cruise reports, theses,
+    presentations, and other scientific documentation.
+    </p>
 
-<li>
-Open the <strong>Sampling Location &amp; Bathymetry Map R code</strong> in
-RStudio and run the code.
-</li>
-
-<li>
-When prompted, select the <strong>Excel file</strong> followed by the
-<strong>GEBCO NetCDF file</strong>.
-</li>
-
-<li>
-Set the required <strong>latitude and longitude limits</strong> in the code
-to define the area to be mapped.
-</li>
-
-<li>
-Run the complete code. The sampling locations, bathymetry, contours, depth
-markings, north arrow, and scale bar will be generated automatically.
-</li>
-</ol>
-
-<p>
-The position of individual transect and station labels can be adjusted
-without changing the actual sampling coordinates. This allows the map to be
-kept clear and readable even when several sampling locations are close
-together.
-</p>
-
-<p>
-The final map is saved as both a <strong>PNG</strong> and a
-<strong>high-resolution TIFF</strong> file in the same folder as the Excel
-file. These outputs can be used for research papers, cruise reports, theses,
-presentations, and other scientific documentation.
-</p>
-
-        <a class="button"
-           href="R-code-07/Sampling_Location_map.R"
-           download="Sampling_Location_map.R">
-        DOWNLOAD R CODE
-        </a>
-
-        <a class="button"
-           href="R-code-07/sampling site.xlsx"
-           download="sampling site.xlsx"
-           style="margin-top:12px;">
-        DOWNLOAD EXCEL TEMPLATE
-        </a>
+    <div class="button-row">
+    <a class="button" href="R-code-07/Sampling_Location_map.R" download="Sampling_Location_map.R">Download R Code</a>
+    <a class="button" href="R-code-07/sampling site.xlsx" download="sampling site.xlsx">Download Excel Template</a>
+    </div>
 
     </div>
 
-    <div>
+    <div class="content-image-wrap">
         <img src="R-code-07/Sampling_Location_Bathymetry_Map.png"
              alt="Sampling Location Bathymetry Map generated using R Code 07"
-             class="code03-image">
+             class="content-image">
     </div>
 
 </div>
@@ -907,11 +872,12 @@ presentations, and other scientific documentation.
 
 <section class="resource">
 
-<h2>R Code 08</h2>
+<span class="eyebrow">R Code 08</span>
+<h2>Station Name Sorter</h2>
 
 <p>
-Station Name Sorter. Used to arrange disordered station names into the
-required station sequence automatically.
+Used to arrange disordered station names into the required station sequence
+automatically.
 </p>
 
 <p>
@@ -936,23 +902,15 @@ measurements and other information belonging to each station remain correctly
 associated with that station.
 </p>
 
-<p>
-<strong>How to Use:</strong>
-</p>
+<h3>How to use</h3>
 
 <ol>
 <li>Make sure <strong>R and RStudio</strong> are installed on your computer.</li>
-
 <li>Open the <strong>station_name_sorter.R</strong> file in RStudio.</li>
-
 <li>Run the code.</li>
-
 <li>Select the Excel file containing your station data when prompted.</li>
-
 <li>The code will automatically arrange the stations.</li>
-
-<li>A new file named <strong>arranged_station_data.xlsx</strong> will be created
-in the same folder as the original Excel file.</li>
+<li>A new file named <strong>arranged_station_data.xlsx</strong> will be created in the same folder as the original Excel file.</li>
 </ol>
 
 <p>
@@ -960,116 +918,71 @@ The original Excel file is not modified, allowing you to safely check the
 arranged dataset before using it for further analysis.
 </p>
 
-<a class="button"
-   href="station_name_sorter.R"
-   download="station_name_sorter.R">
-DOWNLOAD R CODE
-</a>
+<div class="button-row">
+<a class="button" href="station_name_sorter.R" download="station_name_sorter.R">Download R Code</a>
+<a class="button" href="name_disordered.xlsx" download="name_disordered.xlsx">Download Disordered Excel</a>
+<a class="button" href="name_ordered.xlsx" download="name_ordered.xlsx">Download Ordered Excel</a>
+</div>
 
-<a class="button"
-   href="name_disordered.xlsx"
-   download="name_disordered.xlsx"
-   style="margin-left:10px;">
-DOWNLOAD DISORDERED EXCEL
-</a>
-
-<a class="button"
-   href="name_ordered.xlsx"
-   download="name_ordered.xlsx"
-   style="margin-left:10px;">
-DOWNLOAD ORDERED EXCEL
-</a>
 </section>
 
-    
+
 <!-- R CODE 09 -->
 
 <section class="resource">
 
-<h2>R Code 09</h2>
+<span class="eyebrow">R Code 09</span>
+<h2>CTD Depth Extractor</h2>
 
-<div class="code03-content">
+<p>
+The <strong>CTD Depth Extractor</strong> is an R-based tool designed
+to extract oceanographic observations from CTD
+<strong>.ASC files</strong> at selected standard depths.
+It automatically identifies the CTD parameters, separates the
+downcast and upcast data, and selects the observations closest to
+the required depths.
+</p>
 
-<div class="code03-text">
+<p>
+The tool extracts observations at standard depths including
+<strong>5, 10, 20, 30, 50, 75, 100, 200, 500, 750, and
+1000 m</strong>, while also retaining the actual minimum and
+maximum depths of the CTD cast. Both downcast and upcast
+observations are retained separately.
+</p>
 
-    <section class="resource-description">
+<p>
+The selected observations are automatically exported as an
+<strong>Excel file</strong>, making the output easier to use for
+further oceanographic analysis, plotting, and data processing.
+</p>
 
-        <h2>CTD Depth Extractor</h2>
+<p>
+<strong>Input:</strong> CTD <code>.ASC</code> data file.<br>
+<strong>Output:</strong> Excel file containing observations
+selected at the required depths.
+</p>
 
-        <p>
-        The <strong>CTD Depth Extractor</strong> is an R-based tool designed
-        to extract oceanographic observations from CTD
-        <strong>.ASC files</strong> at selected standard depths.
-        It automatically identifies the CTD parameters, separates the
-        downcast and upcast data, and selects the observations closest to
-        the required depths.
-        </p>
-
-        <p>
-        The tool extracts observations at standard depths including
-        <strong>5, 10, 20, 30, 50, 75, 100, 200, 500, 750, and
-        1000 m</strong>, while also retaining the actual minimum and
-        maximum depths of the CTD cast. Both downcast and upcast
-        observations are retained separately.
-        </p>
-
-        <p>
-        The selected observations are automatically exported as an
-        <strong>Excel file</strong>, making the output easier to use for
-        further oceanographic analysis, plotting, and data processing.
-        </p>
-
-        <p>
-        <strong>Input:</strong> CTD <code>.ASC</code> data file.<br>
-        <strong>Output:</strong> Excel file containing observations
-        selected at the required depths.
-        </p>
-
-        <div class="important-note">
-
-            <strong>Note:</strong>
-            The sample <code>.ASC</code> file provided below can be used
-            to test the R code. The accompanying Excel file is an example
-            of the depth-extracted output generated from the CTD data.
-
-        </div>
-
-    </section>
-
-
-    <a class="button"
-       href="R-Code-09/DEPTH%20EXTRACTOR.R"
-       download="DEPTH EXTRACTOR.R">
-    DOWNLOAD R CODE
-    </a>
-
-
-    <a class="button"
-       href="R-Code-09/SBE19plus_01907906_2024_02_09_0633XYZ.asc"
-       download="SBE19plus_01907906_2024_02_09_0633XYZ.asc"
-       style="margin-top:12px;">
-    DOWNLOAD SAMPLE ASC FILE
-    </a>
-
-
-    <a class="button"
-       href="R-Code-09/SBE19plus_01907906_2024_02_09_0633XYZ_selected_depths.xlsx"
-       download="SBE19plus_01907906_2024_02_09_0633XYZ_selected_depths.xlsx"
-       style="margin-top:12px;">
-    DOWNLOAD EXCEL MODEL
-    </a>
-
+<div class="important-note">
+<strong>Note:</strong>
+The sample <code>.ASC</code> file provided below can be used
+to test the R code. The accompanying Excel file is an example
+of the depth-extracted output generated from the CTD data.
 </div>
 
+<div class="button-row">
+<a class="button" href="R-Code-09/DEPTH%20EXTRACTOR.R" download="DEPTH EXTRACTOR.R">Download R Code</a>
+<a class="button" href="R-Code-09/SBE19plus_01907906_2024_02_09_0633XYZ.asc" download="SBE19plus_01907906_2024_02_09_0633XYZ.asc">Download Sample ASC File</a>
+<a class="button" href="R-Code-09/SBE19plus_01907906_2024_02_09_0633XYZ_selected_depths.xlsx" download="SBE19plus_01907906_2024_02_09_0633XYZ_selected_depths.xlsx">Download Excel Model</a>
 </div>
 
 </section>
-  
+
 <!-- READ INSTRUCTIONS BUTTON -->
 
-<button class="button" onclick="toggleInstructions()">
-READ INSTRUCTIONS
-</button>
+<div class="instructions-toggle-wrap">
+<button class="button" onclick="toggleInstructions()">Read Instructions</button>
+</div>
 
 
 <!-- INSTRUCTIONS -->
@@ -1088,17 +1001,8 @@ instructions below before running the code.
 <h3>1. Requirements</h3>
 
 <ul>
-
-<li>
-<strong>R</strong> and <strong>RStudio</strong> must be installed and
-working on your computer.
-</li>
-
-<li>
-No programming knowledge is required to run the code if the required
-files are prepared correctly.
-</li>
-
+<li><strong>R</strong> and <strong>RStudio</strong> must be installed and working on your computer.</li>
+<li>No programming knowledge is required to run the code if the required files are prepared correctly.</li>
 </ul>
 
 
@@ -1110,27 +1014,14 @@ Choose and download the R code required for your analysis.
 </p>
 
 <ul>
-
-<li>
-<strong>R Code 01</strong> – Global min-max analyser for obtaining
-minimum, maximum and standard deviation values from multiple Excel files.
-</li>
-
-<li>
-<strong>R Code 02</strong> – Excel merge tool for combining parameters
-from different Excel files, provided the relevant names are the same.
-</li>
-
-<li>
-<strong>R Code 03</strong> – Suttu SOMS V2 for generating oceanographic
-maps, with minimum and maximum values determined automatically.
-</li>
-
+<li><strong>R Code 01</strong> – Global min-max analyser for obtaining minimum, maximum and standard deviation values from multiple Excel files.</li>
+<li><strong>R Code 02</strong> – Excel merge tool for combining parameters from different Excel files, provided the relevant names are the same.</li>
+<li><strong>R Code 03</strong> – Suttu SOMS V2 for generating oceanographic maps, with minimum and maximum values determined automatically.</li>
 </ul>
 
 <p>
 Download the required <code>.R</code> file by clicking the corresponding
-<strong>DOWNLOAD R CODE</strong> button above. Open the downloaded file
+<strong>Download R Code</strong> button above. Open the downloaded file
 and it should automatically open in <strong>RStudio</strong>.
 </p>
 
@@ -1170,38 +1061,18 @@ following order:
 
 
 <table>
-
 <thead>
 <tr>
 <th>Column</th>
 <th>Required Information</th>
 </tr>
 </thead>
-
 <tbody>
-
-<tr>
-<td>1</td>
-<td>Station Name</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>Latitude</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>Longitude</td>
-</tr>
-
-<tr>
-<td>4 onwards</td>
-<td>Other required parameters</td>
-</tr>
-
+<tr><td>1</td><td>Station Name</td></tr>
+<tr><td>2</td><td>Latitude</td></tr>
+<tr><td>3</td><td>Longitude</td></tr>
+<tr><td>4 onwards</td><td>Other required parameters</td></tr>
 </tbody>
-
 </table>
 
 
@@ -1212,36 +1083,20 @@ file as a template and maintain the same column order and format.
 
 
 <div class="important-note">
-
 <strong>Important:</strong>
 The current version of the mapping code depends on this fixed column
 arrangement. Changing the order of the first three columns, or
 substantially changing the format, may cause the code to produce errors
 or incorrect results. This is currently a limitation of the code.
-
 </div>
 
 
 <h3>5. Output</h3>
 
 <ul>
-
-<li>
-Once the code runs successfully, the generated
-<strong>maps and profiles</strong> are automatically saved as
-<code>.tif</code> files.
-</li>
-
-<li>
-The output files are saved according to the output location specified
-by the code.
-</li>
-
-<li>
-TIFF files can be opened using standard image viewers or scientific
-software that supports the format.
-</li>
-
+<li>Once the code runs successfully, the generated <strong>maps and profiles</strong> are automatically saved as <code>.tif</code> files.</li>
+<li>The output files are saved according to the output location specified by the code.</li>
+<li>TIFF files can be opened using standard image viewers or scientific software that supports the format.</li>
 </ul>
 
 
@@ -1254,24 +1109,10 @@ The codes are open for everyone to download, modify and reuse.
 <p>You are welcome to:</p>
 
 <ul>
-
-<li>
-Modify the code for different datasets.
-</li>
-
-<li>
-Adapt it to generate other types of oceanographic plots.
-</li>
-
-<li>
-Improve or extend its functionality.
-</li>
-
-<li>
-Use it as a starting point for your own analysis and visualization
-workflows.
-</li>
-
+<li>Modify the code for different datasets.</li>
+<li>Adapt it to generate other types of oceanographic plots.</li>
+<li>Improve or extend its functionality.</li>
+<li>Use it as a starting point for your own analysis and visualization workflows.</li>
 </ul>
 
 <p>
@@ -1313,28 +1154,15 @@ collaborative research</strong>, particularly in the field of oceanography.
 <h3>Before You Start</h3>
 
 <ul class="checklist">
-
 <li>R is installed and working.</li>
-
 <li>RStudio is installed and working.</li>
-
 <li>The required <code>.R</code> code has been downloaded.</li>
-
 <li>The Excel file follows the required format.</li>
-
 <li>Station Name is in Column 1.</li>
-
 <li>Latitude is in Column 2.</li>
-
 <li>Longitude is in Column 3.</li>
-
 <li>The required GEBCO file is available.</li>
-
-<li>
-Files are selected in the correct order:
-<strong>Excel → GEBCO</strong>.
-</li>
-
+<li>Files are selected in the correct order: <strong>Excel → GEBCO</strong>.</li>
 </ul>
 
 </section>
@@ -1342,9 +1170,9 @@ Files are selected in the correct order:
 
 <!-- BACK BUTTON -->
 
-<a class="button back" href="index.html">
-BACK
-</a>
+<div class="instructions-toggle-wrap">
+<a class="button back" href="index.html">Back</a>
+</div>
 
 
 </main>
@@ -1353,11 +1181,8 @@ BACK
 <script>
 
 function toggleInstructions(){
-
     const instructions = document.getElementById("instructions");
-
     instructions.classList.toggle("show");
-
 }
 
 </script>
