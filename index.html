@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Science for a Changing Ocean</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 
 *{
@@ -13,10 +17,16 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    background:#020b12;
-    color:white;
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    font-weight:300;
+    background:#010407;
+    color:#eaf3f6;
+    overflow-x:hidden;
 }
 
 /* Navigation */
@@ -30,22 +40,109 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:rgba(0,0,0,0.3);
-    backdrop-filter:blur(10px);
+    background:rgba(2,10,15,0.35);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
     z-index:1000;
 }
 
 .logo{
-    font-size:24px;
-    letter-spacing:2px;
-    font-weight:500;
+    font-family:'Playfair Display',serif;
     font-style:italic;
+    font-weight:500;
+    font-size:23px;
+    letter-spacing:1px;
 }
 
 nav a{
-    color:white;
+    color:#dce9ee;
     text-decoration:none;
-    margin-left:30px;
+    margin-left:34px;
+    font-size:14px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    position:relative;
+    padding-bottom:4px;
+    transition:color .25s ease;
+}
+
+nav a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:0%;
+    height:1px;
+    background:#5ec9c3;
+    transition:width .3s ease;
+}
+
+nav a:hover{
+    color:#5ec9c3;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* Depth gauge */
+
+.depth-gauge{
+    position:fixed;
+    right:26px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:900;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:26px;
+}
+
+.depth-gauge .tick{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    opacity:.35;
+    transition:opacity .4s ease;
+}
+
+.depth-gauge .tick.active{
+    opacity:1;
+}
+
+.depth-gauge .tick-label{
+    font-size:11px;
+    letter-spacing:1px;
+    color:#9fc3c9;
+    white-space:nowrap;
+}
+
+.depth-gauge .tick.active .tick-label{
+    color:#5ec9c3;
+}
+
+.depth-gauge .tick-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#4a6a72;
+}
+
+.depth-gauge .tick.active .tick-dot{
+    background:#5ec9c3;
+    box-shadow:0 0 8px rgba(94,201,195,.9);
+}
+
+.depth-gauge .line{
+    position:absolute;
+    right:2.5px;
+    top:6px;
+    bottom:6px;
+    width:1px;
+    background:rgba(255,255,255,.12);
+    z-index:-1;
 }
 
 /* Main Sections */
@@ -56,9 +153,9 @@ section{
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:80px 40px;
+    padding:100px 40px;
     position:relative;
-    background:#020b12;
+    overflow:hidden;
 }
 
 .overlay{
@@ -67,111 +164,181 @@ section{
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.3);
+    background:rgba(0,0,0,0.18);
+    z-index:1;
 }
 
 .content{
     position:relative;
     max-width:850px;
-    z-index:2;
+    z-index:3;
 }
 
 h1{
-    font-size:56px;
-    line-height:1.15;
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:58px;
+    line-height:1.2;
     margin-bottom:25px;
-    letter-spacing:2px;
+    letter-spacing:.5px;
 }
 
 h2{
-    font-size:42px;
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:40px;
     margin-bottom:20px;
+    letter-spacing:.5px;
 }
 
 h3{
-    font-size:28px;
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:26px;
+    color:#5ec9c3;
 }
 
 p{
-    font-size:20px;
-    line-height:1.7;
-    margin-bottom:30px;
+    font-size:18px;
+    line-height:1.8;
+    margin-bottom:28px;
+    color:#cfe1e6;
+    font-weight:300;
+}
+
+.small-text{
+    color:#a9c2ca;
 }
 
 .button{
     display:inline-block;
-    padding:15px 35px;
-    border:1px solid white;
-    color:white;
+    padding:14px 36px;
+    border:1px solid rgba(94,201,195,.6);
+    border-radius:2px;
+    color:#eaf3f6;
     text-decoration:none;
-    background:transparent;
+    background:rgba(94,201,195,.06);
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:all .3s ease;
 }
 
 .button:hover{
-    background:white;
-    color:black;
+    background:#5ec9c3;
+    border-color:#5ec9c3;
+    color:#04141a;
+    box-shadow:0 0 22px rgba(94,201,195,.45);
 }
 
-/* Backgrounds
-   All major homepage sections use the same base colour.
-   Subtle radial lighting keeps the sections visually interesting
-   without giving each section a different overall colour.
-*/
-
-/* HERO */
+/* Ocean depth backgrounds — progressively darker with depth */
 
 .hero{
     background:
-    radial-gradient(
-        circle at top right,
-        rgba(15,76,92,0.45),
-        #020b12 70%
-    );
+        radial-gradient(circle at 80% 8%, rgba(120,210,210,.22), transparent 45%),
+        linear-gradient(180deg,#0d2b3c 0%, #071b28 100%);
 }
-
-/* RESOURCES */
 
 .resources{
-    background:
-    radial-gradient(
-        circle at bottom left,
-        rgba(18,59,82,0.40),
-        #020b12 70%
-    );
+    background:linear-gradient(180deg,#0a2130 0%, #06161f 100%);
 }
-
-/* BLOG */
 
 .blog{
-    background:
-    radial-gradient(
-        circle at center,
-        rgba(23,56,74,0.40),
-        #020b12 70%
-    );
+    background:linear-gradient(180deg,#071822 0%, #04121a 100%);
 }
-
-/* ABOUT */
-
-.about{
-    background:#020b12;
-}
-
-/* CONTACT */
-
-.contact{
-    background:#020b12;
-}
-
-/* Suggestion Box */
 
 .suggestions{
+    background:linear-gradient(180deg,#051119 0%, #030d13 100%);
     min-height:auto;
-    background:#020b12;
-    padding:80px 30px 70px;
+    padding:90px 30px 80px;
 }
 
+.about{
+    background:linear-gradient(180deg,#040d13 0%, #020a0f 100%);
+}
+
+.contact{
+    background:linear-gradient(180deg,#02080d 0%, #01050a 100%);
+}
+
+footer{
+    background:#010407;
+    text-align:center;
+    padding:70px 30px 50px;
+    position:relative;
+}
+
+/* Wave dividers */
+
+.wave{
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    line-height:0;
+    z-index:2;
+}
+
+.wave svg{
+    display:block;
+    width:100%;
+    height:70px;
+}
+
+@keyframes drift{
+    0%{ transform:translateX(0); }
+    50%{ transform:translateX(-2%); }
+    100%{ transform:translateX(0); }
+}
+
+.wave svg{
+    animation:drift 14s ease-in-out infinite;
+}
+
+/* Bubbles */
+
+.bubbles{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:1;
+}
+
+.bubble{
+    position:absolute;
+    bottom:-40px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(94,201,195,.05));
+    opacity:.5;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+}
+
+@keyframes rise{
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+    10%{
+        opacity:.55;
+    }
+    100%{
+        transform:translateY(-620px) translateX(30px);
+        opacity:0;
+    }
+}
+
+/* Suggestion box */
+
 .suggestion-content{
+    position:relative;
+    z-index:3;
     width:100%;
     max-width:800px;
 }
@@ -181,8 +348,8 @@ p{
 }
 
 .suggestion-intro{
-    font-size:18px;
-    color:#b0c4d0;
+    font-size:17px;
+    color:#a9c2ca;
     margin-bottom:30px;
 }
 
@@ -192,24 +359,26 @@ p{
 
 .suggestion-form textarea{
     width:100%;
-    min-height:250px;
+    min-height:220px;
     resize:vertical;
     padding:20px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:4px;
     color:white;
-    font-family:Arial,sans-serif;
-    font-size:17px;
+    font-family:'Inter',Arial,sans-serif;
+    font-size:16px;
     line-height:1.6;
     outline:none;
+    transition:border-color .25s ease;
 }
 
 .suggestion-form textarea:focus{
-    border-color:rgba(255,255,255,0.7);
+    border-color:rgba(94,201,195,.6);
 }
 
 .suggestion-form textarea::placeholder{
-    color:#8ea4b0;
+    color:#72929c;
 }
 
 .suggestion-footer{
@@ -221,33 +390,30 @@ p{
 }
 
 .word-count{
-    color:#8ea4b0;
-    font-size:14px;
+    color:#72929c;
+    font-size:13px;
+    letter-spacing:.5px;
 }
 
 .suggestion-button{
     background:transparent;
     cursor:pointer;
-    font-size:15px;
+    font-size:13px;
 }
 
 /* Footer */
 
-footer{
-    background:#020b12;
-    text-align:center;
-    padding:60px 30px;
-}
-
 footer h3{
     margin-bottom:20px;
+    color:#5ec9c3;
 }
 
 footer p{
-    font-size:15px;
-    color:#b0c4d0;
+    font-size:14px;
+    color:#7f9aa2;
     max-width:900px;
     margin:0 auto;
+    line-height:1.8;
 }
 
 /* Mobile */
@@ -265,32 +431,36 @@ footer p{
 
     nav a{
         margin-left:14px;
-        font-size:14px;
+        font-size:12px;
+    }
+
+    .depth-gauge{
+        display:none;
     }
 
     section{
         min-height:60vh;
-        padding:80px 25px;
+        padding:90px 25px;
     }
 
     h1{
-        font-size:36px;
-        line-height:1.2;
-        letter-spacing:1px;
+        font-size:34px;
+        line-height:1.25;
+        letter-spacing:0;
         margin-bottom:20px;
     }
 
     h2{
-        font-size:32px;
+        font-size:29px;
     }
 
     h3{
-        font-size:25px;
+        font-size:22px;
     }
 
     p{
-        font-size:17px;
-        line-height:1.7;
+        font-size:16px;
+        line-height:1.75;
     }
 
     .content{
@@ -315,6 +485,10 @@ footer p{
         padding:50px 25px;
     }
 
+    .wave svg{
+        height:40px;
+    }
+
 }
 
 </style>
@@ -336,11 +510,36 @@ footer p{
 </header>
 
 
+<!-- DEPTH GAUGE -->
+
+<div class="depth-gauge">
+    <div class="line"></div>
+    <div class="tick" data-target="hero"><span class="tick-label">0 m · SURFACE</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="resources"><span class="tick-label">80 m</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="blog"><span class="tick-label">500 m</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="suggestions"><span class="tick-label">1,500 m</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="about"><span class="tick-label">3,000 m</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="contact"><span class="tick-label">6,000 m</span><span class="tick-dot"></span></div>
+    <div class="tick" data-target="footer-section"><span class="tick-label">11,000 m · TRENCH</span><span class="tick-dot"></span></div>
+</div>
+
+
 <!-- HERO -->
 
-<section class="hero">
+<section class="hero" id="hero">
 
     <div class="overlay"></div>
+
+    <div class="bubbles">
+        <div class="bubble" style="left:8%; width:10px; height:10px; animation-duration:9s; animation-delay:0s;"></div>
+        <div class="bubble" style="left:18%; width:6px; height:6px; animation-duration:7s; animation-delay:1.5s;"></div>
+        <div class="bubble" style="left:28%; width:14px; height:14px; animation-duration:11s; animation-delay:.5s;"></div>
+        <div class="bubble" style="left:42%; width:8px; height:8px; animation-duration:8s; animation-delay:3s;"></div>
+        <div class="bubble" style="left:58%; width:12px; height:12px; animation-duration:10s; animation-delay:2s;"></div>
+        <div class="bubble" style="left:68%; width:7px; height:7px; animation-duration:7.5s; animation-delay:4s;"></div>
+        <div class="bubble" style="left:80%; width:11px; height:11px; animation-duration:9.5s; animation-delay:1s;"></div>
+        <div class="bubble" style="left:90%; width:6px; height:6px; animation-duration:8.5s; animation-delay:2.5s;"></div>
+    </div>
 
     <div class="content">
 
@@ -365,14 +564,26 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,40 L1440,100 L0,100 Z" fill="#0a2130"></path>
+        </svg>
+    </div>
+
 </section>
 
 
 <!-- RESOURCES -->
 
-<section class="resources">
+<section class="resources" id="resources">
 
     <div class="overlay"></div>
+
+    <div class="bubbles">
+        <div class="bubble" style="left:15%; width:7px; height:7px; animation-duration:10s; animation-delay:0s;"></div>
+        <div class="bubble" style="left:50%; width:9px; height:9px; animation-duration:9s; animation-delay:2s;"></div>
+        <div class="bubble" style="left:75%; width:5px; height:5px; animation-duration:8s; animation-delay:1s;"></div>
+    </div>
 
     <div class="content">
 
@@ -397,12 +608,18 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,100 L0,100 Z" fill="#071822"></path>
+        </svg>
+    </div>
+
 </section>
 
 
 <!-- BLOG -->
 
-<section class="blog">
+<section class="blog" id="blog">
 
     <div class="overlay"></div>
 
@@ -433,12 +650,18 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,40 L1440,100 L0,100 Z" fill="#051119"></path>
+        </svg>
+    </div>
+
 </section>
 
 
 <!-- SUGGESTIONS -->
 
-<section class="suggestions">
+<section class="suggestions" id="suggestions">
 
     <div class="suggestion-content">
 
@@ -511,6 +734,12 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,100 L0,100 Z" fill="#040d13"></path>
+        </svg>
+    </div>
+
 </section>
 
 
@@ -547,6 +776,12 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,40 L1440,100 L0,100 Z" fill="#02080d"></path>
+        </svg>
+    </div>
+
 </section>
 
 
@@ -581,12 +816,18 @@ footer p{
 
     </div>
 
+    <div class="wave">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,100 L0,100 Z" fill="#010407"></path>
+        </svg>
+    </div>
+
 </section>
 
 
 <!-- FOOTER -->
 
-<footer>
+<footer id="footer-section">
 
     <p class="small-text">
         Note: Contents provided here include only basic information
@@ -619,6 +860,29 @@ suggestionBox.addEventListener('input', function(){
         words + ' / 250 words';
 
 });
+
+</script>
+
+
+<!-- DEPTH GAUGE ACTIVE STATE -->
+
+<script>
+
+const ticks = document.querySelectorAll('.depth-gauge .tick');
+const sections = Array.from(ticks).map(t => document.getElementById(t.dataset.target));
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            const id = entry.target.id;
+            ticks.forEach(t => {
+                t.classList.toggle('active', t.dataset.target === id);
+            });
+        }
+    });
+}, { threshold:0.5 });
+
+sections.forEach(sec => { if(sec) observer.observe(sec); });
 
 </script>
 
