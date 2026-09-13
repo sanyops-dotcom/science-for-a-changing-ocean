@@ -993,6 +993,68 @@ of the depth-extracted output generated from the CTD data.
 
 </section>
     
+<!-- R CODE 10 -->
+ 
+<section class="resource">
+
+<h2>R Code 10 — Cheese Fly</h2>
+
+<p>
+<strong>Cheese Fly</strong> is an interactive tool for visualizing
+oceanographic survey data as ODV-style vertical sections. It allows
+researchers to upload station data from Excel and generate depth profiles
+using inverse-distance-weighted (IDW) interpolation without manually
+editing an R script.
+</p>
+
+<p>
+The tool can display data in two ways: <strong>By Transect</strong>, showing
+stations along a selected transect with seafloor masking, or
+<strong>By Station</strong>, showing the same station across different
+transects with named locations. Parameters such as DO, temperature, TPAE,
+TPAH, and other available variables can be selected for visualization.
+</p>
+
+<p>
+<strong>How to Use:</strong>
+</p>
+
+<ol>
+<li>Upload your Excel file using the sidebar.</li>
+
+<li>Check that the <strong>Station name</strong> and
+<strong>Depth</strong> columns have been identified correctly.</li>
+
+<li>Select the <strong>Parameter</strong> you want to visualize.</li>
+
+<li>Choose either <strong>By Transect</strong> or
+<strong>By Station</strong> mode.</li>
+
+<li>In <strong>By Station</strong> mode, edit the transect-name mapping if
+new transects require different location names.</li>
+
+<li>Use <strong>Advanced Settings</strong> only when you need to modify
+IDW smoothing, grid resolution, export size, DPI, or file format.</li>
+
+<li>Click <strong>Download Plot</strong> to save the resulting figure as
+a TIFF or PNG image.</li>
+</ol>
+
+<p>
+For preparing and organizing the Excel data required by this tool, refer
+to <strong>R Code 04</strong> and <strong>R Code 05</strong> in the resources
+above.
+</p>
+
+<a class="button"
+   href="R-code-10/cheese_fly.R"
+   download="cheese_fly.R">
+DOWNLOAD CHEESE FLY
+</a>
+
+</section>
+
+
 <!-- READ INSTRUCTIONS BUTTON -->
 
 <div class="instructions-toggle-wrap">
