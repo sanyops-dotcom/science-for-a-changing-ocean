@@ -274,6 +274,63 @@ p{
     box-shadow:0 0 22px rgba(94,201,195,.45);
 }
 
+/* Maintenance Notice */
+
+.maintenance-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+    background:rgba(0,5,9,.78);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    z-index:3000;
+}
+
+.maintenance-modal.show{
+    display:flex;
+}
+
+.maintenance-box{
+    width:min(520px,100%);
+    padding:42px 34px;
+    text-align:center;
+    background:
+        linear-gradient(
+            180deg,
+            #0a2130 0%,
+            #04121a 100%
+        );
+    border:1px solid rgba(94,201,195,.45);
+    border-radius:4px;
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.55),
+        0 0 30px rgba(94,201,195,.12);
+}
+
+.maintenance-box h2{
+    margin-bottom:14px;
+    color:#f4fbfc;
+}
+
+.maintenance-box p{
+    margin-bottom:10px;
+    color:#cbe2e8;
+}
+
+.maintenance-date{
+    color:#5ec9c3 !important;
+    font-weight:500;
+    letter-spacing:1px;
+}
+
+.maintenance-close{
+    margin-top:22px;
+    cursor:pointer;
+}
+
 /* Ocean depth backgrounds — progressively darker with depth */
 
 .hero{
@@ -633,6 +690,10 @@ footer p{
         width:100%;
     }
 
+    .maintenance-box{
+        padding:34px 24px;
+    }
+
     footer{
         padding:50px 25px;
     }
@@ -765,7 +826,7 @@ footer p{
         <p>
             Before you analyse, understand.
         </p>
-        
+
         <p class="small-text">    
             Revisit the fundamental science behind the ocean processes in your data. 
             These notes are not meant to cover everything about the ocean, 
@@ -773,7 +834,7 @@ footer p{
             choose meaningful analyses and plan better ways to represent your results.
         </p>
 
-        <a class="button" href="notes.html">
+        <a class="button maintenance-button" href="notes.html">
             DISCOVER
         </a>
 
@@ -876,7 +937,7 @@ footer p{
     your raw oceanographic data into useful scientific outputs.
 </p>
 
-        <a class="button" href="resources.html">
+        <a class="button maintenance-button" href="resources.html">
             ACCESS TOOLS
         </a>
 
@@ -932,7 +993,7 @@ footer p{
         </p>
 
         <a
-            class="button"
+            class="button maintenance-button"
             href="https://deepdown11km.blogspot.com/"
             target="_blank"
             rel="noopener noreferrer"
@@ -1212,6 +1273,43 @@ footer p{
 </footer>
 
 
+<!-- MAINTENANCE NOTICE -->
+
+<div
+    class="maintenance-modal"
+    id="maintenanceModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="maintenanceTitle"
+>
+
+    <div class="maintenance-box">
+
+        <h2 id="maintenanceTitle">
+            Under Maintenance
+        </h2>
+
+        <p>
+            This section is currently under maintenance.
+        </p>
+
+        <p class="maintenance-date">
+            Available again on October 12, 2026
+        </p>
+
+        <button
+            class="button maintenance-close"
+            type="button"
+            id="maintenanceClose"
+        >
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
 <!-- WORD COUNTER -->
 
 <script>
@@ -1256,6 +1354,100 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold:0.5 });
 
 sections.forEach(sec => { if(sec) observer.observe(sec); });
+
+</script>
+
+
+<!-- MAINTENANCE BUTTON BEHAVIOUR -->
+
+<script>
+
+(function(){
+
+    /*
+       Maintenance remains active through
+       October 11, 2026.
+
+       October 11, 2026 = MAINTENANCE
+       October 12, 2026 = LINKS ACTIVE
+    */
+
+    const maintenanceUntil =
+        new Date('2026-10-12T00:00:00');
+
+    const modal =
+        document.getElementById('maintenanceModal');
+
+    const closeButton =
+        document.getElementById('maintenanceClose');
+
+    const buttons =
+        document.querySelectorAll('.maintenance-button');
+
+
+    function isUnderMaintenance(){
+
+        return new Date() < maintenanceUntil;
+
+    }
+
+
+    buttons.forEach(function(button){
+
+        button.addEventListener('click', function(event){
+
+            if(isUnderMaintenance()){
+
+                event.preventDefault();
+
+                modal.classList.add('show');
+
+                document.body.style.overflow = 'hidden';
+
+            }
+
+        });
+
+    });
+
+
+    function closeMaintenance(){
+
+        modal.classList.remove('show');
+
+        document.body.style.overflow = '';
+
+    }
+
+
+    closeButton.addEventListener(
+        'click',
+        closeMaintenance
+    );
+
+
+    modal.addEventListener('click', function(event){
+
+        if(event.target === modal){
+
+            closeMaintenance();
+
+        }
+
+    });
+
+
+    document.addEventListener('keydown', function(event){
+
+        if(event.key === 'Escape'){
+
+            closeMaintenance();
+
+        }
+
+    });
+
+})();
 
 </script>
 
