@@ -1,4 +1,5 @@
 import base64
+import hmac
 import json
 import urllib.error
 import urllib.parse
@@ -389,6 +390,29 @@ def storage_label():
 
 
 # ---------------------------------------------------------------------------
+# Optional editor password: friends can browse and download, only you can save
+# Set it in the app's secrets:  [app]  edit_password = "your-password"
+# With no password set (e.g. running locally) everything is open.
+# ---------------------------------------------------------------------------
+def edit_password():
+    try:
+        return str(st.secrets['app']['edit_password'])
+    except Exception:  # no secrets file or no [app] section
+        return ''
+
+
+def can_edit():
+    expected = edit_password()
+    if not expected:
+        return True
+    entered = st.session_state.get('editor_password_input', '')
+    return hmac.compare_digest(entered.encode('utf-8'), expected.encode('utf-8'))
+
+
+LOCKED_MESSAGE = 'Saving is locked. Enter the editor password in the sidebar to save to the library or save new tags.'
+
+
+# ---------------------------------------------------------------------------
 # New tags / seas: kept in tags.json and merged into the lists at start-up
 # ---------------------------------------------------------------------------
 EXTRA_TAG_KEYS = {'PROCESS_TAGS': 'process_tags', 'PARAMETER_TAGS': 'parameter_tags', 'SEAS': 'seas'}
@@ -438,6 +462,9 @@ def find_new_entries():
 
 def refresh():
     sync()
+    if not can_edit():
+        st.session_state.flash = ('error', LOCKED_MESSAGE)
+        return
     new = find_new_entries()
     if not new:
         st.session_state.flash = ('info', 'Nothing new to save — every tag and sea is already stored.')
@@ -484,15 +511,28 @@ def read_section(section):
     return parse_papers(store_read(SECTIONS[section]))
 
 
+def claim_key(text):
+    return ' '.join(text.lower().split())
+
+
 def save_library():
-    """Add or update every paper being edited in the chosen library file (matched by citation)."""
+    """Save the papers being edited into the chosen library file (papers are matched by citation).
+
+    Default: if the paper is already stored, only claims that are not stored yet are added, so
+    nobody's earlier claims are lost. With "replace" ticked, the stored paper is overwritten
+    (use it when you loaded a paper from the library to edit or delete claims).
+    """
     sync()
+    if not can_edit():
+        st.session_state.flash = ('error', LOCKED_MESSAGE)
+        return
     section = st.session_state.get('save_section', 'Introduction')
+    replace = bool(st.session_state.get('save_replace', False))
     filename = SECTIONS[section]
-    tally = {'added': 0, 'updated': 0, 'skipped': 0}
+    tally = {}
 
     def merge(text):
-        tally.update(added=0, updated=0, skipped=0)
+        tally.update(added=0, merged=0, replaced=0, same=0, skipped=0)
         stored = parse_papers(text)
         index = {citation_key(p['citation']): i for i, p in enumerate(stored)}
         for paper in st.session_state.data['papers']:
@@ -502,14 +542,26 @@ def save_library():
                 continue
             entry = {'citation': paper['citation'], 'region': paper['region'], 'claims': claims}
             key = citation_key(entry['citation'])
-            if key in index:
-                stored[index[key]] = entry
-                tally['updated'] += 1
-            else:
+            if key not in index:
                 index[key] = len(stored)
                 stored.append(entry)
                 tally['added'] += 1
-        if not (tally['added'] or tally['updated']):
+            elif replace:
+                stored[index[key]] = entry
+                tally['replaced'] += 1
+            else:
+                existing = stored[index[key]]
+                seen = {claim_key(c['claim']) for c in existing['claims']}
+                fresh = [c for c in claims if claim_key(c['claim']) not in seen]
+                if not fresh:
+                    tally['same'] += 1
+                    continue
+                existing['claims'] += fresh
+                for field, value in entry['region'].items():  # fill region gaps, never overwrite
+                    if value and not existing['region'].get(field):
+                        existing['region'][field] = value
+                tally['merged'] += len(fresh)
+        if not (tally['added'] or tally['merged'] or tally['replaced']):
             return None
         return json.dumps({'papers': stored}, ensure_ascii=False, indent=2) + '\n'
 
@@ -519,12 +571,21 @@ def save_library():
         st.session_state.flash = ('error', f'Could not save to {filename}: {err}')
         return
 
-    if not (tally['added'] or tally['updated']):
-        st.session_state.flash = ('warning', 'Nothing saved — each paper needs a citation and at least one claim.')
+    if not (tally['added'] or tally['merged'] or tally['replaced']):
+        if tally['same']:
+            st.session_state.flash = ('info', 'Nothing new — those claims are already in the library.')
+        else:
+            st.session_state.flash = ('warning', 'Nothing saved — each paper needs a citation and at least one claim.')
         return
-    note = f" ({tally['skipped']} paper(s) skipped: no citation or no claims)" if tally['skipped'] else ''
-    st.session_state.flash = ('success', f"Saved to {filename} in {storage_label()}: "
-                                         f"{tally['added']} added, {tally['updated']} updated.{note}")
+    parts = []
+    if tally['added']:
+        parts.append(f"{tally['added']} new paper(s)")
+    if tally['merged']:
+        parts.append(f"{tally['merged']} claim(s) added to papers already stored")
+    if tally['replaced']:
+        parts.append(f"{tally['replaced']} paper(s) replaced")
+    note = f" ({tally['skipped']} skipped: no citation or no claims)" if tally['skipped'] else ''
+    st.session_state.flash = ('success', f'Saved to {filename} in {storage_label()}: ' + ', '.join(parts) + '.' + note)
 
 
 def load_from_library():
@@ -539,6 +600,7 @@ def load_from_library():
         return
     st.session_state.data = {'papers': papers}
     st.session_state.loaded_filename = f'library / {SECTIONS[section]}'
+    st.session_state.save_replace = True  # editing a stored paper: save should replace it
     reset_widgets()
 
 
@@ -745,7 +807,8 @@ def render_footer(json_text):
     with col_paper:
         st.button('➕ Add another paper', type='primary', use_container_width=True, on_click=add_paper)
     with col_refresh:
-        st.button('🔄 Refresh (save new tags)', use_container_width=True, on_click=refresh)
+        st.button('🔄 Refresh (save new tags)', use_container_width=True, on_click=refresh,
+                  disabled=not can_edit())
     with col_download:
         st.download_button('⬇️ Download papers.json', data=json_text.encode('utf-8'),
                            file_name='papers.json', mime='application/json', use_container_width=True)
@@ -755,9 +818,14 @@ def render_footer(json_text):
         target, save = st.columns([2, 1])
         target.selectbox('Save these papers to', list(SECTIONS), key='save_section',
                          format_func=lambda name: f'{name}  →  {SECTIONS[name]}')
-        save.button('📚 Save to library', type='primary', use_container_width=True, on_click=save_library)
-        st.caption('A paper already in that file (same citation) is updated, not duplicated. '
-                   'Claims left empty are not saved. New tags are kept with the Refresh button.')
+        save.button('📚 Save to library', type='primary', use_container_width=True, on_click=save_library,
+                    disabled=not can_edit())
+        st.checkbox('Replace the stored paper instead of merging', key='save_replace',
+                    help='Off (default): if the paper is already in the file, only its new claims are added, '
+                         'so nobody’s earlier claims are lost. On: the stored paper is overwritten — use it '
+                         'after loading a paper from the library to edit or delete its claims.')
+        st.caption('Papers are matched by citation. Claims left empty are not saved. '
+                   'New tags are kept with the Refresh button.')
     with st.expander('🔎 Preview generated JSON'):
         st.code(json_text, language='json')
 
@@ -835,6 +903,11 @@ def render_sidebar():
             st.text_input('Library folder', value=LIBRARY_FOLDER, key='lib_dir_input',
                           help='Relative to this app file, or a full path.')
             st.caption(f'💻 Local: {library_dir()}')
+
+        if edit_password():
+            st.text_input('Editor password', type='password', key='editor_password_input',
+                          help='Needed to save to the library. Browsing and downloading stay open.')
+            st.caption('🔓 Saving unlocked' if can_edit() else '🔒 Read-only')
 
         if st.session_state.get('tags_error'):
             st.warning(f"Could not read {TAGS_FILE}: {st.session_state.tags_error}")
