@@ -1,2 +1,9 @@
-pip install streamlit pandas numpy openpyxl xlrd pypandoc python-docx
-
+streamlit
+pandas
+numpy
+openpyxl
+xlrd
+matplotlib
+pillow
+pypandoc_binary
+python-docx
