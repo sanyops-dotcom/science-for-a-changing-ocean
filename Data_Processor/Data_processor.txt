@@ -1,9 +1,0 @@
-streamlit
-pandas
-numpy
-openpyxl
-xlrd
-matplotlib
-pillow
-pypandoc
-python-docx
