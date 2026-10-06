@@ -1,0 +1,154 @@
+=============================================================
+  OCEAN MONITORING SYSTEM (OMS)
+  GLOBAL STATISTICS ANALYZER v2.0  -  HOW TO USE
+=============================================================
+
+WHAT IT DOES
+------------
+Calculates global statistics for one or more parameter columns
+from Excel (.xlsx) files, and saves the result as a new Excel report.
+
+For every parameter you choose, it combines the values from all
+selected files and calculates:
+  - Observations (valid numbers) and Missing values
+  - Minimum and Maximum
+  - Mean
+  - Standard deviation (sample SD, n - 1, same as R)
+  - Mean - SD and Mean + SD
+
+Text or empty cells are counted as Missing.
+
+
+FILES YOU NEED (keep them in one folder)
+----------------------------------------
+  oms_global_statistics.py     the program
+  requirements.txt             list of packages to install
+
+
+ONE-TIME SETUP  (needs internet, only once)
+-------------------------------------------
+1. Install Python from python.org (tick "Add Python to PATH").
+2. Open the folder in VS Code.
+3. Open the terminal:  Ctrl + `
+4. Go to the folder (keep the quotes if the path has spaces):
+
+     cd "d:\science for a changing ocean\01"
+
+5. Install the packages:
+
+     python -m pip install -r requirements.txt
+
+
+START THE PROGRAM  (every time)
+-------------------------------
+In the VS Code terminal, inside the folder, type:
+
+     python -m streamlit run oms_global_statistics.py
+
+The browser opens the program at  http://localhost:8501
+If it does not open, copy that address into the browser.
+
+IMPORTANT
+  - Do NOT use the Code Runner play button for this program.
+  - Do NOT type this command after ">>>". If you see ">>>", type
+    exit() first, then type the command again.
+  - Keep the terminal open while you use the program.
+  - To stop the program: click the terminal and press Ctrl + C.
+  - If Streamlit asks for an email address, just press Enter.
+
+
+HOW TO USE
+----------
+STEP 1 - Choose the working folder
+  - Click "Browse for an Excel file" and pick ANY Excel file from
+    your data folder, or paste the folder path into the box.
+  - Under "Files to analyse" choose:
+      * All Excel files in the folder   (default)
+      * Only the files I select         (tick one or more files)
+
+STEP 2 - Enter the parameter columns
+  - Column numbers start at 1. Open "Columns in the first file"
+    to see which number belongs to which parameter.
+  - Examples:
+        5             one column
+        5:12          columns 5 to 12
+        5,7,9,12      separate columns
+        5:12,15,18    a mix of both
+  - Click "Calculate global statistics".
+
+STEP 3 - Read the results
+  - A summary table shows the statistics for every parameter.
+  - Each parameter has its own tab with a histogram, and lines for
+    the mean and mean +/- SD.
+  - "Download Excel report" saves a copy of the report.
+  - "Processing log" shows what was read from every file.
+
+
+ONE FILE AND ONE COLUMN
+-----------------------
+Choose "Only the files I select", tick the one file, and enter
+one column number (for example 5). Only that column of that file
+is analysed.
+
+
+THE OUTPUT FILE
+---------------
+The report is saved in the same folder as your data:
+
+  All files in the folder : <folder name> - Global Statistics.xlsx
+  One selected file       : <file name> - Global Statistics.xlsx
+  Several selected files  : <folder name> (selected files) - Global Statistics.xlsx
+
+Columns in the report:
+  Column, Parameter, Observations, Missing, Global_Min, Global_Max,
+  Global_Mean, Global_SD, Mean_Minus_SD, Mean_Plus_SD
+
+Files with "Global Statistics" or "Global Min Max" in the name are
+never read as data, so old reports do not mix into new results.
+Excel temporary files (names starting with ~$) are ignored too.
+
+
+WORKS WITHOUT INTERNET?
+-----------------------
+Yes. After the one-time setup, the program runs completely on your
+own computer. Your Excel files are never uploaded anywhere.
+Without internet only the web fonts change to standard system
+fonts; everything else works the same.
+
+
+COMMON PROBLEMS
+---------------
+"No module named numpy" (or streamlit, pandas, openpyxl)
+    Run:  python -m pip install -r requirements.txt
+    If it still happens, in VS Code press Ctrl+Shift+P, choose
+    "Python: Select Interpreter" and pick the Python you installed
+    the packages into.
+
+"missing ScriptRunContext" messages, and no browser page
+    The program was started with the play button. Start it with
+    the "python -m streamlit run ..." command instead.
+
+SyntaxError after ">>>"
+    You are inside Python. Type exit() and press Enter, then type
+    the command again.
+
+"File does not exist"
+    You are in the wrong folder. Use the cd command from the setup
+    section, then type dir to check that oms_global_statistics.py
+    is listed.
+
+"Cannot save ... Global Statistics.xlsx"
+    The report is open in Excel. Close it and run again.
+
+"Column N does not exist"
+    The number is larger than the number of columns in the first
+    file. Check the column list in Step 2.
+
+The Browse button shows a warning
+    The file dialog is not available. Paste the folder path into
+    the box instead.
+
+A column shows a different Missing count than the R program
+    Compare one folder in both programs. Small differences can
+    appear only if the sheets contain empty formatted rows at the
+    bottom.

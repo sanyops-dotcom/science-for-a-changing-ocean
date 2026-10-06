@@ -1,0 +1,13 @@
+Run it in VS Code
+
+Open the VS Code terminal in the folder containing the file and run:
+
+pip install streamlit pypandoc python-docx
+
+Then:
+
+streamlit run MD-to-Word_converter.py
+
+It will open the converter in your browser.
+
+The app includes title page, automatic title detection, headings, tables, TOC, Times New Roman formatting, adjustable font size, line spacing, margins, headers, footers, page numbers, and automatic .docx naming based on the .md filename.

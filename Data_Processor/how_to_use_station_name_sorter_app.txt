@@ -1,0 +1,126 @@
+============================================================
+EXCEL STATION NAME ARRANGER  -  HOW TO USE
+============================================================
+
+WHAT IT DOES
+------------
+Takes an Excel sheet with messy station names, such as
+
+    T4 - 01     T5 S2 S     T11S2 B     T7 - 01-10m     T1-S2-20m
+
+and turns them into a clean station name plus a Depth column,
+then sorts the whole sheet in the correct order:
+
+    Station Name | Depth | (all your other columns, unchanged)
+    T4 S2        | S     | ...
+    T4 S1        | 10m   | ...     (from T4 - 01 10m)
+    T5 S3        |       | ...     (no depth details = blank)
+
+Your original Excel file is never changed. A new arranged file
+is downloaded from the app.
+
+
+FILES YOU NEED (keep them in the same folder)
+---------------------------------------------
+    station_name_sorter_app.py
+    requirements.txt
+
+
+ONE-TIME SETUP
+--------------
+1. Install Python (3.9 or newer) if it is not already installed.
+   Tick "Add Python to PATH" during installation.
+
+2. Open the folder in VS Code:
+      File > Open Folder... > choose the folder with the two files.
+
+3. Open the VS Code terminal:
+      Terminal > New Terminal      (shortcut: Ctrl + `  )
+
+4. Install the required packages (only needed the first time):
+
+      pip install -r requirements.txt
+
+
+RUN THE APP (every time)
+------------------------
+In the VS Code terminal type:
+
+      streamlit run station_name_sorter_app.py
+
+The app opens automatically in your web browser. If it does not,
+open this address yourself:
+
+      http://localhost:8501
+
+To STOP the app: click in the terminal and press Ctrl + C.
+
+If "streamlit" is not recognised, use this instead:
+
+      python -m streamlit run station_name_sorter_app.py
+
+
+USING THE APP
+-------------
+1. Click "Browse files" and select your Excel file (.xlsx, .xlsm or .xls).
+
+2. Choose the sheet you want to arrange from the dropdown.
+   (If the file has only one sheet, it is selected automatically.)
+
+3. The station-name column is found automatically.
+   - If more than one column looks like station names, or none is
+     found, choose the correct column from the dropdown.
+
+4. The app shows:
+   - number of rows arranged, T-stations, and other names
+   - a list of names that are not T-stations (with their Excel row
+     numbers). These are kept exactly as they are and placed at
+     the bottom.
+   - the full arranged table and a preview of the first 20 stations
+
+5. Click "Download arranged_station_data.xlsx" to save the result.
+
+
+NAMING RULES
+------------
+Station     : T<number> followed by S<number>  (T4 S2)
+              or by - <number>  (T4 - 01).
+              In the dash type the number IS the station:
+              T4 - 01 = T4 S1,   T4 - 02 = T4 S2,   T10 - 11 = T10 S11
+
+S / M / B   : a single letter AFTER the station.
+              S = Surface,  M = Mid,  B = Bottom.
+
+Depth       : numbers such as 10m, 50m, or a bare 5 (= 5m).
+
+Depth column: holds the depth (10m) or the layer letter (S / M / B).
+              If a row has both, they are joined, e.g. "S 10m".
+              No details = blank. If your sheet already has a "Depth"
+              column, its values are kept for rows where the station
+              name had no depth details.
+
+Other names : anything that is not a T-station (for example PAE_A48)
+              is kept exactly as it is, with a blank Depth, and placed
+              at the bottom of the sheet.
+
+
+SORTING ORDER
+-------------
+1. T number
+2. Station number (S1, S2, S3, ... both name types together)
+3. Surface -> Mid -> Bottom
+4. Depth (small to large)
+5. Original row order (duplicates stay together)
+
+Names that are not T-stations come last, in natural order
+(PAE_A9, PAE_A48, PAE_A87, ...).
+
+
+TROUBLESHOOTING
+---------------
+- "pip is not recognised"      -> try:  python -m pip install -r requirements.txt
+- ".xls file cannot be read"   -> install xlrd:  pip install xlrd
+                                  (or save the file as .xlsx in Excel)
+- Browser did not open         -> go to http://localhost:8501
+- Port already in use          -> streamlit run station_name_sorter_app.py --server.port 8502
+============================================================

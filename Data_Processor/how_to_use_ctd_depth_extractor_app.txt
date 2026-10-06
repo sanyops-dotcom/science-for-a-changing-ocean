@@ -1,0 +1,134 @@
+============================================================
+CTD .ASC TO EXCEL DEPTH EXTRACTOR - HOW TO USE
+============================================================
+
+WHAT THIS APP DOES
+------------------
+Reads a CTD .asc (or .ask) file and creates one Excel file
+with TWO sheets:
+
+  Sheet 1: Selected_Depths
+           The observations closest to the standard depths
+           (5, 10, 20, 30, 50, 75, 100, 200, 500, 750, 1000 m)
+           plus the actual minimum and maximum depth.
+           Downcast and Upcast are kept separately, in the
+           original file order.
+
+  Sheet 2: Complete_Data
+           The complete CTD file converted to Excel: every
+           data row and every parameter, in original order.
+
+
+FILES YOU NEED (keep them in one folder)
+----------------------------------------
+  ctd_depth_extractor_app.py   The app
+  requirements.txt             List of packages to install
+  HOW_TO_USE.txt               This guide
+
+
+STEP 1: INSTALL PYTHON (only once)
+----------------------------------
+Download Python 3.9 or newer from python.org.
+During installation, tick "Add Python to PATH".
+
+
+STEP 2: OPEN A TERMINAL IN THE APP FOLDER
+-----------------------------------------
+Option A (Windows): open the folder in File Explorer, click the
+address bar, type  cmd  and press Enter.
+
+Option B (VS Code): File > Open Folder, choose the app folder,
+then Terminal > New Terminal.
+
+
+STEP 3: INSTALL THE PACKAGES (only once)
+----------------------------------------
+Type this and press Enter:
+
+  pip install -r requirements.txt
+
+If "pip" is not recognised, use:
+
+  python -m pip install -r requirements.txt
+
+
+STEP 4: START THE APP
+---------------------
+Type this and press Enter:
+
+  streamlit run ctd_depth_extractor_app.py
+
+If "streamlit" is not recognised, use:
+
+  python -m streamlit run ctd_depth_extractor_app.py
+
+Your web browser opens automatically. If it does not, open
+this address yourself:
+
+  http://localhost:8501
+
+
+STEP 5: USE THE APP
+-------------------
+1. (Optional) In the left sidebar, edit the standard depths.
+   Separate values with commas or spaces.
+2. Click "Browse files" and choose your CTD file
+   (.asc, .ask, .txt or .cnv).
+3. Check the summary: number of parameters, minimum and
+   maximum depth, downcast and upcast row counts.
+4. Look at the two preview tabs:
+   Selected_Depths and Complete_Data.
+5. Click "Download Excel file".
+   The file is named:  <your file name>_selected_depths.xlsx
+
+
+STOPPING THE APP
+----------------
+Click in the terminal window and press Ctrl + C.
+Next time, only repeat Step 2 and Step 4.
+
+
+THE CTD FILE MUST HAVE
+----------------------
+- A header line containing the parameter names, including
+  DepSM (for example: DepSM Tv290C Sal00 Density00 ...).
+- Numeric data rows below the header, separated by spaces
+  or tabs.
+
+
+HOW THE DEPTHS ARE SELECTED
+---------------------------
+- The deepest observation is the turning point.
+  Everything up to and including it is the DOWNCAST.
+  From it to the end is the UPCAST.
+- For each target depth, the observation with the smallest
+  difference from that depth is chosen.
+- Targets are: the cast minimum, the standard depths that
+  fall inside the cast range, and the cast maximum.
+- Columns added in Sheet 1:
+    Cast               Downcast or Upcast
+    TargetDepth_m      The depth that was requested
+    DepthDifference_m  Requested depth minus actual depth
+    OriginalFileRow    Row number in the original data
+
+
+TROUBLESHOOTING
+---------------
+"Could not find the CTD header containing 'DepSM'"
+   The header line with parameter names is missing or does
+   not contain DepSM in the first 100 lines.
+
+"The CTD data contain fewer columns than the header"
+   Some data rows have fewer values than the header has
+   names. Check the file format.
+
+"No numerical CTD data rows were found"
+   No lines below the header start with a number.
+
+Browser does not open
+   Go to http://localhost:8501 manually.
+
+Port already in use
+   Run:  streamlit run ctd_depth_extractor_app.py --server.port 8502
+
+============================================================

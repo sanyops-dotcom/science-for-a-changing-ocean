@@ -1,0 +1,121 @@
+EXCEL LOOKUP & MERGE TOOL - MULTI-FILE EDITION (Streamlit)
+File: code-02-multifilemerger.py
+=============================================================
+
+WHAT IT DOES
+------------
+Updates one Master Excel file by copying columns from up to 6 other
+Excel files (e.g. nutrients, PH, ...). Rows are matched using a key
+column (e.g. station name), optionally together with a 2nd key
+column (e.g. Depth).
+
+
+ONE-TIME SETUP
+--------------
+1. Install Python (3.9 or newer) if it is not already installed.
+2. Open a terminal / command prompt and run:
+
+      pip install streamlit pandas openpyxl xlrd
+
+   This only needs to be done once per computer.
+
+
+START THE APP
+-------------
+1. Open a terminal / command prompt in the folder that contains
+   code-02-multifilemerger.py
+2. Run:
+
+      streamlit run code-02-multifilemerger.py
+
+3. A browser tab opens automatically with the tool.
+   (If it does not, open the address shown in the terminal,
+   usually http://localhost:8501)
+4. To close the app, press Ctrl+C in the terminal.
+
+
+STEP-BY-STEP
+------------
+1. UPLOAD THE MASTER FILE
+   In the left panel under "1. Master file", click "Browse files"
+   and choose the Excel file you want updated. Pick the correct
+   sheet if it has more than one.
+
+2. SET THE MASTER'S KEY COLUMN(S)
+   Choose the column that identifies each row (e.g. "station name").
+   If the same name repeats for different depths, also set the
+   "Master 2nd key column" to "Depth" so rows are matched by
+   name + depth together, not by name alone.
+   The "Master key preview" shows the first 10 keys so you can check
+   the format.
+
+3. FILL IN AN INPUT FILE TAB FOR EACH SOURCE FILE
+   On the right, open the "Input File 1" tab, upload your first data
+   file (e.g. nutrients), pick its sheet, and set its key column(s)
+   the same way as for the Master (they must match what you chose
+   for the Master). Repeat in "Input File 2" for your next file
+   (e.g. PH), and so on - one tab per file. Empty tabs are skipped.
+   Check the "Key preview" in each tab to confirm the keys look like
+   the Master's keys.
+
+4. CHOOSE WHICH COLUMNS TO COPY
+   In each tab's "Column(s) to copy into Master" box, select every
+   column you want pulled into the Master. Each one goes into the
+   same-named column in the Master by default. Only edit a
+   "Master column for ..." box if you want it placed under a
+   different column name (a new column is created automatically if
+   the name does not exist in the Master).
+
+5. CLICK "Run Merge (apply all files)"
+   Then scroll down to "Merge Summary" to see how many rows matched
+   for each file, and check the preview table at the bottom to
+   confirm the data landed correctly.
+
+6. DOWNLOAD THE UPDATED FILE
+   Click "Download Updated Master File". It is saved as
+   <master file name>_updated.xlsx. Your original Master file is
+   never changed.
+
+
+HOW MATCHING WORKS
+------------------
+- Keys are compared as text, ignoring capital letters and extra
+  spaces at the start/end (" t1 s1" matches "T1 S1").
+- A number such as 1.0 matches 1.
+- With a 2nd key, both columns must match together (e.g. name AND
+  depth).
+- Match found      -> the value is copied into the Master row.
+- No match         -> the Master cell is left as it was (blank for a
+                      newly created column).
+- If a source file has the same key more than once, the first row
+  is used.
+- Rows with an empty key cell never match anything.
+
+
+TIPS
+----
+- You can change any setting and click "Run Merge" again. It always
+  starts again from the original Master, so results are never
+  applied twice.
+- If "Matched" is much lower than expected, compare the Master key
+  preview with the Input file key preview. Typical causes: extra
+  characters in names, different name spelling, or a missing 2nd key.
+- Uploading a different file in a tab resets that tab's settings.
+- Files must be .xlsx or .xls. Formulas are read as their saved
+  values.
+- The number of input tabs is set by N_SLOTS near the top of
+  code-02-multifilemerger.py (default 6). Change it and restart the
+  app if you need more.
+
+
+TROUBLESHOOTING
+---------------
+- "streamlit is not recognized": Python or the packages are not
+  installed correctly. Repeat the one-time setup, or try
+  "python -m streamlit run code-02-multifilemerger.py".
+- "Could not read this file": the file may be open in Excel, saved
+  in an unsupported format, or password protected. Close it, or
+  re-save it as .xlsx and upload it again.
+- Nothing happens after Run Merge / "Nothing to merge" message:
+  make sure at least one Input File tab has a file uploaded, a key
+  column chosen, and at least one column selected to copy.

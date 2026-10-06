@@ -1,0 +1,41 @@
+HOW TO RUN Line_plot.py
+=======================
+
+1. INSTALL PYTHON (one time)
+   Python 3.10 or newer from https://www.python.org/downloads/
+   (on Windows, tick "Add Python to PATH" during installation).
+
+2. PUT Line_plot.py IN A FOLDER AND OPEN A TERMINAL THERE
+   Windows: open the folder, click the address bar, type  cmd  and press Enter.
+
+3. INSTALL THE PACKAGES (one time)
+   pip install streamlit numpy pandas openpyxl matplotlib pillow
+
+4. START THE APP
+   streamlit run Line_plot.py
+
+   (if "streamlit" is not recognised, use:  python -m streamlit run Line_plot.py)
+
+   The app opens in your browser at http://localhost:8501
+
+5. USE THE APP (left sidebar)
+   a) Upload the Excel file
+   b) Choose the Excel sheet
+   c) Choose the plot type:
+        parameters : ONE station + MULTIPLE parameters (max 10)
+                     -> choose the station (e.g. T1 S1) and tick the parameters
+        transects  : ONE station number + ONE parameter + MULTIPLE transects (max 10)
+                     -> choose the station number (e.g. S1) and the parameter
+   d) (optional) Advanced settings: label_gap_in = distance of the names from the axes
+   e) Click "Generate profile"
+
+6. OUTPUT
+   - The profile is shown in the browser; use "Download profile (TIFF)" to save it (1800 x 2400 px, 200 dpi).
+   - The TIFF is also saved in the "outputs" folder next to Line_plot.py:
+       Multi_Parameter_Profile.tiff   (parameters mode)
+       Multi_Transect_Profile.tiff    (transects mode)
+     (as in the R script, the file name is fixed, so the next run overwrites it - download or rename it first)
+   - "Console output" (below the plot) shows the messages the R script used to print.
+
+7. STOP THE APP
+   Press Ctrl + C in the terminal window.

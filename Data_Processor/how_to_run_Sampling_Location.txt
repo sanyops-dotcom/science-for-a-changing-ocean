@@ -1,0 +1,50 @@
+HOW TO RUN Sampling_Location.py
+===============================
+
+1. INSTALL PYTHON (one time)
+   Python 3.10 or newer from https://www.python.org/downloads/
+   (on Windows, tick "Add Python to PATH" during installation).
+
+2. PUT Sampling_Location.py IN A FOLDER AND OPEN A TERMINAL THERE
+   Windows: open the folder, click the address bar, type  cmd  and press Enter.
+
+3. INSTALL THE PACKAGES (one time)
+   pip install streamlit numpy pandas openpyxl matplotlib pillow geopandas shapely xarray netCDF4
+
+4. START THE APP
+   streamlit run Sampling_Location.py
+
+   (if "streamlit" is not recognised, use:  python -m streamlit run Sampling_Location.py)
+
+   The app opens in your browser at http://localhost:8501
+
+5. USE THE APP (left sidebar)
+   a) Upload the Excel file (Station Name | Latitude | Longitude | ...)
+   b) Choose the Excel sheet
+   c) Upload the GEBCO NetCDF (.nc) file
+      - for a very large GEBCO file, type its full path in the box below the uploader instead
+      - if the upload is refused for being too large, start the app with:
+          streamlit run Sampling_Location.py --server.maxUploadSize 2000
+   d) (optional) Advanced settings: output_dpi (R script uses 1200; lower it, e.g. 300, for a quick test)
+   e) Click "Generate map"
+
+6. OUTPUT
+   - The map is shown in the browser. Use "Download map (PNG)" / "Download map (TIFF)" to save it.
+   - Both files are also saved in the "outputs" folder next to Sampling_Location.py:
+       Sampling_Location_Bathymetry_Map.png
+       Sampling_Location_Bathymetry_Map.tiff   (LZW compressed)
+     The next run overwrites them (same as the R script), so download or rename them first.
+   - At 1200 dpi the image is 9600 x 10800 pixels: creating it takes about a minute and some GB of memory.
+   - "Console output" (below the map) shows the messages the R script used to print.
+
+7. SETTINGS IN THE CODE
+   Map extent, contour depths and colours, label offsets, manual label positions
+   (manual_label_positions, manual_transect_label_positions) etc. are in the numbered
+   SETTINGS sections at the top of the file, exactly as in the R script.
+
+8. FIRST RUN NEEDS INTERNET
+   The land polygons (Natural Earth) are downloaded once and saved next to Sampling_Location.py
+   as ne_50m_admin_0_countries.zip.
+
+9. STOP THE APP
+   Press Ctrl + C in the terminal window.

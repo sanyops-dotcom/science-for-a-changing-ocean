@@ -1,0 +1,129 @@
+====================================================
+ TRANSECT & STATION SPLITTER  -  HOW TO USE
+ (Python / Streamlit version of Splitter.R)
+====================================================
+
+WHAT IT DOES
+------------
+Takes your MASTER Excel file and adds these new sheets:
+
+  1. Transect_T1, Transect_T2, ...   (all records of each transect)
+  2. Station_S1, Station_S2, ...     (that station from all transects)
+  3. Depth_0m                        (NEW: every 0 m record from all
+                                      transects and stations)
+
+The original master sheet is kept. Every original column stays
+with its record. Original row order is preserved.
+
+
+ONE-TIME SETUP
+--------------
+1. Install Python (3.9 or newer) from python.org.
+   Tick "Add Python to PATH" during installation.
+
+2. Open a terminal (in VS Code: Terminal > New Terminal) and run:
+
+       pip install streamlit pandas openpyxl
+
+
+START THE APP
+-------------
+1. Put splitter_app.py in a folder of your choice.
+
+2. In the terminal, go to that folder:
+
+       cd path\to\your\folder
+
+3. Run:
+
+       streamlit run splitter_app.py
+
+4. Your browser opens automatically. If it does not, open:
+
+       http://localhost:8501
+
+5. To stop the app: click the terminal and press Ctrl + C.
+
+
+USING THE APP
+-------------
+Step 1 - Select MASTER Excel file
+   Click "Browse files" and choose your .xlsx (or .xlsm) file.
+   Close the file in Excel first if it is open.
+
+Step 2 - Check the three drop-down boxes
+   - Master sheet: first sheet is selected by default (same as the
+     R code). Pick another sheet if your data is elsewhere.
+   - Station-name column: found automatically (for example
+     "Station Name", "Station", "station_name"). Change it only
+     if the wrong column was picked.
+   - Depth column for 0 m sheet: found automatically (any column
+     with "depth" in its name). Choose "(none - skip 0 m sheet)"
+     if you do not want the 0 m sheet.
+
+Step 3 - Click "Create Transect, Station & 0 m sheets"
+   Wait a few seconds. A green message appears when finished,
+   followed by summary boxes (rows, transects, stations,
+   0 m rows, new sheets).
+
+Step 4 - Click "Download Excel file with new sheets"
+   The file is saved as  <yourfile>_Split.xlsx
+   Your original file is not changed.
+
+Tabs below the download button:
+   - Transect / Station structure : which stations exist in each
+     transect (e.g. T1 -> S1, S2, S3)
+   - 0 m sheet preview            : the rows going into Depth_0m
+   - Processing log               : full step-by-step messages,
+     same as the R console output
+
+
+STATION NAME FORMAT
+-------------------
+Station names must look like:
+
+       T1 S1     T1 S2     T2 S1     T10 S3
+
+Upper or lower case is fine (t1 s1 becomes T1 S1). If some names
+do not follow this format, a yellow warning lists them so you can
+check and correct them. Rows with blank station names are removed.
+
+
+HOW THE 0 m ROWS ARE FOUND
+--------------------------
+A row goes into Depth_0m when its depth value is zero. These are
+all accepted:
+
+       0     0.0     0m     0 m     0 M
+
+Rows keep the original order. Only rows that have a station name
+are included.
+
+
+RE-RUNNING
+----------
+If your file already contains sheets named Transect_T#, Station_S#
+or Depth_0m from an earlier run, they are removed first and
+created again, so you never get duplicates.
+
+
+TROUBLESHOOTING
+---------------
+- "Could not identify the station-name column"
+     No column name contains "station". Rename the column in
+     Excel (for example "Station Name") and upload again.
+
+- "The selected Excel sheet contains no data"
+     Choose the correct sheet in the "Master sheet" box.
+
+- 0 m sheet is empty
+     Check the "Depth column" box - the wrong column may be
+     selected, or the file has no 0 m records.
+
+- "streamlit is not recognized"
+     Use:  python -m streamlit run splitter_app.py
+
+- Browser does not open
+     Open http://localhost:8501 manually.
+
+====================================================
